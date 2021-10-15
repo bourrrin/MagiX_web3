@@ -1,0 +1,80 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    overflow: hidden;
+    perspective: 240px;
+    background-color: black;
+}
+
+.background{
+    width: 100vw;
+    animation: tilt 2s ease ;
+    animation-fill-mode: both;
+    animation-delay: 1.1s;
+}
+
+#zoom_back{
+    animation: zoom 2s ease ;
+    animation-fill-mode: both;
+    animation-delay: 1s;
+    perspective: 240px;
+}
+
+#book{
+    width:20%;
+
+    animation: move_book 2s ease ;
+    animation-fill-mode: both;
+    animation-delay: 1.1s;
+}
+
+#zoom_book{
+    z-index: 1;
+    position: absolute;
+    top: 82vh;
+    left: 32vw;
+
+    animation: zoom 2s ease ;
+    animation-fill-mode: both;
+    animation-delay: 3.5s;
+}
+
+
+@keyframes zoom {
+    from {
+        transform: translate3D(0px,0PX,0PX);
+    }
+    to {
+        transform: translate3d(150px,-75px,150px);
+    }
+}
+
+@keyframes tilt {
+    from {
+        transform: rotateX(0deg);
+    }
+    to {
+        transform: rotateX(-20deg);
+    }
+}
+
+@keyframes move_book {
+    0% {
+        transform: translate3D(0px,0px,0px);
+    }
+    100% {
+        transform: translate3D(70px,-80px,-10px);
+    }
+}
+
+@keyframes zoom_book {
+    0% {
+        transform: translate3D(0px,0px,0px);
+    }
+    100% {
+        transform: translate3D(70px,-80px,-10px);
+    }
+}
