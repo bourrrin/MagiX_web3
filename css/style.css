@@ -170,21 +170,93 @@ body{
 .ship{
     z-index: -2;
     position: absolute;
-    top:20%;
-    left:-5vw;
-    width: 3%;
-    animation: move-left;
-    animation-fill-mode: both;
-    animation-duration: 20s;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
 }
 
 @keyframes move-left{
+    0%{
+        transform: translateX(0px) scaleX(-1);
+
+    }
+    100%{
+        transform: translateX(-110vw) scaleX(1);
+    }
+}
+
+@keyframes move-right{
     0%{
         transform: translateX(0px);
     }
     100%{
         transform: translateX(110vw);
     }
+}
+
+.move-right{
+    animation: move-right;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    left:-5vw;
+}
+
+.move-left{
+    animation: move-left;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    left:105vw;
+}
+
+#ship0{
+    top:20%;
+    width: 3%;
+    animation-duration: 20s;
+}
+
+#ship1{
+    top:40%;
+    width: 3%;
+    animation-duration: 15s;
+}
+
+#ship2{
+    top:10%;
+    width: 2%;
+    animation-duration: 25s;
+}
+
+#ship3{
+    top:75%;
+    width: 3%;
+    animation-duration: 15s;
+}
+
+#ship4{
+    top:8%;
+    width: 2%;
+    animation-duration: 22s;
+}
+
+#ship5{
+    top:80%;
+    width: 3%;
+    animation-duration: 30s;
+}
+
+#ship6{
+    top:37%;
+    width: 4%;
+    animation-duration: 10s;
+}
+
+#ship7{
+    top:22%;
+    width: 2%;
+    animation-duration: 12s;
+}
+
+#ship8{
+    top:51%;
+    width: 4%;
+    animation-duration: 8s;
 }
