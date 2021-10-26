@@ -1,6 +1,3 @@
-smoke: https://octomoosey.tumblr.com/post/182558572472
-paralaxe tree: https://digitalmoons.itch.io/parallax-forest-background
-swamp_bck: https://visualparadox.com/wallpapers/wallpaper_1920x1080.asp?wallpaper=swamp
-reain: https://monophy.com/gifs/transparent-rain-attitudeart2-yTiD3MZwoGfJeOgBrT
-zombie-hand:https://www.pngaaa.com/detail/3096366
-red-wood:https://aethrall.itch.io/demon-woods-parallax-background
+background: https://www.peakpx.com/en/hd-wallpaper-desktop-kntgh
+ships: https://www.pngegg.com/en/png-whxyx/download
+font: https://www.dafont.com/fr/origin-tech.font

@@ -9,11 +9,9 @@
     <title>Document</title>
 </head>
 <body>
-    <div id=background></div>
-    <div id=foreground></div>
+    <img class="ship" src="img/ship0.png" alt="">
     <div class="page_title">
         <h1>MAGIX</h1>
-        <h4>horror card game</h4>
     </div>
     <form class=login action="" method="post">
         <div class="flex_column">
@@ -22,7 +20,6 @@
             <button class="btn_no_style"> LOG IN</button>
         </div>
     </form>
-    <div id=zombie_hand></div>
 
 </body>
 </html>
