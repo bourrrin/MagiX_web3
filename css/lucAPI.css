@@ -51,6 +51,11 @@ body{
     justify-content: space-between;
 }
 
+.space_evenly{
+    display: flex;
+    justify-content: space-evenly;
+}
+
 .hidden{
     display: none;
 }
