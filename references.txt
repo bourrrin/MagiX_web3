@@ -1,3 +1,5 @@
 background: https://www.peakpx.com/en/hd-wallpaper-desktop-kntgh
 ships: https://www.pngegg.com/en/png-whxyx/download
 font: https://www.dafont.com/fr/origin-tech.fontlogin_background:https://fr.dreamstime.com/tv-aucun-signal-%C3%A9cran-statique-k-pleines-r%C3%A9solutions-hd-vecteur-image104902604
+card: https://gatherer.wizards.com/Pages/Search/Default.aspx?page=5&output=spoiler&method=visual&action=advanced&type=+[%22Artifact%22]|[%22Creature%22]
+hero: https://gatherer.wizards.com/Pages/Search/Default.aspx?page=2&output=spoiler&method=visual&action=advanced&type=+[%22Planeswalker%22]
