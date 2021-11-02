@@ -6,19 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/lucAPI.css">
+    <script src="js/login.js"></script>
     <title>Document</title>
 </head>
 <body>
-    <img class="ship move-right" id="ship0" src="img/ships/ship0.png" alt="">
-    <img class="ship move-left" id="ship1" src="img/ships/ship1.png" alt="">
-    <img class="ship move-left" id="ship2" src="img/ships/ship2.png" alt="">
-    <img class="ship move-right" id="ship3" src="img/ships/ship3.png" alt="">
-    <img class="ship move-left" id="ship4" src="img/ships/ship4.png" alt="">
-    <img class="ship move-right" id="ship5" src="img/ships/ship5.png" alt="">
-    <img class="ship move-right" id="ship6" src="img/ships/ship6.png" alt="">
-    <img class="ship move-left" id="ship7" src="img/ships/ship7.png" alt="">
-    <img class="ship move-right" id="ship8" src="img/ships/ship8.png" alt="">
-
+    <div class=background id=background0></div>
+    <div class=background id=background1></div>
     <div class="page_title">
         <h1>MAGIX</h1>
     </div>
