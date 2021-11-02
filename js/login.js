@@ -14,7 +14,7 @@ function load_ships(){
 
         for(let i =0; i<9;i++){
             let source = "img/ships/ship"+i+".png";
-            let width = Math.random() * (5 - 2) + 2;
+            let width = 0;
             let top = Math.random() * (85 - 5) + 5;
             let z = parseInt(Math.random() * ((-1) - (-3)) + (-3));
             let anim_dur = Math.random() * (45 - 10) + 10;

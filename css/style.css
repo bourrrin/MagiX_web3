@@ -29,6 +29,20 @@ body{
     z-index: -2;
 }
 
+.message_erreur{
+    text-align: center;
+    color: rgb(255, 0, 0);
+    text-shadow:
+    0 0 7px rgb(0, 0, 0),
+    0 0 10px rgb(0, 0, 0),
+    0 0 21px rgb(0, 0, 0),
+    0 0 42px red,
+    0 0 82px red,
+    0 0 92px red,
+    0 0 102px red,
+    0 0 151px red;
+}
+
 .background{
     position: absolute;
     top:0px; left:0px;
