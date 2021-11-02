@@ -12,9 +12,44 @@ input[type="text"]{
     border-bottom: white solid 1px;
 }
 input[type="text"]::placeholder{
-    color: wheat;
+    font-size: 1.1rem;
+    color: white;
+    text-shadow:
+    0 0 7px rgb(0, 0, 0),
+    0 0 10px rgb(0, 0, 0),
+    0 0 21px rgb(0, 0, 0),
+    0 0 42px var(--neon-color),
+    0 0 82px var(--neon-color),
+    0 0 92px var(--neon-color),
+    0 0 102px var(--neon-color),
+    0 0 151px var(--neon-color);
 }
 
+input[type="text"]:hover {
+    /* box-shadow:
+    0 0 7px rgb(255, 255, 255),
+    0 0 10px rgb(255, 255, 255),
+    0 0 21px rgb(255, 255, 255),
+    0 0 42px var(--neon-color),
+    0 0 82px var(--neon-color),
+    0 0 92px var(--neon-color),
+    0 0 102px var(--neon-color),
+    0 0 151px var(--neon-color); */
+
+    opacity: 0.7;
+
+    
+
+    /* text-shadow:
+    0 0 7px rgb(255, 255, 255),
+    0 0 10px rgb(255, 255, 255),
+    0 0 21px rgb(255, 255, 255),
+    0 0 42px var(--neon-color),
+    0 0 82px var(--neon-color),
+    0 0 92px var(--neon-color),
+    0 0 102px var(--neon-color),
+    0 0 151px var(--neon-color); */
+}
 
 :root{
     --open-animation-duration: 8s;
@@ -24,9 +59,10 @@ input[type="text"]::placeholder{
     --width:70vw;
     --neon-color:#0fa;
     color:rgb(106, 193, 233);
-    font-size: 18px;
+    font-size: 20px;
     font-family: font;
 }
+
 
 @font-face {
     font-family: font;
@@ -56,7 +92,7 @@ body{
 }
 
 .login{
-    width:25%;
+    width:35%;
     position: absolute;
     left:50%;
     top:50%;
@@ -96,7 +132,7 @@ body{
 }
 .login > div > div{
     width: 100%;
-    height: 50%;
+    height: 40%;
     display: flex;
     justify-content: space-around;
     flex-flow: column;
@@ -107,7 +143,7 @@ body{
     color:var(--neon-color);
 }
 
-.login button:hover,input[type="text"]:hover {
+.login button:hover{
     text-shadow:
     0 0 7px #fff,
     0 0 10px #fff,
