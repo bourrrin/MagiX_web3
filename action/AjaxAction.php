@@ -8,6 +8,24 @@
         }
 
         protected function executeAction() {
-            return [];
+            $result=true;
+
+            if(isset($_POST["username"]) && isset($_POST["mdp"])){
+                $data["username"] = $_POST["username"];
+                $data["password"] = $_POST["mdp"];
+
+                $result = parent::callAPI("signin", $data);
+
+                if ($result == "INVALID_USERNAME_PASSWORD") {
+                    $result = false;
+                }
+                else {
+                    $key = $result->key;
+                    $_SESSION["player_data"] = $result;
+                    $result = true;
+                }
+            }
+
+            return compact("result");
         }
     }
