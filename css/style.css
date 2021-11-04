@@ -15,7 +15,6 @@
     font-family: font;
 }
 
-
 @font-face {
     font-family: font;
     src: url(../font/OriginTech_personal_use.ttf);
@@ -27,20 +26,6 @@ body{
     padding: 5% 00px;
     background:url("../img/background.jpg") no-repeat;
     z-index: -2;
-}
-
-#message_erreur{
-    text-align: center;
-    color: rgb(255, 0, 0);
-    text-shadow:
-    0 0 7px rgb(0, 0, 0),
-    0 0 10px rgb(0, 0, 0),
-    0 0 21px rgb(0, 0, 0),
-    0 0 42px red,
-    0 0 82px red,
-    0 0 92px red,
-    0 0 102px red,
-    0 0 151px red;
 }
 
 .background{
@@ -62,13 +47,7 @@ body{
     z-index: -2;
 }
 
-.page_title > * {
-  animation: glow;
-  animation-fill-mode: both;
-  animation-duration: 10s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
-}
+
 
 .page_title{
     z-index: 1;
@@ -77,69 +56,15 @@ body{
     font-size: 4rem;
 }
 
-input[type="text"]{
-    all:unset;
-    text-align: center;
-    color: white;
-    /* background-color: var(--cliclable-color); */
-    border-radius: 30% 30% 0% 0% ;
-    border-bottom: white solid 1px;
+.page_title > * {
+  animation: glow;
+  animation-fill-mode: both;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 }
 
-input[type="text"]::placeholder{
-    font-size: 1.1rem;
-    color: white;
-    text-shadow:
-    0 0 7px rgb(0, 0, 0),
-    0 0 10px rgb(0, 0, 0),
-    0 0 21px rgb(0, 0, 0),
-    0 0 42px var(--neon-color),
-    0 0 82px var(--neon-color),
-    0 0 92px var(--neon-color),
-    0 0 102px var(--neon-color),
-    0 0 151px var(--neon-color);
-}
 
-input[type="text"]:hover {
-    opacity: 0.7;
-}
-
-#animation_fin{
-    background: #fff;
-    position: absolute;
-    left:50%;
-    top:50%;
-    transform: translate(-50%,-50%);
-    z-index: 3;
-    opacity: 1;
-    border-radius: 50%;
-    box-shadow:
-    0 0 5px #0fa,
-    0 0 10px #fff,
-    0 0 25px #fff,
-    0 0 50px #fff,
-    0 0 100px #fff,
-    0 0 150px rgb(255, 0, 191),
-    0 0 200px rgb(255, 0, 200),
-    0 0 500px #0fa;
-    animation: animation_fin;
-    animation-fill-mode: both;
-    animation-duration: 0.5s ;
-    animation-timing-function: linear;
-}
-
-@keyframes animation_fin {
-    0%{
-        width: 0vw;
-        height: 0vw;
-        opacity: 0.7;
-    }
-    100%{
-        width: 120vw;
-        height: 120vw;
-        opacity: 1;
-    }
-}
 
 .login{
     width:35%;
@@ -172,7 +97,6 @@ input[type="text"]:hover {
     filter: blur(0.5px);
     border-radius: 20%;
     border: rgb(255, 255, 255) solid 3px;
-
 }
 
 .login > form{
@@ -198,6 +122,20 @@ input[type="text"]:hover {
     0 0 92px var(--neon-color),
     0 0 102px var(--neon-color),
     0 0 151px var(--neon-color);
+}
+
+#message_erreur{
+    text-align: center;
+    color: rgb(255, 0, 0);
+    text-shadow:
+    0 0 7px rgb(0, 0, 0),
+    0 0 10px rgb(0, 0, 0),
+    0 0 21px rgb(0, 0, 0),
+    0 0 42px red,
+    0 0 82px red,
+    0 0 92px red,
+    0 0 102px red,
+    0 0 151px red;
 }
 
 @keyframes glow {
@@ -272,8 +210,53 @@ input[type="text"]:hover {
     }
 }
 
+input{
+    all:unset;
+    text-align: center;
+    color: white;
+    /* background-color: var(--cliclable-color); */
+    border-radius: 30% 30% 0% 0% ;
+    border-bottom: white solid 1px;
+}
+
+input::placeholder{
+    font-size: 1.1rem;
+    color: white;
+    text-shadow:
+    0 0 7px rgb(0, 0, 0),
+    0 0 10px rgb(0, 0, 0),
+    0 0 21px rgb(0, 0, 0),
+    0 0 42px var(--neon-color),
+    0 0 82px var(--neon-color),
+    0 0 92px var(--neon-color),
+    0 0 102px var(--neon-color),
+    0 0 151px var(--neon-color);
+}
+
+input:hover {
+    opacity: 0.7;
+}
+
+
+
 .ship{
     position: absolute;
+}
+
+.move-right{
+    animation: move-right;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    left:-10vw;
+}
+
+.move-left{
+    animation: move-left;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    left:110vw;
 }
 
 @keyframes move-left{
@@ -294,18 +277,46 @@ input[type="text"]:hover {
     }
 }
 
-.move-right{
-    animation: move-right;
+
+
+#animation_fin{
+    background: #fff;
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    z-index: 3;
+    opacity: 1;
+    border-radius: 50%;
+    box-shadow:
+    0 0 5px #0fa,
+    0 0 10px #fff,
+    0 0 25px #fff,
+    0 0 50px #fff,
+    0 0 100px #fff,
+    0 0 150px rgb(255, 0, 191),
+    0 0 200px rgb(255, 0, 200),
+    0 0 500px #0fa;
+    animation: animation_fin;
     animation-fill-mode: both;
-    animation-iteration-count: infinite;
+    animation-duration: 0.5s ;
     animation-timing-function: linear;
-    left:-10vw;
 }
 
-.move-left{
-    animation: move-left;
-    animation-fill-mode: both;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    left:110vw;
+@keyframes animation_fin {
+    0%{
+        width: 0vw;
+        height: 0vw;
+        opacity: 0.7;
+        background: #fff;
+    }
+    90%{
+        background: rgb(39, 17, 46);
+    }
+    100%{
+        width: 120vw;
+        height: 120vw;
+        opacity: 1;
+        background: rgb(0, 0, 0);
+    }
 }

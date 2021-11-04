@@ -1,23 +1,20 @@
- let count=0;
- let display;
  window.addEventListener("load", ()=> {
-        load_ships();
-        display = setInterval(load_ships,4000);
-        document.querySelector("#button").addEventListener("click",login);
-    });
+    load_ships();
+    document.querySelector("#button").addEventListener("click",login);
+    setTimeout(fake_ship,4000);
+});
 
 function load_ships(){
-    if (count == 3) {
-        clearInterval(display);
-    } else {
-        count++;
-
-        for(let i =0; i<18;i++){
-            let source = "img/ships/ship"+i+".png";
-            let width = 0;
-            let top = Math.random() * (85 - 5) + 5;
+    for(let i = 0; i < 4; i++)
+    {
+        for(let j =0; j<18;j++){
+            let source = "img/ships/ship"+j+".png";
             let z = parseInt(Math.random() * ((-1) - (-3)) + (-3));
-            let anim_dur = Math.random() * (45 - 10) + 10;
+            let width =  Math.random() * ((4.5-Math.abs(z)) - (3.5-Math.abs(z))) + (3.5-Math.abs(z));
+            let top = Math.random() * (90 - 5) + 5;
+            let anim_dur = Math.random() * (50 - 10) + 10;
+            let delay = 12*i;
+            let anim_delay = Math.random() * (delay - delay/1.5) + delay/1.5;
 
             var node = document.createElement("img");
             node.classList.add("ship");
@@ -27,37 +24,49 @@ function load_ships(){
                 node.className += " move-right";
             }
 
-            switch(z){
-                case -1:
-                    width = Math.random() * (4 - 3) + 3;
-                    node.style.filter ="blur(0px) brightness(100%)";
-                    break;
-                case -2:
-                    width = Math.random() * (3 - 1) + 1;
-                    node.style.filter ="blur(0.5px) brightness(75%)";
-                    break;
-                case -3:
-                    width = Math.random() * (2 - 0.5) + 0.5;
-                    node.style.filter ="blur(2px) brightness(40%)";
-                    break;
-            }
-
             node.src = source;
             node.style.top = top+"%";
             node.style.width =width+"%";
             node.style.zIndex= z;
+            node.style.filter ="blur("+(0.2*Math.abs(z))+"px) brightness("+(100-(Math.abs(z)*15))+"%)";
+            node.style.animationDelay = anim_delay;
             node.style.animationDuration = anim_dur+"s";
 
             document.querySelector("body").appendChild(node);
         }
     }
-  }
+}
+
+function fake_ship(){
+    let source = "img/ships/easter_egg.png";
+    let z = parseInt(Math.random() * ((-1) - (-3)) + (-3));
+    let width =  Math.random() * ((4.5-Math.abs(z)) - (3.5-Math.abs(z))) + (3.5-Math.abs(z));
+    let top = Math.random() * (90 - 5) + 5;
+    let anim_dur = Math.random() * (50 - 10) + 10;
+
+    var node = document.createElement("img");
+    node.classList.add("ship");
+    if(Math.floor(Math.random() * 2)==1){
+        node.className += " move-left";
+    }else{
+        node.className += " move-right";
+    }
+
+    node.src = source;
+    node.style.top = top+"%";
+    node.style.width =width+"%";
+    node.style.zIndex= z;
+    node.style.filter ="blur("+(0.2*Math.abs(z))+"px) brightness("+(100-(Math.abs(z)*15))+"%)";
+    node.style.animationDuration = anim_dur+"s";
+
+    document.querySelector("body").appendChild(node);
+}
 
 function flash(){
     var node = document.createElement("div");
-    node.setAttribute("id","animation_fin")
+    node.setAttribute("id","animation_fin");
     document.querySelector("body").appendChild(node);
-  }
+}
 
 function login(){
     let username = document.querySelector("#login_name").value;
@@ -76,21 +85,25 @@ function login(){
         if(response == true){
             flash();
             setTimeout(flash,200);
+            setTimeout(flash,400);
+            setTimeout(flash,600);
+            setTimeout(flash,800);
             setTimeout(() => {
                 window.location.replace("lobby.php");
-            }, 1200);
+            }, 1500);
         }
         else{
-            document.querySelector("#message_erreur").innerHTML="Username or Password Invalid";
-            document.querySelector("#login_name").value = '';
-            document.querySelector("#login_mdp").value = '';
-
             document.querySelector(".login").style.border = "red solid 10px";
             document.querySelector(".login").style.boxShadow = "red 0px 0px 20px";
+
             setTimeout(() => {
                 document.querySelector(".login").style.border = "white solid 10px";
-            document.querySelector(".login").style.boxShadow = "var(--neon-color) 0px 0px 20px";
-
+                document.querySelector(".login").style.boxShadow = "var(--neon-color) 0px 0px 20px";
+                setTimeout(() => {
+                    document.querySelector("#message_erreur").innerHTML="Username or Password Invalid";
+                    document.querySelector("#login_name").value = '';
+                    document.querySelector("#login_mdp").value = '';
+                }, 200);
             }, 1000);
         }
     })
