@@ -1,6 +1,14 @@
 <?php
     require_once("partial/header.php");
 ?>
+    <link rel="stylesheet" href="css/login.css">
+    <script src="js/login.js"></script>
+
+    <div class=background id=background0></div>
+    <div class=background id=background1></div>
+    <div class="page_title">
+        <h1>MAGIX</h1>
+    </div>
     <div class=login>
         <p id="message_erreur"></p>
         <form method="post">

@@ -10,21 +10,21 @@
         protected function executeAction() {
             $result=true;
 
-            if(isset($_POST["username"]) && isset($_POST["mdp"])){
-                $data["username"] = $_POST["username"];
-                $data["password"] = $_POST["mdp"];
+            // if(isset($_POST["username"]) && isset($_POST["mdp"])){
+            //     $data["username"] = $_POST["username"];
+            //     $data["password"] = $_POST["mdp"];
 
-                $result = parent::callAPI("signin", $data);
+            //     $result = parent::callAPI("signin", $data);
 
-                if ($result == "INVALID_USERNAME_PASSWORD") {
-                    $result = false;
-                }
-                else {
-                    $key = $result->key;
-                    $_SESSION["player_data"] = $result;
-                    $result = true;
-                }
-            }
+            //     if ($result == "INVALID_USERNAME_PASSWORD") {
+            //         $result = false;
+            //     }
+            //     else {
+            //         $key = $result->key;
+            //         $_SESSION["player_data"] = $result;
+            //         $result = true;
+            //     }
+            // }
 
             return compact("result");
         }

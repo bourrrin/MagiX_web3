@@ -1,0 +1,21 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+:root{
+    --open-animation-duration: 8s;
+    --blur-animation-duration: 5s;
+    --container-color:rgb(34, 73, 110);
+    --cliclable-color:rgb(110, 34, 93);
+    --width:70vw;
+    --neon-color:#0fa;
+    color:rgb(106, 193, 233);
+    font-size: 20px;
+    font-family: font;
+}
+
+@font-face {
+    font-family: font;
+    src: url(../font/OriginTech_personal_use.ttf);
+}

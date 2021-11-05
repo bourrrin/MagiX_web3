@@ -75,7 +75,7 @@ function login(){
     formData.append("username", username);
     formData.append("mdp", mdp);
 
-    fetch("ajax.php",{
+    fetch("loginAjax.php",{
         method : "POST",
         credentials : "include",
         body : formData

@@ -1,25 +1,3 @@
-*{
-    margin: 0px;
-    padding: 0px;
-}
-
-:root{
-    --open-animation-duration: 8s;
-    --blur-animation-duration: 5s;
-    --container-color:rgb(34, 73, 110);
-    --cliclable-color:rgb(110, 34, 93);
-    --width:70vw;
-    --neon-color:#0fa;
-    color:rgb(106, 193, 233);
-    font-size: 20px;
-    font-family: font;
-}
-
-@font-face {
-    font-family: font;
-    src: url(../font/OriginTech_personal_use.ttf);
-}
-
 body{
     width: 100vw;
     overflow: hidden;
@@ -278,7 +256,6 @@ input:hover {
 }
 
 
-
 #animation_fin{
     background: #fff;
     position: absolute;
@@ -289,14 +266,14 @@ input:hover {
     opacity: 1;
     border-radius: 50%;
     box-shadow:
-    0 0 5px #0fa,
+    0 0 5px rgb(255, 255, 255),
     0 0 10px #fff,
     0 0 25px #fff,
     0 0 50px #fff,
-    0 0 100px #fff,
-    0 0 150px rgb(255, 0, 191),
-    0 0 200px rgb(255, 0, 200),
-    0 0 500px #0fa;
+    0 0 100px rgb(6, 211, 238),
+    0 0 150px rgb(0, 162, 255),
+    0 0 200px rgb(26, 35, 158),
+    0 0 500px rgb(255, 255, 255);
     animation: animation_fin;
     animation-fill-mode: both;
     animation-duration: 0.5s ;
@@ -311,7 +288,7 @@ input:hover {
         background: #fff;
     }
     90%{
-        background: rgb(39, 17, 46);
+        background: rgb(102, 5, 110);
     }
     100%{
         width: 120vw;

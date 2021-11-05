@@ -1,17 +1,10 @@
 <?php
-    // require_once("partial/header.php");
-    // require_once("partial/footer.php");
+    require_once("partial/header.php");
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body style="background: black">
+    <link rel="stylesheet" href="css/lobby.css">
+    <script src="js/lobby.js"></script>
 
 
-</body>
-</html>
+<?php
+    require_once("partial/footer.php");
+?>
