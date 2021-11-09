@@ -7,29 +7,20 @@ body{
     position: absolute;
     width: 100vw;
     height: 100vh;
-    background: url(../img/background_lobby_reference.jpg);
+    background: url(../img/background_lobby.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     /* animation: unblur 10s both ease-in; */
 }
 
-.darken-filter{
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgb(0, 0, 0);
-    opacity: 0.4;
-}
-
 .eye{
     width: 100vw;
-
     grid-area: eye;
+
     position: absolute;
     top: 50%; left: 50%; bottom: 0; right: 0;
     transform: translate(-50%, -50%);
 
-    background-color: transparent;
     border-radius:100%;
     box-shadow: inset 0px 0px 50px 100px rgb(0, 0, 0);
     border: 100vh solid black;
@@ -64,10 +55,81 @@ body{
     width: 100vw;
     height: 100vh;
     display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: auto;
+    grid-template-columns: 10vw 10vw 10vw 10vw 10vw 15vw;
+    grid-template-rows: 12vw 10vw 10vw 10vw 10vw;
+    column-gap: 2%;
+    row-gap: 2%;
     grid-template-areas:
-      "header header . . ."
-      ". . . . ."
-      ". . . . .";
+      ". . . . . . chat-screen"
+      ". main-screen main-screen main-screen main-screen main-screen chat-screen"
+      ". main-screen main-screen main-screen main-screen main-screen chat-screen"
+      ". main-screen main-screen main-screen main-screen main-screen chat-screen"
+      ". . . . . . chat-screen";
   }
+
+.chat{
+    /* perspective: 250px; */
+    grid-area: chat-screen;
+    width: 99%;
+    height: 80%;
+    transform: translateX(-20px);
+}
+
+.chat > iframe{
+    background-color: rgb(0, 0, 0);
+    width: 100%;
+    height: 100%;
+    margin-top: 20%;
+
+    border: rgb(0, 0, 0) 10px solid ;
+    box-shadow: 2px 2px 0px 0px rgb(68, 68, 68),
+    -2px -2px 1px 0px rgb(68, 68, 68);
+}
+
+.main-menu{
+    grid-area: main-screen;
+    width: 100%;
+    /* background: url("../img/lobby/main_screen_back.jpg"); */
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: rgb(0, 0, 0) 10px solid ;
+    box-shadow: 2px 2px 0px 0px rgb(68, 68, 68),
+    -2px -2px 1px 0px rgb(68, 68, 68);
+}
+
+.element{
+    position: absolute;
+    z-index: 1;
+}
+
+.element_back{
+    overflow: hidden;
+    position: absolute;
+    width: 63vw;
+    height: 56vh;
+}
+
+.btn_menu{
+    transform: translateY(5vh);
+}
+
+.btn_menu > div{
+    /* position: absolute; */
+    border-radius: 100%;
+    border: solid 3px #01fffd;
+    height: 115px;
+    width: 115px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#pratique{
+    transform: translateX(2vw);
+}
+#jouer{
+    transform: translateX(10vw);
+}
+#quitter{
+    transform: translate(6vw, 12vh);
+}
