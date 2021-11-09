@@ -88,6 +88,7 @@ function login(){
             setTimeout(flash,400);
             setTimeout(flash,600);
             setTimeout(flash,800);
+            setTimeout(flash,1000);
             setTimeout(() => {
                 window.location.replace("lobby.php");
             }, 1500);
