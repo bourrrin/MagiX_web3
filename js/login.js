@@ -29,7 +29,7 @@ function load_ships(){
             node.style.width =width+"%";
             node.style.zIndex= z;
             node.style.filter ="blur("+(0.2*Math.abs(z))+"px) brightness("+(100-(Math.abs(z)*15))+"%)";
-            node.style.animationDelay = anim_delay;
+            node.style.animationDelay = anim_delay+"s";
             node.style.animationDuration = anim_dur+"s";
 
             document.querySelector("body").appendChild(node);
