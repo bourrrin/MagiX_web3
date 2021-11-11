@@ -11,37 +11,6 @@ body{
     --delay-animation: 4s;
     font-family: 'Courier New', Courier, monospace;
 }
-/*
-.eye{
-    width: 100vw;
-    grid-area: eye;
-
-    position: absolute;
-    top: 50%; left: 50%; bottom: 0; right: 0;
-    transform: translate(-50%, -50%);
-
-    border-radius:100%;
-    box-shadow: inset 0px 0px 50px 100px rgb(0, 0, 0);
-    border: 100vh solid black;
-
-    animation: openning-eye 15s both ease-in;
-    animation-delay: 2s ;
-}
-
-@keyframes openning-eye {
-    0%{height:0vh;}
-    25%{height:80vh;}
-    55%{height:45vh;
-        box-shadow: inset 0px 0px 50px 100px rgb(0, 0, 0);}
-    100%{height:500vh;
-        box-shadow: inset 0px 0px 0px 0px rgb(0, 0, 0);}
-}
-
-@keyframes unblur{
-    0%{filter:blur(10px);}
-    100%{filter:blur(00px);}
-} */
-
 
 .lobby_back_effect{
     background: url(../img/lobby/bck_effect.png);
@@ -183,7 +152,8 @@ body{
     grid-area: load_bar;
     transform: translateY(5%);
     width: 40%;
-    height: 100%;
+    height: 84%;
+    overflow-y: hidden;
 }
 
 #load_bar > div{
@@ -303,7 +273,7 @@ to {
 
 .scene {
     grid-area: brain;
-    width: 100%;
+    width: 80%;
     height: 100%;
     perspective: 100rem;
     animation: flicker-on-2 2s linear 1.2s both;
@@ -323,6 +293,7 @@ to {
     transform-style:  preserve-3d;
     animation: spin 25s 0ms linear infinite;
 }
+
 .ring {
     position: absolute;
     width: 100%;
@@ -357,12 +328,20 @@ to {
 .ring:nth-child(11) {
     transform: rotateY(4deg) rotateX(-75deg) scale(2);
     border-style: dashed;
+
 }
 .ring:nth-child(12) {
     transform: rotateY(4deg)  rotateX(-75deg) scale(1.75);
     border-style: solid;
+    animation: spin 25s 0ms linear infinite;
 }
 .ring:nth-child(13) {
     transform: rotateY(4deg) rotateX(-75deg) scale(1.5);
     border-style: dashed;
+}
+
+@keyframes spinX {
+    to {
+    transform:rotateX(-360deg);
+    }
 }

@@ -18,7 +18,7 @@ window.addEventListener("load", ()=> {
 	lag_machine();
 	document.querySelector("#quitter").addEventListener("click",test);
 	setTimeout(() =>{
-		for(let i =0; i<125;i++){
+		for(let i =0; i<135;i++){
 			var delay =  Math.random() * (5 - 1) + 1;
 			var node = document.createElement("div");
 			node.style.animationDelay = delay+"s";

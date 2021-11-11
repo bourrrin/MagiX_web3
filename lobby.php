@@ -6,7 +6,6 @@
 
     <div class="lobby_back_effect"></div>
     <div id="lobby_dead_pixel_effect"></div>
-    <img src="img/" alt="">
     <div class="lobby-container">
         <div class=lobby-wrapper>
             <div class="lobby-header">
