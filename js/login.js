@@ -68,6 +68,16 @@ function flash(){
     document.querySelector("body").appendChild(node);
 }
 
+function animation_login(){
+    flash();
+    setTimeout(flash,200);
+    setTimeout(flash,400);
+    setTimeout(flash,600);
+    setTimeout(flash,800);
+    setTimeout(flash,1000);
+    setTimeout(flash,1200);
+}
+
 function login(){
     let username = document.querySelector("#login_name").value;
     let mdp = document.querySelector("#login_mdp").value;
@@ -83,15 +93,10 @@ function login(){
     .then(response => response.json())
     .then(response => {
         if(response == true){
-            flash();
-            setTimeout(flash,200);
-            setTimeout(flash,400);
-            setTimeout(flash,600);
-            setTimeout(flash,800);
-            setTimeout(flash,1000);
+            animation_login()
             setTimeout(() => {
                 window.location.replace("lobby.php");
-            }, 1500);
+            }, 2000);
         }
         else{
             document.querySelector(".login").style.border = "red solid 10px";

@@ -270,10 +270,10 @@ input:hover {
     0 0 10px #fff,
     0 0 25px #fff,
     0 0 50px #fff,
-    0 0 100px rgb(6, 211, 238),
-    0 0 150px rgb(0, 162, 255),
-    0 0 200px rgb(26, 35, 158),
-    0 0 500px rgb(255, 255, 255);
+    0 0 100px #024577,
+    0 0 150px #024577,
+    0 0 200px #024577,
+    0 0 500px #024577;
     animation: animation_fin;
     animation-fill-mode: both;
     animation-duration: 0.5s ;
@@ -288,12 +288,12 @@ input:hover {
         background: #fff;
     }
     90%{
-        background: rgb(102, 5, 110);
+        background: #024577;
     }
     100%{
         width: 120vw;
         height: 120vw;
         opacity: 1;
-        background: rgb(0, 0, 0);
+        background: radial-gradient(#024577, #010717);
     }
 }
