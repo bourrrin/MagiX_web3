@@ -23,7 +23,9 @@ body{
 .lobby-container{
     padding:2%;
     height: 100vh;
-
+    display: none;
+    opacity: 0;
+    transition: 2s;
 }
 
 .lobby-wrapper {
@@ -51,10 +53,9 @@ body{
     border: var(--border-line) 4px solid ;
     background-color: var(--box-shadow);
     z-index: 1;
-    transition: 3s;
     height: 0%;
     overflow-y: hidden;
-    animation: flicker-on-2 2s both;
+    animation: flicker-on-2 2s both, show_chat 3s 3s forwards;
 }
 
 .chat > iframe{
@@ -69,10 +70,6 @@ body{
     z-index: 3;
 }
 
-#lobby_dead_pixel_effect > *{
-    box-shadow:
-}
-
 .lobby-header{
     grid-area: titre;
     display: flex;
@@ -81,7 +78,6 @@ body{
     align-items: center;
     animation: flicker-on-2 1s both;
 }
-
 
 .lobby-header > h1{
     letter-spacing: 10px;
@@ -202,7 +198,6 @@ body{
 }
 
 @keyframes rotation {
-    0%{transform: rotate(0deg);}
     100%{transform: rotate(360deg);}
 }
 
@@ -212,62 +207,31 @@ body{
     50%{width: 30%;}
     80%{width: 80%;}
     100%{width: 0%;}
-
 }
 
-
-@keyframes spin {
-    to {
-    transform:rotateY(-360deg);
-    }
+@keyframes spinY {
+    to {transform:rotateY(-360deg); }
 }
 
 @keyframes show {
-to {
-    opacity: 1;
+    to {opacity: 1;}
 }
+
+@keyframes show_chat {
+    to {height: 100%;}
 }
 
 @keyframes flicker-on-2 {
-    0% {
-        opacity: 0;
-    }
-
-    10% {
-        opacity: 1;
-    }
-
-    15% {
-        opacity: 0;
-    }
-
-    30% {
-        opacity: 1;
-    }
-
-    55% {
-        opacity: 1;
-    }
-
-    57% {
-        opacity: 0;
-    }
-
-    75% {
-        opacity: 0;
-    }
-
-    76% {
-        opacity: 1;
-    }
-
-    99% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
+    0% {opacity: 0;}
+    10% {opacity: 1;}
+    15% {opacity: 0;}
+    30% {opacity: 1;}
+    55% {opacity: 1;}
+    57% {opacity: 0;}
+    75% {opacity: 0;}
+    76% {opacity: 1;}
+    99% {opacity: 0;}
+    100% {opacity: 1;}
 }
 
 
@@ -291,7 +255,7 @@ to {
     width: 70%;
     height: 70%;
     transform-style:  preserve-3d;
-    animation: spin 25s 0ms linear infinite;
+    animation: spinY 25s 0ms linear infinite;
 }
 
 .ring {
@@ -333,15 +297,9 @@ to {
 .ring:nth-child(12) {
     transform: rotateY(4deg)  rotateX(-75deg) scale(1.75);
     border-style: solid;
-    animation: spin 25s 0ms linear infinite;
+    animation: spinY 25s 0ms linear infinite;
 }
 .ring:nth-child(13) {
     transform: rotateY(4deg) rotateX(-75deg) scale(1.5);
     border-style: dashed;
-}
-
-@keyframes spinX {
-    to {
-    transform:rotateX(-360deg);
-    }
 }

@@ -6,7 +6,6 @@ const applyStyles = iframe => {
 		fontSize : "20px",
 		inputBackgroundColor : "rgb(71, 71, 71)",
 	}
-
 	setTimeout(() => {
 		iframe.contentWindow.postMessage(JSON.stringify(styles), "*");
 }, 100);
@@ -25,11 +24,6 @@ window.addEventListener("load", ()=> {
 			document.querySelector("#load_bar").appendChild(node);
 		}
 	}, 1000);
-
-	setTimeout(()=>{
-		document.querySelector(".chat").style.height="100%"
-	}, 3000)
-
 });
 
 function lag_machine(){

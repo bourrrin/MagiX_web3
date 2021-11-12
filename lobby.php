@@ -1,11 +1,13 @@
 <?php
     require_once("partial/header.php");
+    require_once("partial/lobby_intro.php");
 ?>
     <link rel="stylesheet" href="css/lobby.css">
     <script src="js/lobby.js"></script>
 
     <div class="lobby_back_effect"></div>
     <div id="lobby_dead_pixel_effect"></div>
+
     <div class="lobby-container">
         <div class=lobby-wrapper>
             <div class="lobby-header">
@@ -36,9 +38,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="element" id="quitter">Quitter</div> -->
-            <!-- <img src="img/lobby/giphy.gif" alt=""> -->
-            <!-- <img id="hologram" src="img/lobby/sphere.gif" alt=""> -->
             <div class="chat">
                 <iframe
                 src="https://magix.apps-de-cours.com/server/#/chat/<?=  $_SESSION["player_data"]->key?>?v=1" onload="applyStyles(this)" >
