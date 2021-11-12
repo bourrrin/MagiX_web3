@@ -5,7 +5,7 @@ body{
 }
 
 :root{
-    --border-line:#01ffff;
+    --border-line:#00cfcf;
     --box-shadow:#010717;
     --root-glow: rgb(40, 0, 63);
     --delay-animation: 4s;
