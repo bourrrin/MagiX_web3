@@ -71,11 +71,6 @@ function flash(){
 function animation_login(){
     flash();
     setTimeout(flash,200);
-    setTimeout(flash,400);
-    setTimeout(flash,600);
-    setTimeout(flash,800);
-    setTimeout(flash,1000);
-    setTimeout(flash,1200);
 }
 
 function login(){

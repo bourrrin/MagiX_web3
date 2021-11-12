@@ -1,0 +1,23 @@
+.container_transition_tunel{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.square{
+    position: absolute;
+    border: solid 5px;
+    animation: scale_square 0.8s alternate infinite;
+}
+
+
+
+@keyframes scale_square {
+    to{
+        transform: scale(1.1);
+    }
+}

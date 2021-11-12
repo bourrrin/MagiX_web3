@@ -1,7 +1,11 @@
 body{
     overflow: hidden;
     background: radial-gradient(#024577, #010717);
+    transition: 1s;
+}
 
+*{
+    cursor: default;
 }
 
 :root{
@@ -24,7 +28,6 @@ body{
     padding:2%;
     height: 100vh;
     display: none;
-    opacity: 0;
     transition: 2s;
 }
 
@@ -137,11 +140,11 @@ body{
     animation: flicker-on-2 0.5s linear 3s both;
 }
 #quitter>p{
-    transition: color 1s;
+    transition: color 0.5s;
 }
 
 #quitter>p:hover{
-    color: red;
+    color: white;
 }
 
 #load_bar{

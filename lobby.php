@@ -1,6 +1,7 @@
 <?php
     require_once("partial/header.php");
     require_once("partial/lobby_intro.php");
+    require_once("partial/lobby_transition_tunel.php");
 ?>
     <link rel="stylesheet" href="css/lobby.css">
     <script src="js/lobby.js"></script>

@@ -4,8 +4,8 @@
 @keyframes scale_up {
   100%{
     transform: scale(15);
-    left: 30%;
-    top:20%;
+    left: 25vw;
+    top:12vh;
     opacity: 0;
   }
 }

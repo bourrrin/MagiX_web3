@@ -15,7 +15,9 @@ let dead_pixel = [];
 
 window.addEventListener("load", ()=> {
 	lag_machine();
+	intro = new LoadingScreen(document.querySelector(".container"), document.querySelector(".lobby-container"),);
 	document.querySelector("#quitter").addEventListener("click",test);
+	document.querySelector("#jouer").addEventListener("click",start_transition_tunel)
 	setTimeout(() =>{
 		for(let i =0; i<135;i++){
 			var delay =  Math.random() * (5 - 1) + 1;
@@ -25,6 +27,20 @@ window.addEventListener("load", ()=> {
 		}
 	}, 1000);
 });
+
+function start_transition_tunel(){
+	document.querySelector(".lobby-container").style.opacity=0;
+	document.querySelector("body").style.background="black";
+	setTimeout(()=>{
+		container =document.querySelector(".container_transition_tunel")
+		transition = new Transition_Tunel(container,30);
+		setTimeout(() => {
+			transition.end_transition(document.querySelector(".lobby-container"));
+			//BUG A FIX REGARDER PROJET FANTASIE FIGHTER
+			// window.location.replace("battlefield.php");
+		}, 4000);
+	},2000)
+}
 
 function lag_machine(){
 	var h = window.innerHeight;
