@@ -14,9 +14,9 @@ const applyStyles = iframe => {
 let dead_pixel = [];
 
 window.addEventListener("load", ()=> {
-	lag_machine();
+	create_dead_pixel_animation();
 	intro = new LoadingScreen(document.querySelector(".container"), document.querySelector(".lobby-container"),);
-	document.querySelector("#quitter").addEventListener("click",test);
+	document.querySelector("#quitter").addEventListener("click",quitter);
 	document.querySelector("#jouer").addEventListener("click",start_transition_tunel)
 	setTimeout(() =>{
 		for(let i =0; i<135;i++){
@@ -35,14 +35,15 @@ function start_transition_tunel(){
 		container =document.querySelector(".container_transition_tunel")
 		transition = new Transition_Tunel(container,30);
 		setTimeout(() => {
-			transition.end_transition(document.querySelector(".lobby-container"));
-			//BUG A FIX REGARDER PROJET FANTASIE FIGHTER
-			// window.location.replace("battlefield.php");
-		}, 4000);
+			transition.end_transition(document.querySelector(".container_transition_tunel"));
+			setTimeout(() => {
+				window.location.replace("battlefield.php");
+			}, 3000);
+		}, 1800);
 	},2000)
 }
 
-function lag_machine(){
+function create_dead_pixel_animation(){
 	var h = window.innerHeight;
 
 	for(let i=0; i<(h/5); i++){
@@ -59,7 +60,8 @@ function lag_machine(){
 
 }
 
-function dead_pixel_effect(color){
+
+function start_dead_pixel_animation(color){
 	var h = window.innerHeight;
 	let i = 0;
 	let delay;
@@ -96,7 +98,26 @@ function shuffle(array) {
 	return array;
 }
 
-function test(){
-	dead_pixel_effect("#024577");
-	setTimeout(()=>{dead_pixel_effect("black")}, 100)
+function quitter(){
+	let formData = new FormData();
+    formData.append("action", "quitter");
+
+    fetch("lobbyAjax.php",{
+        method : "POST",
+        credentials : "include",
+        body : formData
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response == true){
+			console.log("lol");
+			start_dead_pixel_animation("#024577");
+			setTimeout(()=>{
+				start_dead_pixel_animation("black")
+				setTimeout(() => {
+					window.location.replace("index.php");
+				}, 2000);
+			}, 100)
+		}
+	})
 }

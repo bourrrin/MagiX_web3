@@ -20,7 +20,7 @@
                     $result = false;
                 }
                 else {
-                    $key = $result->key;
+                    // $key = $result->key;
                     $_SESSION["player_data"] = $result;
                     $result = true;
                 }

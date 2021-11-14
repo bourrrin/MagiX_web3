@@ -5,7 +5,7 @@
 });
 
 function load_ships(){
-    for(let i = 0; i < 4; i++)
+    for(let i = 0; i < 3; i++)
     {
         for(let j =0; j<18;j++){
             let source = "img/ships/ship"+j+".png";
