@@ -36,10 +36,11 @@ function start_transition_tunel(){
 		transition = new Transition_Tunel(container,30);
 		setTimeout(() => {
 			transition.end_transition(document.querySelector(".container_transition_tunel"));
+			document.querySelector("body").style.background="radial-gradient(#010219,#01134c)";
 			setTimeout(() => {
 				window.location.replace("battlefield.php");
 			}, 3000);
-		}, 1800);
+		}, 3000);
 	},2000)
 }
 

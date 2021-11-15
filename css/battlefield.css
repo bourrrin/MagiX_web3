@@ -44,18 +44,20 @@ body{
     background-image:
       linear-gradient(to right, var(--back-line-color) 1px, transparent 1vh),
       linear-gradient(to bottom, var(--back-line-color) 1px, transparent 1vh);
+
+    transition: 4s top;
 }
 
 #battlefield_background_up{
-    top:-5%;
+    top:-100%;
     transform: rotateX(-90deg);
 }
 
 #battlefield_background_down{
-    top:55%;
+    top:150%;
     transform: rotateX(90deg);
-
 }
+
 
 @keyframes test {
     50%{
@@ -122,6 +124,7 @@ body{
     0 0 10px #fff,
     0 0 15px #fff,
     0 0 100px var(--back-line-color);
+
 }
 
 .p_interface{
@@ -134,9 +137,6 @@ body{
     grid-area: o_interface;
 }
 
-.o_interface > div, .p_interface > div{
-    width: 90%;
-}
 
 #p_hero{
     background: url(../img/hero/1.jfif)
@@ -207,6 +207,11 @@ body{
     background:rgb(250, 252, 251);
 }
 
+.p_interface, .o_interface,.p_hp_bar,.o_hp_bar{
+    opacity: 0;
+    transition: 2s;
+}
+
 .p_hp_bar,.o_hp_bar{
     width:40%;
     height: 95%;
@@ -256,6 +261,8 @@ body{
     font-weight: bolder;
     transition: 0.25s;
 
+    transform: translateX(50vh);
+    transition: 3s transform;
 }
 
 .timer{
@@ -263,7 +270,8 @@ body{
     height: 30%;
     margin: auto 0px;
     font-size: 2rem;
-    transition: 0.5s;
+    transition: 0.5s, 2s transform;
+
 }
 
 .turn:hover{
