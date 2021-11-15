@@ -1,4 +1,6 @@
- window.addEventListener("load", ()=> {
+let utils =new Utils();
+
+window.addEventListener("load", ()=> {
     load_ships();
     document.querySelector("#button").addEventListener("click",login);
     setTimeout(fake_ship,4000);
@@ -63,9 +65,7 @@ function fake_ship(){
 }
 
 function flash(){
-    var node = document.createElement("div");
-    node.setAttribute("id","animation_fin");
-    document.querySelector("body").appendChild(node);
+    document.querySelector("body").appendChild(utils.create_element_id("div","animation_fin"));
 }
 
 function animation_login(){

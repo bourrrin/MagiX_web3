@@ -1,4 +1,5 @@
 let mana = 5;
+let utils = new Utils();
 
 window.addEventListener("load", ()=> {
     window.addEventListener("contextmenu", e => e.preventDefault());
@@ -9,11 +10,22 @@ window.addEventListener("load", ()=> {
         document.querySelector("#p_mana").appendChild(create_element_class("div","mana-on"))
     }
 
+    start_animation_ouverture();
+});
+
+function start_animation_ouverture(){
     document.querySelector(".battlefield_background").style.transition="4s top";
     document.querySelector("#battlefield_background_up").style.top="-20%";
     document.querySelector("#battlefield_background_down").style.top="35%";
+
     setTimeout(() => {
-        start_animation_ouverture();
+        document.querySelector(".turn").style.transform = "translateX(0)";
+        document.querySelector(".timer").style.transform ="translateX(0)";
+
+        document.querySelector(".p_interface").style.opacity = "1";
+        document.querySelector(".o_interface").style.opacity ="1";
+        document.querySelector(".p_hp_bar").style.opacity ="1";
+        document.querySelector(".o_hp_bar").style.opacity ="1";
         for(let i=3; i<=6; i++){
             fill_card_hand(true,i);
             fill_card_hand(false);
@@ -22,22 +34,6 @@ window.addEventListener("load", ()=> {
             }, 1000);
         }
     }, 4000);
-});
-
-function start_animation_ouverture(){
-    document.querySelector(".turn").style.transform = "translateX(0)";
-    document.querySelector(".timer").style.transform ="translateX(0)";
-
-    document.querySelector(".p_interface").style.opacity = "1";
-    document.querySelector(".o_interface").style.opacity ="1";
-    document.querySelector(".p_hp_bar").style.opacity ="1";
-    document.querySelector(".o_hp_bar").style.opacity ="1";
-}
-
-function create_element_class(type, class_name){
-	let node = document.createElement(type);
-	node.setAttribute("class",class_name);
-	return node;
 }
 
 function show_card(){
@@ -55,14 +51,14 @@ function fill_card_hand(player, card_id=null){
     if(player){
         document.querySelector(".p_hand").appendChild(create_player_card(card_id));
     }else{
-        let node1 = create_element_class("div","o_card_in_hand");
+        let node1 = utils.create_element_class("div","o_card_in_hand");
         node1.style.backgroundImage = 'url("img/cards/back.jpg")';
         document.querySelector(".o_hand").appendChild(node1);
     }
 }
 
 function create_player_card(id){
-    let node = create_element_class("div","card_in_hand");
+    let node = utils.create_element_class("div","card_in_hand");
     node.style.backgroundImage = 'url("img/cards/'+id+'.jpg")';
     node.addEventListener("click", event=>{play_card()});
     node.addEventListener("contextmenu",()=>{show_card()})
@@ -74,7 +70,7 @@ function create_player_card(id){
 function play_card(){
     let cost = 1
     if(can_play_card(cost)){
-        let node = create_element_class("div","card");
+        let node = utils.create_element_class("div","card");
         node.style.backgroundImage = event.currentTarget.style.backgroundImage;
         node.addEventListener("contextmenu",()=>{show_card(event.currentTarget.style.backgroundImage)})
         document.querySelector(".p_board").appendChild(node);

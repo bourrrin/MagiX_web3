@@ -11,13 +11,23 @@ const applyStyles = iframe => {
 }, 100);
 }
 
-let dead_pixel = [];
+let dead_pixel_array = [];
+let utils = new Utils();
+
 
 window.addEventListener("load", ()=> {
-	create_dead_pixel_animation();
 	intro = new LoadingScreen(document.querySelector(".container"), document.querySelector(".lobby-container"),);
+	set_lobby_elements();
+});
+
+function set_lobby_elements(){
 	document.querySelector("#quitter").addEventListener("click",quitter);
 	document.querySelector("#jouer").addEventListener("click",start_transition_tunel)
+	create_dead_pixel_animation();
+	create_loadingBar_animation();
+}
+
+function create_loadingBar_animation(){
 	setTimeout(() =>{
 		for(let i =0; i<135;i++){
 			var delay =  Math.random() * (5 - 1) + 1;
@@ -26,7 +36,7 @@ window.addEventListener("load", ()=> {
 			document.querySelector("#load_bar").appendChild(node);
 		}
 	}, 1000);
-});
+}
 
 function start_transition_tunel(){
 	document.querySelector(".lobby-container").style.opacity=0;
@@ -48,25 +58,17 @@ function create_dead_pixel_animation(){
 	var h = window.innerHeight;
 
 	for(let i=0; i<(h/5); i++){
-		var node = document.createElement("div");
-		dead_pixel.push("dead_pixel"+i)
-		node.setAttribute("id",dead_pixel[dead_pixel.length-1]);
-		node.style.background ="transparent";
-		node.style.width="100%";
-		node.style.height="5px";
+		dead_pixel_array.push("dead_pixel"+i)
+		node = utils.create_element_id_class("div",dead_pixel_array[dead_pixel_array.length-1],"dead_pixel");
 		document.querySelector("#lobby_dead_pixel_effect").appendChild(node);
 	}
-
-	document.querySelector("#lobby_dead_pixel_effect").style.display = "none";
-
 }
-
 
 function start_dead_pixel_animation(color){
 	var h = window.innerHeight;
 	let i = 0;
 	let delay;
-	dead_pixel = shuffle(dead_pixel);
+	dead_pixel_array = utils.shuffle(dead_pixel_array);
 
 	document.querySelector("#lobby_dead_pixel_effect").style.display = "block";
 
@@ -74,29 +76,10 @@ function start_dead_pixel_animation(color){
 		if(i>=(h/5)){
 			clearInterval;
 		}else{
-			document.querySelector("#"+dead_pixel[i]).style.background = color ;
+			document.querySelector("#"+dead_pixel_array[i]).style.background = color ;
 			i++;
 		}
 	},10);
-}
-
-function shuffle(array) {
-	// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-	let currentIndex = array.length,  randomIndex;
-
-	// While there remain elements to shuffle...
-	while (currentIndex != 0) {
-
-	  // Pick a remaining element...
-	  randomIndex = Math.floor(Math.random() * currentIndex);
-	  currentIndex--;
-
-	  // And swap it with the current element.
-	  [array[currentIndex], array[randomIndex]] = [
-		array[randomIndex], array[currentIndex]];
-	}
-
-	return array;
 }
 
 function quitter(){
@@ -111,7 +94,6 @@ function quitter(){
     .then(response => response.json())
     .then(response => {
         if(response == true){
-			console.log("lol");
 			start_dead_pixel_animation("#024577");
 			setTimeout(()=>{
 				start_dead_pixel_animation("black")
