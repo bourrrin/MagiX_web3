@@ -30,7 +30,7 @@
             <div class="p_hand"></div>
             <div class="o_hand"></div>
             <div class="turn"> END TURN</div>
-            <div class="timer"> 54</div>
+            <div class="timer"> 50s</div>
         </div>
     </div>
     <div class="show_card"></div>
