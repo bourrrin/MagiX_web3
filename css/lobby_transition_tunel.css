@@ -13,6 +13,9 @@
     position: absolute;
     border: solid 5px;
     animation: scale_square 0.8s alternate infinite;
+    box-shadow:
+    0 0 5px #fff,
+    0 0 10px rgb(161, 228, 255);
 }
 
 
