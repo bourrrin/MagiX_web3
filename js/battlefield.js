@@ -6,8 +6,8 @@ window.addEventListener("load", ()=> {
     document.querySelector(".show_card").addEventListener("click",hide_card);
 
     for(let i=0; i<mana; i++){
-        document.querySelector("#o_mana").appendChild(create_element_class("div","mana-on"))
-        document.querySelector("#p_mana").appendChild(create_element_class("div","mana-on"))
+        document.querySelector("#o_mana").appendChild(utils.create_element_class("div","mana-on"))
+        document.querySelector("#p_mana").appendChild(utils.create_element_class("div","mana-on"))
     }
 
     start_animation_ouverture();
@@ -62,7 +62,6 @@ function create_player_card(id){
     node.style.backgroundImage = 'url("img/cards/'+id+'.jpg")';
     node.addEventListener("click", event=>{play_card()});
     node.addEventListener("contextmenu",()=>{show_card()})
-    // node.addEventListener("dblclick",()=>{show_card(id)})
 
     return node;
 }

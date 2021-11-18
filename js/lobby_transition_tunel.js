@@ -1,6 +1,5 @@
 class Transition_Tunel{
     constructor(container, speed){
-        // = document.querySelector(".container_transition_tunel");
         // let color1 = rgb(102, 230, 255);
         // let color0 = rgb(0, 9, 18);
         this.speed = speed;
@@ -52,19 +51,6 @@ class Transition_Tunel{
 
     end_transition(container){
         container.style.opacity = 0;
-        // let childs = container.children;
-        // let i = 0;
-        // console.log(childs.item);
-        // let interval = setInterval(() => {
-        //     console.log(i);
-        //     if(i >= childs.lenght){
-        //         clearInterval;
-        //     }
-        //     else{
-        //         console.log(childs[i]);
-        //         childs[i].remove();
-        //         i++;
-        //     }
-        // }, this.speed);
+
     }
 }

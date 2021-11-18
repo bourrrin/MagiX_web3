@@ -13,6 +13,7 @@ const applyStyles = iframe => {
 
 let dead_pixel_array = [];
 let utils = new Utils();
+let h = window.innerHeight;
 
 
 window.addEventListener("load", ()=> {
@@ -42,7 +43,7 @@ function start_transition_tunel(){
 	document.querySelector(".lobby-container").style.opacity=0;
 	document.querySelector("body").style.background="black";
 	setTimeout(()=>{
-		container =document.querySelector(".container_transition_tunel")
+		container = document.querySelector(".container_transition_tunel")
 		transition = new Transition_Tunel(container,30);
 		setTimeout(() => {
 			transition.end_transition(document.querySelector(".container_transition_tunel"));
@@ -55,8 +56,6 @@ function start_transition_tunel(){
 }
 
 function create_dead_pixel_animation(){
-	var h = window.innerHeight;
-
 	for(let i=0; i<(h/5); i++){
 		dead_pixel_array.push("dead_pixel"+i)
 		node = utils.create_element_id_class("div",dead_pixel_array[dead_pixel_array.length-1],"dead_pixel");
@@ -65,11 +64,8 @@ function create_dead_pixel_animation(){
 }
 
 function start_dead_pixel_animation(color){
-	var h = window.innerHeight;
 	let i = 0;
-	let delay;
 	dead_pixel_array = utils.shuffle(dead_pixel_array);
-
 	document.querySelector("#lobby_dead_pixel_effect").style.display = "block";
 
 	let interval = setInterval(()=>{

@@ -1,17 +1,17 @@
 class Utils{
-    constructor(){
+    constructor(){}
 
-    }
-
-    create_element_class(type, class_name){
+    create_element_class(type, class_name=null){
         let node = document.createElement(type);
-        node.setAttribute("class",class_name);
+        if(id_name != null)
+            node.setAttribute("class",class_name);
         return node;
     }
 
-    create_element_id(type, id_name){
+    create_element_id(type, id_name=null){
         let node = document.createElement(type);
-        node.setAttribute("id",id_name);
+        if(id_name != null)
+            node.setAttribute("id",id_name);
         return node;
     }
 
@@ -21,8 +21,6 @@ class Utils{
         node.setAttribute("class",class_name);
         return node;
     }
-
-
 
     shuffle(array) {
 	// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -41,5 +39,5 @@ class Utils{
 	}
 
 	return array;
-}
+    }
 }

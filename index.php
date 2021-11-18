@@ -8,7 +8,7 @@
     <div class=background id=background0></div>
     <div class=background id=background1></div>
     <div class="page_title">
-        <h1>MAGIX</h1>
+        <h1>THE MAGIX</h1>
     </div>
     <div class=login>
         <p id="message_erreur"></p>
