@@ -8,10 +8,6 @@
     font-family: 'Courier New', Courier, monospace;
 }
 
-body{
-    overflow: hidden;
-}
-
 .battlefield_container{
     height: 100%;
     width: 100vw;

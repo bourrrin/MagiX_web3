@@ -1,5 +1,5 @@
 /* https://codepen.io/clarenceng/pen/vEgVYY */
-/* LE CODE REFERENCE VIEN DU LIEN CI-DESSUs MAIS IL A ETE MODIFIER */
+/* LE CODE VIEN DU LIEN CI-DESSUS MAIS IL A ETE MODIFIER */
 
 @keyframes scale_up {
   100%{
@@ -101,14 +101,17 @@
   animation: spin1 20s infinite linear;
 }
 
+
 .p3 {
-  margin-top: -78px;
-  margin-left: -78px;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  border: 3px dotted rgba(255,255,255,.4);
-  animation: spin 20s infinite linear, app1 1s linear;
+  margin-top: 1px;
+  margin-left: 1px;
+  width: 126px;
+  height: 126px;
+  border-radius: 0 0 252px 0;
+  border-bottom: 6px solid rgba(255,255,255,.4);
+  border-right: 6px solid rgba(255,255,255,.4);
+  transform-origin: top left;
+  animation: spin1 40s infinite linear, app1 1s linear;
 }
 
 .p4 {
@@ -122,30 +125,6 @@
 }
 
 .p5 {
-  margin-top: 1px;
-  margin-left: 1px;
-  width: 126px;
-  height: 126px;
-  border-radius: 0 0 252px 0;
-  border-bottom: 6px solid rgba(255,255,255,.4);
-  border-right: 6px solid rgba(255,255,255,.4);
-  transform-origin: top left;
-  animation: spin1 40s infinite linear, app1 1s linear;
-}
-
-.p6 {
-  margin-top: -156px;
-  margin-left: 0px;
-  width: 150px;
-  height: 150px;
-  border-radius: 0 300px 0 0;
-  border-top: 6px solid rgba(255,255,255,.4);
-  border-right: 6px solid rgba(255,255,255,.2);
-  transform-origin: bottom left;
-  animation: spin 30s infinite linear, app1 1s linear;
-}
-
-.p7 {
   margin-top: -150px;
   margin-left: -150px;
   width: 300px;
@@ -153,6 +132,26 @@
   border-radius: 50%;
   border: 1px solid rgba(255,255,255,.2);
   animation: app1 1s linear;
+}
+
+.p6 {
+  margin-top: -119px;
+  margin-left: 57px;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px dotted rgba(255,255,255,.4);
+  animation: spin1 20s infinite linear, app1 1s linear;
+}
+
+.p7 {
+  margin-top: -204px;
+  margin-left: -204px;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  border: 4px solid rgba(255,255,255,.2);
+  animation: grow3 2s ease-in-out;
 }
 
 .p8 {
@@ -319,27 +318,7 @@
   animation: app1 2.3s linear, app2 2s linear infinite;
 }
 
-.p23 {
-  margin-top: -119px;
-  margin-left: 57px;
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  border: 3px dotted rgba(255,255,255,.4);
-  animation: spin1 20s infinite linear, app1 1s linear;
-}
-
-.p32 {
-  margin-top: -204px;
-  margin-left: -204px;
-  width: 400px;
-  height: 400px;
-  border-radius: 50%;
-  border: 4px solid rgba(255,255,255,.2);
-  animation: grow3 2s ease-in-out;
-}
-
-.p33 {
+.p23{
   margin-top: -70px;
   margin-left: -70px;
   width: 100px;
@@ -349,7 +328,7 @@
   animation: grow4 .5s ease-in-out;
 }
 
-.p34 {
+.p24 {
   margin-top: -35px;
   margin-left: -35px;
   width: 66px;
@@ -359,7 +338,7 @@
   animation: spin3 1s ease-in-out, spin2 20s infinite linear;
 }
 
-.p35 {
+.p25 {
   margin-top: -23px;
   margin-left: -23px;
   width: 42px;
@@ -368,9 +347,6 @@
   transform: rotate(-360deg);
   animation: spin4 1s ease-in-out, spin 20s infinite linear;
 }
-
-
-
 
 @keyframes spin1 {
   100% {transform: rotate(-360deg);}
@@ -400,29 +376,6 @@
 }
 
 @keyframes grow {
-  0% {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    border: 4px solid rgba(255,255,255,.5);
-    top: 50%;
-    left: 50%;
-    margin-top: -104px;
-    margin-left: -104px;
-  }
-  100% {
-    width: 240px;
-    height: 240px;
-    border-radius: 50%;
-    border: 4px solid rgba(255,255,255,0);
-    top: 50%;
-    left: 50%;
-    margin-top: -122px;
-    margin-left: -122px;
-  }
-}
-
-@keyframes grow2 {
   0% {
     width: 200px;
     height: 200px;

@@ -1,11 +1,6 @@
 body{
-    overflow: hidden;
     background: radial-gradient(#024577, #010717);
     transition: 1s;
-}
-
-*{
-    cursor: default;
 }
 
 :root{
@@ -87,11 +82,21 @@ body{
     justify-content: center;
     align-items: center;
     animation: flicker-on-2 1s both;
+    font-size: 1.4rem;
 }
 
 .lobby-header > h1{
     letter-spacing: 10px;
     animation: glow 25s infinite both;
+}
+
+.lobby-header > p >span{
+    font-weight: bolder;
+    font-size: 2rem;
+    background-image: url("../img/matrix-code.gif");
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .lobby-btn{

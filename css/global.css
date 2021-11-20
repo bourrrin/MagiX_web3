@@ -1,6 +1,7 @@
 *{
     margin: 0px;
     padding: 0px;
+    cursor: default;
 }
 
 :root{
@@ -18,4 +19,10 @@
 @font-face {
     font-family: font;
     src: url(../font/OriginTech_personal_use.ttf);
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
 }

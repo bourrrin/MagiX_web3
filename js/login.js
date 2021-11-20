@@ -6,6 +6,49 @@ window.addEventListener("load", ()=> {
     setTimeout(fake_ship,4000);
 });
 
+//#region AJAX ACTION
+
+
+function login(){
+    let username = document.querySelector("#login_name").value;
+    let mdp = document.querySelector("#login_mdp").value;
+    let formData = new FormData();
+    formData.append("username", username);
+    formData.append("mdp", mdp);
+
+    fetch("loginAjax.php",{
+        method : "POST",
+        credentials : "include",
+        body : formData
+    })
+    .then(response => response.json())
+    .then(response => {
+        if(response == true){
+            animation_login()
+            setTimeout(() => {
+                window.location.replace("lobby.php");
+            }, 2000);
+        }
+        else{
+            document.querySelector(".login").style.border = "red solid 10px";
+            document.querySelector(".login").style.boxShadow = "red 0px 0px 20px";
+
+            setTimeout(() => {
+                document.querySelector(".login").style.border = "white solid 10px";
+                document.querySelector(".login").style.boxShadow = "var(--neon-color) 0px 0px 20px";
+                setTimeout(() => {
+                    document.querySelector("#message_erreur").innerHTML="Username or Password Invalid";
+                    document.querySelector("#login_name").value = '';
+                    document.querySelector("#login_mdp").value = '';
+                }, 200);
+            }, 1000);
+        }
+    })
+}
+
+//#endregion
+
+//#region ANIMATION
 function load_ships(){
     for(let i = 0; i < 3; i++)
     {
@@ -64,48 +107,12 @@ function fake_ship(){
     document.querySelector("body").appendChild(node);
 }
 
-function flash(){
+function flash_animation_login(){
     document.querySelector("body").appendChild(utils.create_element_id("div","animation_fin"));
 }
 
 function animation_login(){
-    flash();
-    setTimeout(flash,200);
+    flash_animation_login();
+    setTimeout(flash_animation_login,200);
 }
-
-function login(){
-    let username = document.querySelector("#login_name").value;
-    let mdp = document.querySelector("#login_mdp").value;
-    let formData = new FormData();
-    formData.append("username", username);
-    formData.append("mdp", mdp);
-
-    fetch("loginAjax.php",{
-        method : "POST",
-        credentials : "include",
-        body : formData
-    })
-    .then(response => response.json())
-    .then(response => {
-        if(response == true){
-            animation_login()
-            setTimeout(() => {
-                window.location.replace("lobby.php");
-            }, 2000);
-        }
-        else{
-            document.querySelector(".login").style.border = "red solid 10px";
-            document.querySelector(".login").style.boxShadow = "red 0px 0px 20px";
-
-            setTimeout(() => {
-                document.querySelector(".login").style.border = "white solid 10px";
-                document.querySelector(".login").style.boxShadow = "var(--neon-color) 0px 0px 20px";
-                setTimeout(() => {
-                    document.querySelector("#message_erreur").innerHTML="Username or Password Invalid";
-                    document.querySelector("#login_name").value = '';
-                    document.querySelector("#login_mdp").value = '';
-                }, 200);
-            }, 1000);
-        }
-    })
-}
+//#endregion

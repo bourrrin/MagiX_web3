@@ -1,3 +1,5 @@
+//#region CHAT STYLE
+
 const applyStyles = iframe => {
 	let styles = {
 		fontColor : "rgb(0, 255, 0)",
@@ -8,8 +10,10 @@ const applyStyles = iframe => {
 	}
 	setTimeout(() => {
 		iframe.contentWindow.postMessage(JSON.stringify(styles), "*");
-}, 100);
+	}, 100);
 }
+
+//#endregion
 
 let dead_pixel_array = [];
 let utils = new Utils();
@@ -28,11 +32,14 @@ function set_lobby_elements(){
 	create_loadingBar_animation();
 }
 
+
+//#region ANIMATION HANDLERS
+
 function create_loadingBar_animation(){
 	setTimeout(() =>{
 		for(let i =0; i<135;i++){
-			var delay =  Math.random() * (5 - 1) + 1;
-			var node = document.createElement("div");
+			let delay =  Math.random() * (5 - 1) + 1;
+			let node = document.createElement("div");
 			node.style.animationDelay = delay+"s";
 			document.querySelector("#load_bar").appendChild(node);
 		}
@@ -78,6 +85,10 @@ function start_dead_pixel_animation(color){
 	},10);
 }
 
+//#endregion
+
+//#region AJAX ACTION
+
 function quitter(){
 	let formData = new FormData();
     formData.append("action", "quitter");
@@ -100,3 +111,6 @@ function quitter(){
 		}
 	})
 }
+
+
+//#endregion

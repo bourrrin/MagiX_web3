@@ -10,26 +10,23 @@ class LoadingScreen{
                 node.appendChild(create_element_class("div","p2"));
                 anim_container.appendChild(node);
                 setTimeout(()=>{
-                    anim_container.appendChild(create_element_class("div","p4"));
+                    anim_container.appendChild(create_element_class("div","p3"));
                     anim_container.appendChild(create_element_class("div","p5"));
                     setTimeout(()=>{
-                        anim_container.appendChild(create_element_class("div","p4"));
-                        anim_container.appendChild(create_element_class("div","p7"));
-                        anim_container.appendChild(create_element_class("div","p23"));
-                        anim_container.appendChild(create_element_class("div","p32"));
+                        for(let i = 4; i<=7; i++){
+                            let classe = "p"+i;
+                            anim_container.appendChild(create_element_class("div",classe));
+                        }
                         setTimeout(()=>{
-                            anim_container.appendChild(create_element_class("div","p33"));
-                            anim_container.appendChild(create_element_class("div","p34"));
-                            anim_container.appendChild(create_element_class("div","p35"));
-                            for(let i = 8; i<=22; i++){
+                            for(let i = 8; i<=25; i++){
                                 let classe = "p"+i;
                                 anim_container.appendChild(create_element_class("div",classe));
                             }
                             setTimeout(()=>{
-                                anim_container.appendChild(create_element_class("div","p4"))
-                                anim_container.appendChild(create_element_class("div","p7"))
-                                anim_container.appendChild(create_element_class("div","p23"))
-                                anim_container.appendChild(create_element_class("div","p32"))
+                                for(let i = 4; i<=7; i++){
+                                    let classe = "p"+i;
+                                    anim_container.appendChild(create_element_class("div",classe));
+                                }
                                 setTimeout(()=>{
                                     anim_container.setAttribute("class","end")
                                     setTimeout(()=>{

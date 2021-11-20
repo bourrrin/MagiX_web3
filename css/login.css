@@ -1,7 +1,5 @@
 body{
-    width: 100vw;
-    overflow: hidden;
-    padding: 5% 00px;
+    padding: 5% 0px;
     background:url("../img/background.jpg") no-repeat;
     z-index: -2;
 }
@@ -26,7 +24,6 @@ body{
 }
 
 
-
 .page_title{
     z-index: 1;
     color: var(--text-color);
@@ -35,14 +32,8 @@ body{
 }
 
 .page_title > * {
-  animation: glow;
-  animation-fill-mode: both;
-  animation-duration: 10s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear;
+    animation: glow both 10s infinite linear;
 }
-
-
 
 .login{
     width:35%;
@@ -214,8 +205,6 @@ input::placeholder{
 input:hover {
     opacity: 0.7;
 }
-
-
 
 .ship{
     position: absolute;

@@ -18,8 +18,6 @@
     0 0 10px rgb(161, 228, 255);
 }
 
-
-
 @keyframes scale_square {
     to{
         transform: scale(1.1);

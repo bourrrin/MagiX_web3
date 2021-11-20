@@ -13,7 +13,7 @@
         <div class=lobby-wrapper>
             <div class="lobby-header">
                 <h1>HELLO WORLD</h1>
-                <p> logged in the MagiX</p>
+                <p> logged in <span>the MagiX</span></p>
             </div>
             <div class="lobby-btn" id="jouer">Jouer</div>
             <div class="lobby-btn" id="pratique">Pratique</div>

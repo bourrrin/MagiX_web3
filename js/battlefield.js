@@ -1,19 +1,21 @@
-let mana = 5;
+let mana = 1;
 let utils = new Utils();
 
 window.addEventListener("load", ()=> {
     window.addEventListener("contextmenu", e => e.preventDefault());
     document.querySelector(".show_card").addEventListener("click",hide_card);
+    start_animation_ouverture();
+});
 
+//#region ANIMATIONS
+
+
+function start_animation_ouverture(){
     for(let i=0; i<mana; i++){
         document.querySelector("#o_mana").appendChild(utils.create_element_class("div","mana-on"))
         document.querySelector("#p_mana").appendChild(utils.create_element_class("div","mana-on"))
     }
 
-    start_animation_ouverture();
-});
-
-function start_animation_ouverture(){
     document.querySelector(".battlefield_background").style.transition="4s top";
     document.querySelector("#battlefield_background_up").style.top="-20%";
     document.querySelector("#battlefield_background_down").style.top="35%";
@@ -46,6 +48,10 @@ function hide_card(){
     document.querySelector(".show_card").style.left = "100vw";
 }
 
+
+//#endregion
+
+//#region GAME LOGIC
 
 function fill_card_hand(player, card_id=null){
     if(player){
@@ -91,29 +97,4 @@ function reduit_mana(cost){
     div.removeChild(div.lastChild);
 }
 
-    // for(let i=1; i<=7; i++){
-    //     // if(Math.floor(Math.random() * 2)==1){
-
-    //         let node = create_element_class("div","card");
-    //         node.style.backgroundImage = 'url("img/cards/'+i+'.jpg")';
-    //         document.querySelector(".p_board").appendChild(node);
-
-    //         let node1 = create_element_class("div","card");
-    //         node1.style.backgroundImage = 'url("img/cards/'+i+'.jpg")';
-    //         document.querySelector(".o_board").appendChild(node1);
-    //     // }
-    // }
-
-    // for(let i=1; i<=10; i++){
-    //     let node = create_element_class("div","card_in_hand");
-    //     node.style.backgroundImage = 'url("img/cards/'+i+'.jpg")';
-
-    //     document.querySelector(".p_hand").appendChild(node)
-    // }
-
-    // for(let i=1; i<=10; i++){
-    //     let node = create_element_class("div","o_card_in_hand");
-    //     node.style.backgroundImage = 'url("img/cards/back.jpg")';
-
-    //     document.querySelector(".o_hand").appendChild(node)
-    // }
+//#endregion
