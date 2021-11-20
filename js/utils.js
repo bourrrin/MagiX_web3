@@ -3,7 +3,7 @@ class Utils{
 
     create_element_class(type, class_name=null){
         let node = document.createElement(type);
-        if(id_name != null)
+        if(class_name != null)
             node.setAttribute("class",class_name);
         return node;
     }

@@ -9,4 +9,6 @@ lobby-planet:https://codepen.io/MB5/pen/OvYNJm
 
 note:
 
-https://www.pinterest.ca/pin/341288478020366716/
+extension:
+create / delete #region
+region viewer

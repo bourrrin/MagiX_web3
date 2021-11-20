@@ -9,16 +9,7 @@
 
         protected function executeAction() {
             $result = false;
-            if($_POST["action"] == "quitter"){
-                $data = [
-                    "key" => $_SESSION["player_data"]->key
-                ];
-                $result = parent::callAPI("signout",$data)
 
-                if( $rep == "SIGNED_OUT"){
-                    $result=true;
-                }
-            }
             return compact("result");
         }
     }
