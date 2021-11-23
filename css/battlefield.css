@@ -233,7 +233,7 @@
     grid-area: o_hp_bar;
 }
 
-.turn, .timer{
+.turn,.turn_disable, .timer{
     grid-area: turn;
     width:60%;
     border-radius: 20%;
@@ -254,13 +254,11 @@
     transition: 0.5s, 3s transform;
 }
 
-.timer{
-    grid-area: timer;
-    height: 30%;
-    margin: auto 0px;
-    font-size: 2rem;
-    transition: 0.5s, 2s transform;
-
+.turn_disable{
+    opacity: 0.8;
+    border: rgb(0, 0, 0) 2px solid;
+    color: rgb(0, 0, 0);
+    box-shadow:none;
 }
 
 .turn:hover{
@@ -269,6 +267,15 @@
     0 0 5px rgb(255, 255, 255),
     0 0 10px rgb(255, 255, 255),
     0 0 15px rgb(255, 255, 255);
+}
+
+.timer{
+    grid-area: timer;
+    height: 30%;
+    margin: auto 0px;
+    font-size: 2rem;
+    transition: 0.5s, 2s transform;
+
 }
 
 .show_card{

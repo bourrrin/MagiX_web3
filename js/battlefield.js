@@ -45,6 +45,15 @@ function display_UI() {
     document.querySelector(".o_interface").style.opacity = "1";
     document.querySelector(".p_hp_bar").style.opacity = "1";
     document.querySelector(".o_hp_bar").style.opacity = "1";
+
+    for (let i = 0; i < 10; i++) {
+        document
+            .querySelector("#p_mana")
+            .appendChild(utils.create_element_class("div", "mana-off"));
+        document
+            .querySelector("#o_mana")
+            .appendChild(utils.create_element_class("div", "mana-off"));
+    }
 }
 
 function show_card() {
@@ -70,26 +79,23 @@ function displayTimer(data) {
     }
 }
 
-function display_mana(data, player) {
-    let target = document.querySelector("#p_mana");
-    let mp = data["mp"];
-    if (!player) {
-        target = document.querySelector("#o_mana");
-        mp = data["opponent"]["mp"];
-    }
-
+function display_mana(mp, e) {
+    let target = document.querySelector("#"+e);
     let childrens = target.children;
     let tableChild = [];
     for (let i = 0; i < childrens.length; i++) {
         tableChild.push(childrens[i]);
     }
-    tableChild.forEach((element) => {
-        element.remove();
-    });
 
-    for (let i = 0; i < mp; i++) {
-        target.appendChild(utils.create_element_class("div", "mana-on"));
-    }
+    tableChild.forEach((element) => {
+        if (mp > 0) {
+            element.setAttribute("class", "mana-on");
+            mp--;
+        }
+        else {
+            element.setAttribute("class", "mana-off");
+        }
+    });
 }
 
 function display_hero(data) {
@@ -120,7 +126,9 @@ function gameHandler(data) {
     document.querySelector("#p_hp").innerHTML = data["hp"];
     document.querySelector("#o_hp").innerHTML = data["opponent"]["hp"];
     displayTimer(data);
-    display_mana(data);
+    display_mana(data["mp"], "p_mana");
+    display_mana(data["opponent"]["mp"], "o_mana");
+    displayEndTurn(data["yourTurn"]);
 
     if (data["yourTurn"]) {
         displayBoardPlayer(data);
@@ -128,6 +136,13 @@ function gameHandler(data) {
     } else {
         displayHandOpponent(data);
         displayBoardOpponent(data);
+    }
+}
+function displayEndTurn(turn) {
+    if (turn) {
+        document.querySelector("#turn").setAttribute("class", "turn");
+    } else {
+        document.querySelector("#turn").setAttribute("class", "turn_disable");
     }
 }
 
@@ -241,12 +256,12 @@ function add_card_to_hand(player, card_data) {
 function create_player_card(card_data) {
     let node = utils.create_element_class("div", "card_in_hand");
     node.style.backgroundImage = 'url("img/cards/' + card_data["id"] + '.jpg")';
+    // node.style.backgroundImage = 'url("img/cards/front.png")';
     node.addEventListener("click", (event) => {
         play_card();
     });
     node.addEventListener("contextmenu", () => {
-        show_card();
-    });
+     });
 
     node.innerHTML = card_data["uid"];
     return node;
@@ -284,7 +299,7 @@ function CheckGameState() {
         });
 }
 
-function APICall(name, value, param1=null) {
+function APICall(name, value, param1 = null) {
     let formData = new FormData();
     formData.append(name, value);
 
