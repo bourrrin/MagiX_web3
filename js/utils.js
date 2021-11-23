@@ -1,10 +1,12 @@
 class Utils{
     constructor(){}
 
-    create_element_class(type, class_name=null){
+    create_element_class(type, class_name=null, innerHTML=null){
         let node = document.createElement(type);
         if(class_name != null)
-            node.setAttribute("class",class_name);
+            node.setAttribute("class", class_name);
+        if (innerHTML != null)
+            node.innerHTML = innerHTML;
         return node;
     }
 
