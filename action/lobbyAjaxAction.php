@@ -9,15 +9,19 @@
 
         protected function executeAction() {
             $result = false;
-            if($_POST["action"] == "quitter"){
-                $data = [
-                    "key" => $_SESSION["player_data"]->key
-                ];
-                $result = parent::callAPI("signout",$data)
+            $data = [];
+            $data["key"] = $_SESSION["player_data"]->key;
 
-                if( $rep == "SIGNED_OUT"){
-                    $result=true;
-                }
+            if($_POST["action"] == "quitter"){
+                $rep = parent::callAPI("signout",$data);
+            }
+            else if($_POST["action"] == "jouer"){
+                $data["type"] = "PVP";
+                $result = parent::callAPI("games/auto-match",$data);
+            }
+            else if($_POST["action"] == "pratique"){
+                $data["type"] = "TRAINING";
+                $result = parent::callAPI("games/auto-match",$data);
             }
             return compact("result");
         }

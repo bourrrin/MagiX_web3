@@ -12,14 +12,14 @@
         <div class="battlefield_wrapper">
             <div class="p_interface">
                 <div id="p_hero"></div>
-                <!-- <div id="p_hp">40</div> -->
+                <div id="p_hp">...</div>
                 <div id="p_power">POWER</div>
                 <div id="p_mana"></div>
             </div>
             <div class="p_hp_bar"></div>
             <div class="o_interface">
                 <div id="o_hero"></div>
-                <!-- <div id="o_hp">40</div> -->
+                <div id="o_hp">...</div>
                 <!-- <div id="o_power">POWER</div> -->
                 <div id="o_mana"></div>
             </div>

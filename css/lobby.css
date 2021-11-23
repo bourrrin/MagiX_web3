@@ -106,11 +106,11 @@ body{
     height: 100%;
     width: 100%;
     animation: flicker-on-2 0.5s linear 2.5s both;
-    transition: transform 0.5s;
+    transition: transform 0.4s;
 }
 
 .lobby-btn:hover{
-    transform: scale(1.2,1.2);
+    transform: scale(1.3);
     color:white;
 }
 

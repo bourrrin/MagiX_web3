@@ -43,6 +43,9 @@
                 <iframe
                 src="https://magix.apps-de-cours.com/server/#/chat/<?=  $_SESSION["player_data"]->key?>?v=1" onload="applyStyles(this)" >
                 </iframe>
+                <!-- <iframe
+                src="https://magix.apps-de-cours.com/server/#/deck/<?=  $_SESSION["player_data"]->key?>">
+                </iframe> -->
             </div>
         </div>
     </div>
