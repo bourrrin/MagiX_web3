@@ -1,7 +1,7 @@
 <?php
     require_once("action/CommonAction.php");
 
-    class LobbyAjaxAction extends CommonAction {
+    class BattlefieldAjaxAction extends CommonAction {
 
         public function __construct() {
             parent::__construct(CommonAction::$VISIBILITY_PUBLIC);
@@ -24,6 +24,10 @@
                 }else if($_POST["action"] == "PLAY"){
                     $data["type"] = "PLAY";
                     $data["uid"] = $_POST["uid"];
+                    $result = parent::callAPI("games/action",$data);
+
+                }else if($_POST["action"] == "SURRENDER"){
+                    $data["type"] = "SURRENDER";
                     $result = parent::callAPI("games/action",$data);
 
                 }else if($_POST["action"] == "ATTACK"){

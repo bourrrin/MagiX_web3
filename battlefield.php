@@ -14,12 +14,14 @@
                 <div id="p_hero"></div>
                 <div id="p_hp">...</div>
                 <div id="p_power">POWER</div>
+                <div id="p_deck">50</div>
                 <div id="p_mana"></div>
             </div>
             <div class="p_hp_bar"></div>
             <div class="o_interface">
                 <div id="o_hero"></div>
                 <div id="o_hp">...</div>
+                <div id="o_deck">50</div>
                 <!-- <div id="o_power">POWER</div> -->
                 <div id="o_mana"></div>
             </div>
@@ -29,8 +31,13 @@
             <div class="p_board"></div>
             <div class="p_hand"></div>
             <div class="o_hand"></div>
-            <div class="turn" id="turn"> END TURN</div>
-            <div class="timer"> 50s</div>
+            <div class="menu_btn">
+                <div class="timer"> 50s</div>
+                <div class="sub_container">
+                    <div class="turn" id="turn"> END TURN</div>
+                    <div class="surrender"> SURRENDER</div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="show_card"></div>

@@ -1,16 +1,19 @@
 let mana = 1;
 let utils = new Utils();
 let yourTurn = null;
+let heroPowerAlreadyUsed = false;
 
 window.addEventListener("load", () => {
     //   window.addEventListener("contextmenu", (e) => e.preventDefault());
     document.querySelector(".show_card").addEventListener("click", hide_card);
+    document.querySelector("#p_power").addEventListener("click", use_hero_power);
     document.querySelector(".turn").addEventListener("click", turn);
+    document.querySelector(".surrender").addEventListener("click", surrender);
+
+
     start_animation_ouverture();
     test();
-    let gamestat = setInterval(() => {
-        CheckGameState();
-    }, 1000);
+    CheckGameState();
 });
 
 function test() {
@@ -40,6 +43,7 @@ function start_animation_ouverture() {
 function display_UI() {
     document.querySelector(".turn").style.transform = "translateX(0)";
     document.querySelector(".timer").style.transform = "translateX(0)";
+    document.querySelector(".surrender").style.transform = "translateX(0)";
 
     document.querySelector(".p_interface").style.opacity = "1";
     document.querySelector(".o_interface").style.opacity = "1";
@@ -69,6 +73,197 @@ function hide_card() {
 //#endregion
 
 //#region GAME LOGIC
+
+function surrender() {
+    APICall("action", "SURRENDER");
+}
+
+function play_card() {
+    if (can_play_card()) {
+        document.querySelector(".p_hand").removeChild(event.currentTarget);
+        APICall("action", "PLAY", event.currentTarget.innerHTML);
+    }
+}
+
+function can_play_card(cost) {
+    if (
+        document.querySelector(".p_board").childElementCount >= 7 ||
+        yourTurn == false
+    ) {
+        return false;
+    }
+    return true;
+}
+
+function use_hero_power() {
+    if(!heroPowerAlreadyUsed)
+    {
+        document.querySelector("#p_power").style.backgroundColor = "rgba(0, 0, 255, 0.3)";
+        setTimeout(() => {
+            document.querySelector("#p_power").style.backgroundColor = "rgba(151, 151, 151, 0.3)";
+        }, 1500);
+        APICall("action", "HERO_POWER");
+    }
+}
+
+function gameHandler(data) {
+    if (yourTurn == null) {
+        display_UI();
+        display_hero(data);
+
+        displayHandOpponent(data);
+        data["hand"].forEach((element) => {
+            add_card_to_hand(true, element);
+        });
+    }
+    yourTurn = data["yourTurn"];
+    heroPowerAlreadyUsed = data["heroPowerAlreadyUsed"];
+
+    document.querySelector("#p_hp").innerHTML = data["hp"];
+    document.querySelector("#o_hp").innerHTML = data["opponent"]["hp"];
+    displayTimer(data);
+    display_mana(data["mp"], "p_mana");
+    display_mana(data["opponent"]["mp"], "o_mana");
+    displayEndTurn(data["yourTurn"]);
+    displayDeck(data["remainingCardsCount"],"p")
+    displayDeck(data["opponent"]["remainingCardsCount"],"o")
+
+    if (data["yourTurn"]) {
+        displayBoardPlayer(data);
+        displayHandPlayer(data);
+    } else {
+        displayHandOpponent(data);
+        displayBoardOpponent(data);
+    }
+}
+//#endregion
+
+//#region DISPLAY FUNCTION
+
+function displayEndTurn(turn) {
+    if (turn) {
+        document.querySelector("#turn").setAttribute("class", "turn");
+    } else {
+        document.querySelector("#turn").setAttribute("class", "turn_disable");
+    }
+}
+
+function displayBoardPlayer(data) {
+    let board = data["board"];
+    let element = document.querySelector(".p_board");
+
+    if (board.length > element.childElementCount) {
+        for (let i = element.childElementCount; i < board.length; i++) {
+            display_played_card(board[i]);
+        }
+    } else if (board.length < element.childElementCount) {
+        let childsUID = []; boardUID = [];
+        let childs = document.querySelector(".p_board");
+        childs.childNodes.forEach((e) => {
+            childsUID.push(e.innerHTML);
+        });
+        board.forEach((c) => {
+            boardUID.push(c["uid"]);
+        });
+
+        let deadCards = childsUID.filter(x => !boardUID.includes(x));
+
+        for (let i = 0; i < childs.childElementCount; i++){
+            if (deadCards.includes(childs.childNodes[i].innerHTML)) {
+                childs.removeChild(childs.childNodes[i]);
+            }
+        }
+    }
+}
+
+function displayHandPlayer(data) {
+    let hand = data["hand"];
+    let element = document.querySelector(".p_hand").childElementCount;
+
+    let childsUID = []; boardUID = [];
+    let childs = document.querySelector(".p_hand");
+    childs.childNodes.forEach((e) => {
+        childsUID.push(+e.innerHTML);
+    });
+    hand.forEach((c) => {
+        boardUID.push(c["uid"]);
+    });
+
+    let newCards = boardUID.filter(x => !childsUID.includes(x));
+
+    for (let i = 0; i < newCards.length; i++){
+        hand.forEach((e) => {
+            if (e["uid"] === newCards[i]) {
+                add_card_to_hand(true, e);
+            }
+        });
+    }
+
+    if (hand < element) {
+        console.log("alert - too many card in hand");
+    }
+}
+
+function displayBoardOpponent(data) {
+    let board = data["opponent"]["board"];
+    let element = document.querySelector(".o_board");
+
+    if (board.length > element.childElementCount) {
+        for (let i = element.childElementCount; i < board.length; i++) {
+            display_opponent_played_card(board[i]);
+        }
+    } else if (board.length < element.childElementCount) {
+        let childsUID = []; boardUID = [];
+        let childs = document.querySelector(".o_board");
+        childs.childNodes.forEach((e) => {
+            childsUID.push(e.innerHTML);
+        });
+        board.forEach((c) => {
+            boardUID.push(c["uid"]);
+        });
+
+        let deadCards = childsUID.filter(x => !boardUID.includes(x));
+
+        for (let i = 0; i < childs.childElementCount; i++){
+            if (deadCards.includes(childs.childNodes[i].innerHTML)) {
+                childs.removeChild(childs.childNodes[i]);
+            }
+        }
+    }
+}
+
+function displayHandOpponent(data) {
+    let hand = data["opponent"]["handSize"];
+    let element = document.querySelector(".o_hand");
+
+    if (hand > element.childElementCount) {
+        for (let i = element.childElementCount; i < hand; i++) {
+            add_card_to_hand(false);
+        }
+    } else if (hand < element.childElementCount) {
+        console.log("play");
+        element.removeChild(element.lastChild);
+    }
+}
+
+function display_opponent_played_card(card) {
+    let node = utils.create_element_class("div", "card");
+    node.style.backgroundImage = 'url("img/cards/' + card["id"] + '.jpg")';
+    node.addEventListener("contextmenu", () => {
+        show_card(event.currentTarget.style.backgroundImage);
+    });
+    document.querySelector(".o_board").appendChild(node);
+}
+
+function display_played_card(card) {
+    let node = utils.create_element_class("div", "card");
+    node.style.backgroundImage = 'url("img/cards/' + card["id"] + '.jpg")';
+    node.innerHTML = card["uid"];
+    node.addEventListener("contextmenu", () => {
+        show_card(event.currentTarget.style.backgroundImage);
+    });
+    document.querySelector(".p_board").appendChild(node);
+}
 
 function displayTimer(data) {
     let timer = document.querySelector(".timer");
@@ -111,135 +306,11 @@ function turn() {
     }
 }
 
-function gameHandler(data) {
-    if (yourTurn == null) {
-        display_UI();
-        display_hero(data);
-
-        displayHandOpponent(data);
-        data["hand"].forEach((element) => {
-            add_card_to_hand(true, element);
-        });
-    }
-    yourTurn = data["yourTurn"];
-
-    document.querySelector("#p_hp").innerHTML = data["hp"];
-    document.querySelector("#o_hp").innerHTML = data["opponent"]["hp"];
-    displayTimer(data);
-    display_mana(data["mp"], "p_mana");
-    display_mana(data["opponent"]["mp"], "o_mana");
-    displayEndTurn(data["yourTurn"]);
-
-    if (data["yourTurn"]) {
-        displayBoardPlayer(data);
-        displayHandPlayer(data);
-    } else {
-        displayHandOpponent(data);
-        displayBoardOpponent(data);
-    }
+function displayDeck(data,target) {
+    document.querySelector("#" + target + "_deck").innerHTML = data;
 }
-function displayEndTurn(turn) {
-    if (turn) {
-        document.querySelector("#turn").setAttribute("class", "turn");
-    } else {
-        document.querySelector("#turn").setAttribute("class", "turn_disable");
-    }
-}
+//#endregion
 
-function displayBoardPlayer(data) {
-    let board = data["board"];
-    let element = document.querySelector(".p_board");
-
-    if (board.length > element.childElementCount) {
-        for (let i = element.childElementCount; i < board.length; i++) {
-            diplay_played_card(board[i]);
-        }
-    } else if (board.length < element.childElementCount) {
-        console.log("alert - too many card on board");
-    }
-}
-
-function displayHandPlayer(data) {
-    let hand = data["hand"];
-    let element = document.querySelector(".p_hand").childElementCount;
-
-    if (hand.length > element) {
-        for (let i = element; i < hand.length; i++) {
-            add_card_to_hand(true, hand[i]);
-        }
-    } else if (hand < element) {
-        console.log("alert - too many card in hand");
-    }
-}
-
-function displayBoardOpponent(data) {
-    let board = data["opponent"]["board"];
-    let element = document.querySelector(".o_board");
-
-    if (board.length > element.childElementCount) {
-        for (let i = element.childElementCount; i < board.length; i++) {
-            display_opponent_played_card(board[i]);
-        }
-    } else if (board.length < element.childElementCount) {
-        console.log("alert - too many card on board");
-    }
-}
-
-function displayHandOpponent(data) {
-    let hand = data["opponent"]["handSize"];
-    let element = document.querySelector(".o_hand");
-
-    if (hand > element.childElementCount) {
-        for (let i = element.childElementCount; i < hand; i++) {
-            add_card_to_hand(false);
-        }
-    } else if (hand < element.childElementCount) {
-        console.log("play");
-        element.removeChild(element.lastChild);
-    }
-}
-
-function play_card() {
-    if (can_play_card()) {
-        console.log(event.currentTarget.innerHTML);
-        APICall("action", "PLAY", event.currentTarget.innerHTML);
-    } else {
-        console.log("not-played");
-    }
-}
-
-function can_play_card(cost) {
-    if (
-        document.querySelector(".p_board").childElementCount >= 7 ||
-        yourTurn == false
-    ) {
-        return false;
-    }
-    return true;
-}
-
-function reduit_mana(cost) {
-    let div = document.querySelector("#p_mana");
-    div.removeChild(div.lastChild);
-}
-
-function display_opponent_played_card(card) {
-    let node = utils.create_element_class("div", "card");
-    node.style.backgroundImage = 'url("img/cards/' + card["id"] + '.jpg")';
-    node.addEventListener("contextmenu", () => {
-        show_card(event.currentTarget.style.backgroundImage);
-    });
-    document.querySelector(".o_board").appendChild(node);
-}
-
-function diplay_played_card(card) {
-    let node = utils.create_element_class("div", "card");
-    node.style.backgroundImage = event.currentTarget.style.backgroundImage;
-    node.addEventListener("contextmenu", () => {
-        show_card(event.currentTarget.style.backgroundImage);
-    });
-    document.querySelector(".p_board").appendChild(node);
-}
 
 function add_card_to_hand(player, card_data) {
     if (player) {
@@ -267,7 +338,7 @@ function create_player_card(card_data) {
     return node;
 }
 
-//#endregion
+
 
 //#region AJAX ACTION
 
@@ -280,6 +351,9 @@ function CheckGameState() {
         .then((response) => response.json())
         .then((response) => {
             console.log(response);
+            setTimeout(() => {
+                CheckGameState();
+            }, 1000);
             if (typeof response !== "object") {
                 if (response == "LAST_GAME_LOST") {
                     document.querySelector("#p_hp").innerHTML = 0;
@@ -291,6 +365,7 @@ function CheckGameState() {
                     response == "TOO_MANY_CALL_BAN" ||
                     response == "INVALID_KEY"
                 ) {
+                    console.log(response);
                     window.location.replace("index.php");
                 }
             } else {

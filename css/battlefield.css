@@ -93,9 +93,9 @@
     grid-template-areas:
     "o_interface o_hp_bar o_hand o_hand o_hand o_hand ."
     "o_interface o_hp_bar o_board o_board o_board o_board ."
-    "o_interface o_hp_bar o_board o_board o_board o_board timer"
+    "o_interface o_hp_bar o_board o_board o_board o_board turn"
     ". . . . . . turn"
-    "p_interface p_hp_bar p_board p_board p_board p_board ."
+    "p_interface p_hp_bar p_board p_board p_board p_board turn"
     "p_interface p_hp_bar p_board p_board p_board p_board ."
     "p_interface p_hp_bar p_hand p_hand p_hand p_hand p_hand"
 }
@@ -145,10 +145,10 @@
     0 0 10px rgb(255, 255, 255);
 }
 
-#p_power, #o_power{
+#p_power, #o_power,#o_deck, #p_deck, #p_hp,#o_hp{
     height: 10%;
     width: 60%;
-    background: rgba(151, 151, 151, 0.247);
+    background: rgba(151, 151, 151, 0.3);
     border-radius: 20%;
     color: black;
     text-align: center;
@@ -179,8 +179,8 @@
 }
 
 .mana-on, .mana-off {
-    height:30px;
-    width: 30px;
+    height:25px;
+    width: 25px;
     margin: 0px 3%;
     border-radius: 50%;
     border:rgb(61, 0, 131) solid 2px;
@@ -214,7 +214,7 @@
 }
 
 #p_hp,#o_hp{
-    color: black;
+    /* color: black;
     font-weight: bolder;
     text-align:center ;
     font-size: 2rem;
@@ -222,7 +222,7 @@
     -1px -1px 0 rgb(255, 255, 255),
     1px -1px 0 rgb(255, 255, 255),
     -1px 1px 0 rgb(255, 255, 255),
-    1px 1px 0 rgb(255, 255, 255);
+    1px 1px 0 rgb(255, 255, 255); */
 }
 
 .p_hp_bar{
@@ -233,9 +233,26 @@
     grid-area: o_hp_bar;
 }
 
-.turn,.turn_disable, .timer{
+.menu_btn{
     grid-area: turn;
-    width:60%;
+    max-width:70%;
+    padding: 60% 0px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+.menu_btn > .sub_container{
+    height: 50%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+}
+
+.turn,.turn_disable,.surrender,.timer{
+    width:100%;
     border-radius: 20%;
     background:rgba(128, 127, 127, 0.5);
     border: rgb(255, 255, 255) 2px solid;
@@ -254,6 +271,17 @@
     transition: 0.5s, 3s transform;
 }
 
+.surrender{
+    font-size: 0.5rem;
+    width: 80%;
+    min-height: 10%;
+
+}
+
+.turn{
+    min-height: 30%;
+}
+
 .turn_disable{
     opacity: 0.8;
     border: rgb(0, 0, 0) 2px solid;
@@ -261,7 +289,7 @@
     box-shadow:none;
 }
 
-.turn:hover{
+.turn:hover,.surrender:hover{
     background:rgba(0, 0, 0, 0.8);
     box-shadow:
     0 0 5px rgb(255, 255, 255),
@@ -270,9 +298,8 @@
 }
 
 .timer{
-    grid-area: timer;
-    height: 30%;
-    margin: auto 0px;
+    /* grid-area: timer; */
+    height: 25%;
     font-size: 2rem;
     transition: 0.5s, 2s transform;
 
