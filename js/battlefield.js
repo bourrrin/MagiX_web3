@@ -8,7 +8,7 @@ let attaquant = null;
 window.addEventListener("load", () => {
     //   window.addEventListener("contextmenu", (e) => e.preventDefault());
     document.querySelector(".show_card").addEventListener("click", hide_card);
-    document.querySelector("#p_power").addEventListener("click", use_hero_power);
+    document.querySelector("#p_power").addEventListener("click", useHeroPower);
     document.querySelector(".turn").addEventListener("click", turn);
     document.querySelector(".surrender").addEventListener("click", surrender);
     document.querySelector(".o_interface").addEventListener("click", attackHero);
@@ -73,10 +73,16 @@ function hide_card() {
 
 //#endregion
 
-//#region GAME LOGIC
+//#region GAME BASE LOGIC
 
 function surrender() {
     APICall("action", "SURRENDER");
+}
+
+function turn() {
+    if (yourTurn) {
+        APICall("action", "END_TURN");
+    }
 }
 
 function playCard() {
@@ -87,11 +93,11 @@ function playCard() {
     }
 }
 
-function declare_attanquant() {
+function setAttacker() {
     attaquant = event.currentTarget.querySelector(".uid").innerHTML;
 }
 
-function declare_defenseur() {
+function setDefender() {
     let defenseur = event.currentTarget.querySelector(".uid").innerHTML;
     event.currentTarget.querySelector(".uid").style.border = "solid red 2px";
     if (attaquant != null) {
@@ -106,7 +112,7 @@ function attackHero() {
     }
 }
 
-function use_hero_power() {
+function useHeroPower() {
     if (!heroPowerAlreadyUsed) {
         document.querySelector("#p_power").style.backgroundColor = "rgba(0, 0, 255, 0.3)";
         setTimeout(() => {
@@ -119,13 +125,9 @@ function use_hero_power() {
 function gameHandler(data) {
     if (yourTurn == null) {
         display_UI();
-        display_hero(data);
-
-        displayHandOpponent(data);
-        data["hand"].forEach((element) => {
-            createCardsInHand(true, element);
-        });
+        displayHeros(data);
     }
+
     yourTurn = data["yourTurn"];
     heroPowerAlreadyUsed = data["heroPowerAlreadyUsed"];
     mp = data["mp"];
@@ -134,44 +136,46 @@ function gameHandler(data) {
     document.querySelector("#o_hp").innerHTML = data["opponent"]["hp"];
     displayTimer(data);
     displayEndTurn(data["yourTurn"]);
-    display_mana(data["mp"], "p");
-    display_mana(data["opponent"]["mp"], "o");
-    displayDeck(data["remainingCardsCount"], "p");
-    displayDeck(data["opponent"]["remainingCardsCount"], "o");
-    updateCardsHp(data["board"], "p");
-    updateCardsHp(data["opponent"]["board"], "o");
 
-    displaySelectedCard();
-    displayHandPlayer(data);
-    displayHandOpponent(data);
+    displayMana(data["mp"], "p");
+    displayMana(data["opponent"]["mp"], "o");
+    displayRemainingCardsCount(data["remainingCardsCount"], "p");
+    displayRemainingCardsCount(data["opponent"]["remainingCardsCount"], "o");
+    updateCardsAttribute(data["board"], "p");
+    updateCardsAttribute(data["opponent"]["board"], "o");
 
+    displayPlayerHand(data);
+    displayOpponentHand(data);
     displayCardsOnBoard(data["board"], "p");
     displayCardsOnBoard(data["opponent"]["board"], "o");
+
+    displaySelectedCard();
 }
 //#endregion
 
 //#region DISPLAY FUNCTION
 
+//#region CARD RELATED
+
 function displaySelectedCard() {
     let element = document.querySelector(".p_board");
 
-    element.childNodes.forEach((e) => {
-        if (e.querySelector(".uid").innerHTML == attaquant) {
-            e.style.border = "solid 2px red";
+    element.childNodes.forEach((child) => {
+        if (child.querySelector(".uid").innerHTML == attaquant) {
+            child.style.border = "solid 2px red";
         } else {
-            e.style.border = "none";
+            child.style.border = "none";
         }
     });
 }
 
-function updateCardsHp(data, target) {
-    let element = document.querySelector("." + target + "_board");
-
-    element.childNodes.forEach((e) => {
-        let uid = e.querySelector(".uid").innerHTML;
+function updateCardsAttribute(data, target) {
+    document.querySelector("." + target + "_board").childNodes.forEach((child) => {
         data.forEach((d) => {
-            if (d["uid"] == uid) {
-                e.querySelector(".hp").innerHTML = d["hp"];
+            if (d["uid"] == child.querySelector(".uid").innerHTML) {
+                child.querySelector(".hp").innerHTML = d["hp"];
+                child.querySelector(".atk").innerHTML = d["atk"];
+                child.querySelector(".mechanics").innerHTML = d["mechanics"];
             }
         });
     });
@@ -213,11 +217,10 @@ function displayCardsOnBoard(board, target) {
     });
 }
 
-function displayHandPlayer(data) {
+function displayPlayerHand(data) {
     let hand = data["hand"];
     let element = document.querySelector(".p_hand");
 
-    console.log("----------");
     // GET CARTES AFFICHER ET CARTES REELEMENT POSSEDER
     let displayedCards = [];
     let possessedCards = [];
@@ -229,15 +232,9 @@ function displayHandPlayer(data) {
         possessedCards.push(c["uid"]);
     });
 
-    console.log(displayedCards);
-    console.log(possessedCards);
-
     //IDENTIFIE CARTES EN TROP OU MANQUANTE
     let playedCards = displayedCards.filter((x) => !possessedCards.includes(x));
     let missingCards = possessedCards.filter((x) => !displayedCards.includes(x));
-
-    console.log(playedCards);
-    console.log(missingCards);
 
     //AFFICHE CARTES EN TROP
     playedCards.forEach((playedCard_uid) => {
@@ -252,20 +249,19 @@ function displayHandPlayer(data) {
     missingCards.forEach((missingCard_uid) => {
         hand.forEach((possessedCard) => {
             if (possessedCard["uid"] == missingCard_uid) {
-                createCardsInHand(true, possessedCard);
+                createCardsInHand(possessedCard, "p");
             }
         });
     });
-
 }
 
-function displayHandOpponent(data) {
+function displayOpponentHand(data) {
     let hand = data["opponent"]["handSize"];
     let element = document.querySelector(".o_hand");
 
     if (hand > element.childElementCount) {
         for (let i = element.childElementCount; i < hand; i++) {
-            createCardsInHand(false, data[i]);
+            createCardsInHand(data[i], "o");
         }
     } else if (hand < element.childElementCount) {
         console.log("play");
@@ -285,22 +281,21 @@ function createCardOnBoard(card_data, target) {
 
     if (target == "o") {
         node.addEventListener("click", (event) => {
-            declare_defenseur();
+            setDefender();
         });
     } else {
         node.addEventListener("click", (event) => {
-            declare_attanquant();
+            setAttacker();
         });
     }
 
     document.querySelector("." + target + "_board").appendChild(node);
 }
 
-function createCardsInHand(player, card_data) {
-    if (player) {
-        let node = utils.create_element_class("div", "card_in_hand");
+function createCardsInHand(card_data, target) {
+    let node = utils.create_element_class("div", target + "_card_in_hand");
+    if (target == "p") {
         node.style.backgroundImage = 'url("img/cards/' + card_data["id"] + '.jpg")';
-
         setCardAttribute(card_data, node);
 
         node.addEventListener("click", (event) => {
@@ -309,12 +304,10 @@ function createCardsInHand(player, card_data) {
         node.addEventListener("contextmenu", () => {
             show_card();
         });
-        document.querySelector(".p_hand").appendChild(node);
     } else {
-        let node1 = utils.create_element_class("div", "o_card_in_hand");
-        node1.style.backgroundImage = 'url("img/cards/back.jpg")';
-        document.querySelector(".o_hand").appendChild(node1);
+        node.style.backgroundImage = 'url("img/cards/back.jpg")';
     }
+    document.querySelector("." + target + "_hand").appendChild(node);
 }
 
 function setCardAttribute(card_data, node) {
@@ -326,6 +319,8 @@ function setCardAttribute(card_data, node) {
     node.appendChild(utils.create_element_class("div", "uid", card_data["uid"]));
 }
 
+//#endregion
+
 //#region UI
 function displayTimer(data) {
     let timer = document.querySelector(".timer");
@@ -336,38 +331,31 @@ function displayTimer(data) {
     }
 }
 
-function display_mana(mp, e) {
-    let target = document.querySelector("#" + e + "_mana");
-    let childrens = target.children;
+function displayMana(mp, target) {
+    let element = document.querySelector("#" + target + "_mana").children;
     let tableChild = [];
-    for (let i = 0; i < childrens.length; i++) {
-        tableChild.push(childrens[i]);
+    for (let i = 0; i < element.length; i++) {
+        tableChild.push(element[i]);
     }
 
-    tableChild.forEach((element) => {
+    tableChild.forEach((child) => {
         if (mp > 0) {
-            element.setAttribute("class", "mana-on");
+            child.setAttribute("class", "mana-on");
             mp--;
         } else {
-            element.setAttribute("class", "mana-off");
+            child.setAttribute("class", "mana-off");
         }
     });
 }
 
-function display_hero(data) {
+function displayHeros(data) {
     document.querySelector("#p_hero").style.background =
         "url(img/hero/" + data["heroClass"] + ".jfif)";
     document.querySelector("#o_hero").style.background =
         "url(img/hero/" + data["opponent"]["heroClass"] + ".jfif)";
 }
 
-function turn() {
-    if (yourTurn) {
-        APICall("action", "END_TURN");
-    }
-}
-
-function displayDeck(data, target) {
+function displayRemainingCardsCount(data, target) {
     document.querySelector("#" + target + "_deck").innerHTML = data;
 }
 

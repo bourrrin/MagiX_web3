@@ -322,7 +322,7 @@
     background-repeat: no-repeat;
     background-size: contain;
 }
-.card > div ,.card_in_hand >div {
+.card > div ,.p_card_in_hand >div {
     color: black;
     font-weight: bolder;
     text-shadow: -1px -1px 0 rgb(255, 255, 255), 1px -1px 0 rgb(255, 255, 255),
@@ -362,7 +362,7 @@
     transform: translateY(50%);
 }
 
-.card_in_hand,
+.p_card_in_hand,
 .o_card_in_hand {
     /* background-image: url(../img/cards/1.jpg); */
     background-size: contain;
@@ -376,7 +376,7 @@
 }
 
 
-.card_in_hand:hover {
+.p_card_in_hand:hover {
     transform: translateY(-15%);
     width: 18vw;
     height: 63vh;
