@@ -271,8 +271,6 @@ function displayOpponentHand(data) {
 
 function createCardOnBoard(card_data, target) {
     let node = utils.create_element_class("div", "card");
-    node.style.backgroundImage = 'url("img/cards/' + card_data["id"] + '.jpg")';
-
     setCardAttribute(card_data, node);
 
     node.addEventListener("contextmenu", () => {
@@ -317,6 +315,9 @@ function setCardAttribute(card_data, node) {
     node.appendChild(utils.create_element_class("div", "baseHP", card_data["baseHP"]));
     node.appendChild(utils.create_element_class("div", "mechanics", card_data["mechanics"]));
     node.appendChild(utils.create_element_class("div", "uid", card_data["uid"]));
+    let node1 = utils.create_element_class("div", "img");
+    node1.style.background = "url(../img/cards/" + card_data["id"] + ".jpg) !important";
+    node.appendChild(node1);
 }
 
 //#endregion

@@ -314,20 +314,124 @@
         opacity: 1;
     }
 }
+:root {
+    /* 11/7 */
+    --card-width: 10vw;
+    --card-height: calc(var(--card-width) * calc(11 / 7));
+    --card-border: calc(var(--card-width) * 0.03);
+    --card-ui-font: calc(var(--card-width) * 0.15);
+    --card-txt-font: calc(var(--card-width) * 0.07);
+
+    --card-cost-width: calc(var(--card-width) * 0.2);
+    --card-cost-translateY: var(--card-border);
+    --card-cost-translateX: calc(var(--card-width) - var(--card-cost-width) - var(--card-border));
+
+    --card-atk-width: calc(var(--card-width) * 0.2);
+    --card-atk-translateY: calc(var(--card-height) - var(--card-atk-width));
+    --card-atk-translateX: var(--card-border);
+
+    --card-hp-width: calc(var(--card-width) * 0.2);
+    --card-hp-translateY: calc(var(--card-height) - var(--card-hp-width));
+    --card-hp-translateX: calc(var(--card-width) - var(--card-hp-width) - var(--card-border));
+
+    --card-mech-width: calc(var(--card-width) * 0.85);
+    --card-mech-translateY: calc(var(--card-height) * 0.645);
+    --card-mech-translateX: calc(
+        calc(var(--card-width) - var(--card-mech-width)) -
+            calc(calc(var(--card-width) - var(--card-mech-width)) * 0.5)
+    );
+
+    --card-img-width: calc(var(--card-width) * 0.82);
+    --card-img-translateY: calc(var(--card-height) * 0.09);
+    --card-img-translateX: calc(
+        calc(var(--card-width) - var(--card-img-width)) -
+            calc(calc(var(--card-width) - var(--card-img-width)) * 0.5)
+    );
+}
 
 .card {
-    width: 10vw;
-    height: 30vh;
+    width: var(--card-width);
+    height: var(--card-height);
     margin: 0px 0.5%;
     background-repeat: no-repeat;
     background-size: contain;
+    background-image: url(../img/cards/front2.png);
 }
-.card > div ,.p_card_in_hand >div {
+
+.card > div {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(247, 254, 255, 0.6);
+    box-shadow: 0 0 4px rgb(0, 229, 255), 0 0 10px #fff, 0 0 20px #fff;
+}
+
+.card > .cost{display: none !important;}
+
+.cost {
+    width: var(--card-cost-width);
+    aspect-ratio: 1/1;
+    transform: translate(var(--card-cost-translateX), var(--card-cost-translateY));
+
+    font-size: var(--card-ui-font);
+    border-radius: 50%;
+}
+
+.atk {
+    width: var(--card-atk-width);
+    aspect-ratio: 1.4/1;
+    transform: translate(var(--card-atk-translateX), var(--card-atk-translateY));
+
+    font-size: var(--card-ui-font);
+    border-radius: 15%;
+}
+
+.hp {
+    width: var(--card-hp-width);
+    aspect-ratio: 1.4/1;
+    transform: translate(var(--card-hp-translateX), var(--card-hp-translateY));
+
+    font-size: var(--card-ui-font);
+    border-radius: 15%;
+}
+
+.img {
+    width: var(--card-img-width);
+    aspect-ratio: 1/1;
+    transform: translate(var(--card-img-translateX), var(--card-img-translateY));
+
+    border-radius: 50%;
+    background-size: cover;
+}
+
+.mechanics {
+    background: rgba(0, 208, 255, 0.1) !important;
+    border: none !important;
+
+    border-radius: 5%;
+    aspect-ratio: 2.58/1;
+    width: var(--card-mech-width);
+    font-size: var(--card-txt-font);
+    transform: translate(var(--card-mech-translateX), var(--card-mech-translateY));
+    overflow: hidden;
+}
+
+.uid,.baseHP,.mechanics{
+    display: none !important;
+}
+
+
+
+.card > div,
+.p_card_in_hand > div {
     color: black;
     font-weight: bolder;
     text-shadow: -1px -1px 0 rgb(255, 255, 255), 1px -1px 0 rgb(255, 255, 255),
         -1px 1px 0 rgb(255, 255, 255), 1px 1px 0 rgb(255, 255, 255);
 }
+
 .p_board,
 .o_board {
     grid-area: p_board;
@@ -374,7 +478,6 @@
     transition: 0.2s transform;
     animation: flicker-on-1 0.8s both;
 }
-
 
 .p_card_in_hand:hover {
     transform: translateY(-15%);

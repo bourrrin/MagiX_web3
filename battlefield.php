@@ -22,7 +22,6 @@
                  <div id="o_hero"></div>
                 <div id="o_hp">...</div>
                 <div id="o_deck">50</div>
-                <!-- <div id="o_power">POWER</div> -->
                 <div id="o_mana"></div>
             </div>
             <div class="o_hp_bar"></div>
