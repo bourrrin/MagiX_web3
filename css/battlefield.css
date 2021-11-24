@@ -322,7 +322,7 @@
     background-repeat: no-repeat;
     background-size: contain;
 }
-.card > div {
+.card > div ,.card_in_hand >div {
     color: black;
     font-weight: bolder;
     text-shadow: -1px -1px 0 rgb(255, 255, 255), 1px -1px 0 rgb(255, 255, 255),
@@ -374,9 +374,7 @@
     transition: 0.2s transform;
     animation: flicker-on-1 0.8s both;
 }
-.card_in_hand > div {
-    display: none;
-}
+
 
 .card_in_hand:hover {
     transform: translateY(-15%);
