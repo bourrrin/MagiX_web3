@@ -321,7 +321,8 @@
 }
 
 .card > div,
-.p_card_in_hand > div {
+.p_card_in_hand > div,
+.show_card >div {
     --container-width: var(--card-width);
     --container-height: var(--card-height);
 
@@ -441,7 +442,7 @@
     border-radius: 5%;
     padding: 0px var(--card-mech-pad);
     overflow: hidden;
-    
+
 }
 
 .uid,
