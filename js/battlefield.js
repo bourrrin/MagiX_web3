@@ -97,8 +97,6 @@ function can_play_card(cost) {
     return true;
 }
 
-function attack() {}
-
 function declare_attanquant() {
     attaquant = event.currentTarget.querySelector(".uid").innerHTML;
 }
@@ -137,20 +135,21 @@ function gameHandler(data) {
 
     document.querySelector("#p_hp").innerHTML = data["hp"];
     document.querySelector("#o_hp").innerHTML = data["opponent"]["hp"];
-    displaySelectedCard();
     displayTimer(data);
-    display_mana(data["mp"], "p_mana");
-    display_mana(data["opponent"]["mp"], "o_mana");
     displayEndTurn(data["yourTurn"]);
+    display_mana(data["mp"], "p");
+    display_mana(data["opponent"]["mp"], "o");
     displayDeck(data["remainingCardsCount"], "p");
     displayDeck(data["opponent"]["remainingCardsCount"], "o");
     updateCardHp(data["board"], "p");
     updateCardHp(data["opponent"]["board"], "o");
 
-    displayBoardPlayer(data);
+    displaySelectedCard();
     displayHandPlayer(data);
     displayHandOpponent(data);
-    displayBoardOpponent(data);
+
+    displayBoard(data["board"], "p");
+    displayBoard(data["opponent"]["board"], "o");
 }
 //#endregion
 
@@ -168,41 +167,52 @@ function displaySelectedCard() {
     });
 }
 
-function displayEndTurn(turn) {
-    if (turn) {
-        document.querySelector("#turn").setAttribute("class", "turn");
-    } else {
-        document.querySelector("#turn").setAttribute("class", "turn_disable");
-    }
+function updateCardHp(data, target) {
+    let board = data;
+    let element = document.querySelector("." + target + "_board");
+
+    element.childNodes.forEach((e) => {
+        let uid = e.querySelector(".uid").innerHTML;
+        data.forEach((d) => {
+            if (e["uid"] == uid) e.querySelector(".hp").innerHTML = e[hp];
+        });
+    });
 }
 
-function displayBoardPlayer(data) {
-    let board = data["board"];
-    let element = document.querySelector(".p_board");
+function displayBoard(board, target) {
+    let element = document.querySelector("." + target + "_board");
 
-    if (board.length > element.childElementCount) {
-        for (let i = element.childElementCount; i < board.length; i++) {
-            display_played_card(board[i]);
-        }
-    } else if (board.length < element.childElementCount) {
-        let childsUID = [];
-        boardUID = [];
-        let childs = document.querySelector(".p_board");
-        childs.childNodes.forEach((e) => {
-            childsUID.push(e.querySelector(".uid").innerHTML);
-        });
-        board.forEach((c) => {
-            boardUID.push(c["uid"]);
-        });
+    // GET CARTES AFFICHER ET CARTES REELEMENT POSSEDER
+    let displayedCards = [];
+    let possessedCards = [];
+    element.childNodes.forEach((e) => {
+        displayedCards.push(+e.querySelector(".uid").innerHTML);
+    });
+    board.forEach((c) => {
+        possessedCards.push(c["uid"]);
+    });
 
-        let deadCards = childsUID.filter((x) => !boardUID.includes(x));
+    //IDENTIFIE CARTES EN TROP OU MANQUANTE
+    let deadCards = displayedCards.filter((x) => !possessedCards.includes(x));
+    let missingCards = possessedCards.filter((x) => !displayedCards.includes(x));
 
-        for (let i = 0; i < childs.childElementCount; i++) {
-            if (deadCards.includes(childs.childNodes[i].innerHTML)) {
-                childs.removeChild(childs.childNodes[i]);
+    //AFFICHE CARTES EN TROP
+    deadCards.forEach((deadCard_uid) => {
+        element.childNodes.forEach((displayedCard) => {
+            if (displayedCard.querySelector(".uid").innerHTML == deadCard_uid) {
+                element.removeChild(displayedCard);
             }
-        }
-    }
+        });
+    });
+
+    //AFFICHE CARTES MANQUANTE
+    missingCards.forEach((missingCard_uid) => {
+        board.forEach((possessedCard) => {
+            if (possessedCard["uid"] == missingCard_uid) {
+                displayPlayedCard(possessedCard, target);
+            }
+        });
+    });
 }
 
 function displayHandPlayer(data) {
@@ -222,58 +232,17 @@ function displayHandPlayer(data) {
 
     let newCards = boardUID.filter((x) => !childsUID.includes(x));
 
-    for (let i = 0; i < newCards.length; i++) {
+    newCards.forEach((c) => {
         hand.forEach((e) => {
-            if (e["uid"] === newCards[i]) {
+            if (e["uid"] == c) {
                 add_card_to_hand(true, e);
             }
         });
-    }
+    });
 
     if (hand < element) {
         console.log("alert - too many card in hand");
     }
-}
-
-function displayBoardOpponent(data) {
-    let board = data["opponent"]["board"];
-    let element = document.querySelector(".o_board");
-
-    if (board.length > element.childElementCount) {
-        for (let i = element.childElementCount; i < board.length; i++) {
-            display_opponent_played_card(board[i]);
-        }
-    } else if (board.length < element.childElementCount) {
-        let childsUID = [];
-        boardUID = [];
-        let childs = document.querySelector(".o_board");
-        childs.childNodes.forEach((e) => {
-            childsUID.push(e.querySelector(".uid").innerHTML);
-        });
-        board.forEach((c) => {
-            boardUID.push(c["uid"]);
-        });
-
-        let deadCards = childsUID.filter((x) => !boardUID.includes(x));
-
-        for (let i = 0; i < childs.childElementCount; i++) {
-            if (deadCards.includes(childs.childNodes[i].innerHTML)) {
-                childs.removeChild(childs.childNodes[i]);
-            }
-        }
-    }
-}
-
-function updateCardHp(data, target) {
-    let board = data;
-    let element = document.querySelector("." + target + "_board");
-
-    element.childNodes.forEach((e) => {
-        let uid = e.querySelector(".uid").innerHTML;
-        data.forEach((d) => {
-            if (e["uid"] == uid) e.querySelector(".hp").innerHTML = e[hp];
-        });
-    });
 }
 
 function displayHandOpponent(data) {
@@ -290,7 +259,7 @@ function displayHandOpponent(data) {
     }
 }
 
-function display_opponent_played_card(card_data) {
+function displayPlayedCard(card_data, target) {
     let node = utils.create_element_class("div", "card");
     node.style.backgroundImage = 'url("img/cards/' + card_data["id"] + '.jpg")';
 
@@ -299,71 +268,19 @@ function display_opponent_played_card(card_data) {
     node.addEventListener("contextmenu", () => {
         show_card(event.currentTarget.style.backgroundImage);
     });
-    node.addEventListener("click", (event) => {
-        declare_defenseur();
-    });
-    document.querySelector(".o_board").appendChild(node);
-}
 
-function display_played_card(card_data) {
-    let node = utils.create_element_class("div", "card");
-    node.style.backgroundImage = 'url("img/cards/' + card_data["id"] + '.jpg")';
-
-    setCardAttribute(card_data, node);
-
-    node.addEventListener("contextmenu", () => {
-        show_card(event.currentTarget.style.backgroundImage);
-    });
-    node.addEventListener("click", (event) => {
-        declare_attanquant();
-    });
-    document.querySelector(".p_board").appendChild(node);
-}
-
-function displayTimer(data) {
-    let timer = document.querySelector(".timer");
-    if (data["yourTurn"]) {
-        timer.innerHTML = data["remainingTurnTime"];
+    if (target == "o") {
+        node.addEventListener("click", (event) => {
+            declare_defenseur();
+        });
     } else {
-        timer.innerHTML = "...";
-    }
-}
-
-function display_mana(mp, e) {
-    let target = document.querySelector("#" + e);
-    let childrens = target.children;
-    let tableChild = [];
-    for (let i = 0; i < childrens.length; i++) {
-        tableChild.push(childrens[i]);
+        node.addEventListener("click", (event) => {
+            declare_attanquant();
+        });
     }
 
-    tableChild.forEach((element) => {
-        if (mp > 0) {
-            element.setAttribute("class", "mana-on");
-            mp--;
-        } else {
-            element.setAttribute("class", "mana-off");
-        }
-    });
+    document.querySelector("." + target + "_board").appendChild(node);
 }
-
-function display_hero(data) {
-    document.querySelector("#p_hero").style.background =
-        "url(img/hero/" + data["heroClass"] + ".jfif)";
-    document.querySelector("#o_hero").style.background =
-        "url(img/hero/" + data["opponent"]["heroClass"] + ".jfif)";
-}
-
-function turn() {
-    if (yourTurn) {
-        APICall("action", "END_TURN");
-    }
-}
-
-function displayDeck(data, target) {
-    document.querySelector("#" + target + "_deck").innerHTML = data;
-}
-//#endregion
 
 function add_card_to_hand(player, card_data) {
     if (player) {
@@ -400,6 +317,63 @@ function setCardAttribute(card_data, node) {
     node.appendChild(utils.create_element_class("div", "mechanics", card_data["mechanics"]));
     node.appendChild(utils.create_element_class("div", "uid", card_data["uid"]));
 }
+
+//#region UI
+function displayTimer(data) {
+    let timer = document.querySelector(".timer");
+    if (data["yourTurn"]) {
+        timer.innerHTML = data["remainingTurnTime"];
+    } else {
+        timer.innerHTML = "...";
+    }
+}
+
+function display_mana(mp, e) {
+    let target = document.querySelector("#" + e + "_mana");
+    let childrens = target.children;
+    let tableChild = [];
+    for (let i = 0; i < childrens.length; i++) {
+        tableChild.push(childrens[i]);
+    }
+
+    tableChild.forEach((element) => {
+        if (mp > 0) {
+            element.setAttribute("class", "mana-on");
+            mp--;
+        } else {
+            element.setAttribute("class", "mana-off");
+        }
+    });
+}
+
+function display_hero(data) {
+    document.querySelector("#p_hero").style.background =
+        "url(img/hero/" + data["heroClass"] + ".jfif)";
+    document.querySelector("#o_hero").style.background =
+        "url(img/hero/" + data["opponent"]["heroClass"] + ".jfif)";
+}
+
+function turn() {
+    if (yourTurn) {
+        APICall("action", "END_TURN");
+    }
+}
+
+function displayDeck(data, target) {
+    document.querySelector("#" + target + "_deck").innerHTML = data;
+}
+
+function displayEndTurn(turn) {
+    if (turn) {
+        document.querySelector("#turn").setAttribute("class", "turn");
+    } else {
+        document.querySelector("#turn").setAttribute("class", "turn_disable");
+    }
+}
+
+//#endregion
+
+//#endregion
 
 //#region AJAX ACTION
 

@@ -19,7 +19,7 @@
             </div>
             <div class="p_hp_bar"></div>
             <div class="o_interface">
-                <div id="o_hero"></div>
+                 <div id="o_hero"></div>
                 <div id="o_hp">...</div>
                 <div id="o_deck">50</div>
                 <!-- <div id="o_power">POWER</div> -->
