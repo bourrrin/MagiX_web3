@@ -6,7 +6,7 @@ let mp = 0;
 let attaquant = null;
 
 window.addEventListener("load", () => {
-    //   window.addEventListener("contextmenu", (e) => e.preventDefault());
+    window.addEventListener("contextmenu", (e) => e.preventDefault());
     document.querySelector(".show_card").addEventListener("click", hide_card);
     document.querySelector("#p_power").addEventListener("click", useHeroPower);
     document.querySelector(".turn").addEventListener("click", turn);
@@ -62,9 +62,19 @@ function display_UI() {
 }
 
 function show_card() {
-    let div = document.querySelector(".show_card").style;
-    div.backgroundImage = event.currentTarget.style.backgroundImage;
-    div.left = "calc(98vw - 20vw)";
+    let div = document.querySelector(".show_card");
+    let data = event.currentTarget;
+
+    div.querySelector(".cost").innerHTML = data.querySelector(".cost").innerHTML;
+    div.querySelector(".atk").innerHTML = data.querySelector(".atk").innerHTML;
+    div.querySelector(".hp").innerHTML = data.querySelector(".hp").innerHTML;
+    div.querySelector(".baseHP").innerHTML = data.querySelector(".baseHP").innerHTML;
+    div.querySelector(".mechanics").innerHTML = data.querySelector(".mechanics").innerHTML;
+    div.querySelector(".uid").innerHTML = data.querySelector(".uid").innerHTML;
+    div.querySelector(".img").style.backgroundImage =
+        data.querySelector(".img").style.backgroundImage;
+
+    div.style.left = "calc(98vw - var(--width))";
 }
 
 function hide_card() {
@@ -293,7 +303,6 @@ function createCardOnBoard(card_data, target) {
 function createCardsInHand(card_data, target) {
     let node = utils.create_element_class("div", target + "_card_in_hand");
     if (target == "p") {
-        node.style.backgroundImage = 'url("img/cards/' + card_data["id"] + '.jpg")';
         setCardAttribute(card_data, node);
 
         node.addEventListener("click", (event) => {
@@ -315,8 +324,10 @@ function setCardAttribute(card_data, node) {
     node.appendChild(utils.create_element_class("div", "baseHP", card_data["baseHP"]));
     node.appendChild(utils.create_element_class("div", "mechanics", card_data["mechanics"]));
     node.appendChild(utils.create_element_class("div", "uid", card_data["uid"]));
+
     let node1 = utils.create_element_class("div", "img");
-    node1.style.background = "url(../img/cards/" + card_data["id"] + ".jpg) !important";
+    node1.style.backgroundImage = "url(img/cards/" + card_data["id"] + ".jpg)";
+    node1.style.backgroundPosition = " top center ";
     node.appendChild(node1);
 }
 

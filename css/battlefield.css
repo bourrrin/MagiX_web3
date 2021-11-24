@@ -279,20 +279,6 @@
     transition: 0.5s, 2s transform;
 }
 
-.show_card {
-    --width: 20vw;
-    --height: 60vh;
-    position: absolute;
-    width: var(--width);
-    height: var(--height);
-    top: calc(98vh - var(--height));
-    left: 100vw;
-    background-size: contain;
-    background-repeat: no-repeat;
-
-    transition: 0.8s;
-}
-
 /*  endregion USERS INTERFACE  */
 @keyframes flicker-on-1 {
     0% {
@@ -314,122 +300,153 @@
         opacity: 1;
     }
 }
+
 :root {
-    /* 11/7 */
+    /* ratio front-image: 11/7 */
+    --ratio: calc(11 / 7);
     --card-width: 10vw;
-    --card-height: calc(var(--card-width) * calc(11 / 7));
+    --card-height: calc(var(--card-width) * var(--ratio));
     --card-border: calc(var(--card-width) * 0.03);
     --card-ui-font: calc(var(--card-width) * 0.15);
-    --card-txt-font: calc(var(--card-width) * 0.07);
-
-    --card-cost-width: calc(var(--card-width) * 0.2);
-    --card-cost-translateY: var(--card-border);
-    --card-cost-translateX: calc(var(--card-width) - var(--card-cost-width) - var(--card-border));
-
-    --card-atk-width: calc(var(--card-width) * 0.2);
-    --card-atk-translateY: calc(var(--card-height) - var(--card-atk-width));
-    --card-atk-translateX: var(--card-border);
-
-    --card-hp-width: calc(var(--card-width) * 0.2);
-    --card-hp-translateY: calc(var(--card-height) - var(--card-hp-width));
-    --card-hp-translateX: calc(var(--card-width) - var(--card-hp-width) - var(--card-border));
-
-    --card-mech-width: calc(var(--card-width) * 0.85);
-    --card-mech-translateY: calc(var(--card-height) * 0.645);
-    --card-mech-translateX: calc(
-        calc(var(--card-width) - var(--card-mech-width)) -
-            calc(calc(var(--card-width) - var(--card-mech-width)) * 0.5)
-    );
-
-    --card-img-width: calc(var(--card-width) * 0.82);
-    --card-img-translateY: calc(var(--card-height) * 0.09);
-    --card-img-translateX: calc(
-        calc(var(--card-width) - var(--card-img-width)) -
-            calc(calc(var(--card-width) - var(--card-img-width)) * 0.5)
-    );
 }
 
-.card {
+.show_card,
+.card,
+.p_card_in_hand {
     width: var(--card-width);
     height: var(--card-height);
-    margin: 0px 0.5%;
     background-repeat: no-repeat;
     background-size: contain;
     background-image: url(../img/cards/front2.png);
 }
 
-.card > div {
+.card > div,
+.p_card_in_hand > div {
+    --container-width: var(--card-width);
+    --container-height: var(--card-height);
+
+    width: var(--element-width);
+    transform: translate(var(--element-translateX), var(--element-translateY));
+    font-size: var(--card-ui-font);
+}
+
+.card {
+    margin: 0px 0.5%;
+}
+
+.p_card_in_hand {
+    transform: translateY(calc(var(--card-height) * 0.4));
+    margin-left: calc(var(--card-width) * -0.3);
+}
+.p_card_in_hand:hover {
+    transform: scale(1.5) translateY(-10vh);
+    z-index: 2;
+}
+
+.show_card {
+    --width: 19vw;
+    --height: calc(var(--ratio) * var(--width));
+    position: absolute;
+    width: var(--width);
+    height: var(--height);
+    top: calc(98vh - var(--height));
+    left: 105vw;
+
+    transition: 0.8s left;
+}
+
+.show_card > div {
+    --container-width: 19vw;
+    --container-height: calc(var(--ratio) * 19vw);
+}
+
+.cost,
+.atk,
+.hp,
+.mechanics {
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: black;
+    font-weight: bolder;
+    text-shadow: -1px -1px 0 rgb(255, 255, 255), 1px -1px 0 rgb(255, 255, 255),
+        -1px 1px 0 rgb(255, 255, 255), 1px 1px 0 rgb(255, 255, 255);
 
     background-color: rgba(247, 254, 255, 0.6);
     box-shadow: 0 0 4px rgb(0, 229, 255), 0 0 10px #fff, 0 0 20px #fff;
 }
 
-.card > .cost{display: none !important;}
-
 .cost {
-    width: var(--card-cost-width);
-    aspect-ratio: 1/1;
-    transform: translate(var(--card-cost-translateX), var(--card-cost-translateY));
+    --element-width: calc(var(--container-width) * 0.2);
+    --element-translateY: var(--card-border);
+    --element-translateX: calc(var(--element-width) * -0.1);
 
-    font-size: var(--card-ui-font);
+    aspect-ratio: 1/1;
     border-radius: 50%;
 }
 
 .atk {
-    width: var(--card-atk-width);
-    aspect-ratio: 1.4/1;
-    transform: translate(var(--card-atk-translateX), var(--card-atk-translateY));
+    --element-width: calc(var(--container-width) * 0.2);
+    --element-translateY: calc(var(--container-height) - var(--element-width));
+    --element-translateX: var(--card-border);
 
-    font-size: var(--card-ui-font);
+    aspect-ratio: 1.4/1;
     border-radius: 15%;
 }
 
 .hp {
-    width: var(--card-hp-width);
-    aspect-ratio: 1.4/1;
-    transform: translate(var(--card-hp-translateX), var(--card-hp-translateY));
+    --element-width: calc(var(--container-width) * 0.2);
+    --element-translateY: calc(var(--container-height) - var(--element-width));
+    --element-translateX: calc(
+        calc(var(--container-width) - var(--element-width)) - var(--card-border)
+    );
 
-    font-size: var(--card-ui-font);
+    aspect-ratio: 1.4/1;
     border-radius: 15%;
 }
 
 .img {
-    width: var(--card-img-width);
-    aspect-ratio: 1/1;
-    transform: translate(var(--card-img-translateX), var(--card-img-translateY));
+    --element-width: calc(var(--container-width) * 0.82);
+    --element-translateY: calc(var(--container-height) * 0.08);
+    --element-translateX: calc(
+        calc(var(--container-width) - var(--element-width)) -
+            calc(calc(var(--container-width) - var(--element-width)) * 0.5)
+    );
 
+    aspect-ratio: 1/1;
     border-radius: 50%;
     background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(../img/cards/10.jpg);
+    background-position: top center;
 }
 
 .mechanics {
-    background: rgba(0, 208, 255, 0.1) !important;
-    border: none !important;
+    --card-mech-pad: calc(var(--element-width) * 0.04);
+    --card-txt-font: calc(var(--element-width) * 0.08);
 
-    border-radius: 5%;
+    --element-width: calc(var(--container-width) * 0.85);
+    --element-translateY: calc(var(--container-height) * 0.645);
+    --element-translateX: calc(
+        calc(
+                calc(var(--container-width) - var(--element-width)) -
+                    calc(calc(var(--container-width) - var(--element-width)) * 0.5)
+            ) - var(--card-mech-pad)
+    );
+
     aspect-ratio: 2.58/1;
-    width: var(--card-mech-width);
-    font-size: var(--card-txt-font);
-    transform: translate(var(--card-mech-translateX), var(--card-mech-translateY));
+    background: rgba(0, 208, 255, 0.1) !important;
+    font-size: var(--card-txt-font) !important;
+    border-radius: 5%;
+    padding: 0px var(--card-mech-pad);
     overflow: hidden;
 }
 
-.uid,.baseHP,.mechanics{
+.uid,
+.baseHP,
+.card > .cost {
     display: none !important;
-}
-
-
-
-.card > div,
-.p_card_in_hand > div {
-    color: black;
-    font-weight: bolder;
-    text-shadow: -1px -1px 0 rgb(255, 255, 255), 1px -1px 0 rgb(255, 255, 255),
-        -1px 1px 0 rgb(255, 255, 255), 1px 1px 0 rgb(255, 255, 255);
 }
 
 .p_board,
@@ -466,7 +483,6 @@
     transform: translateY(50%);
 }
 
-.p_card_in_hand,
 .o_card_in_hand {
     /* background-image: url(../img/cards/1.jpg); */
     background-size: contain;
@@ -477,12 +493,4 @@
     transform: translateY(40%);
     transition: 0.2s transform;
     animation: flicker-on-1 0.8s both;
-}
-
-.p_card_in_hand:hover {
-    transform: translateY(-15%);
-    width: 18vw;
-    height: 63vh;
-    /* transform: scale(1.3); */
-    z-index: 2;
 }

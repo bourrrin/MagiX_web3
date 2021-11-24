@@ -8,6 +8,14 @@
         <div class="battlefield_background" id="battlefield_background_up"></div>
         <div class="battlefield_background" id="battlefield_background_down"></div>
     </div>
+    <!-- <div class=card>
+        <div class="cost"></div>
+        <div class=atk>5</div>
+        <div class=hp></div>
+        <div class=baseHP></div>
+        <div class=mechanics></div>
+        <div class=uid></div>
+    </div> -->
     <div class=battlefield_container>
         <div class="battlefield_wrapper">
             <div class="p_interface">
@@ -39,7 +47,15 @@
             </div>
         </div>
     </div>
-    <div class="show_card"></div>
+    <div class="show_card">
+        <div class="cost"></div>
+        <div class=atk>5</div>
+        <div class=hp></div>
+        <div class=baseHP></div>
+        <div class=mechanics></div>
+        <div class=uid></div>
+        <div class=img></div>
+    </div>
 
 <?php
     require_once("partial/footer.php");
