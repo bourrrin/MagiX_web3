@@ -6,7 +6,7 @@ let mp = 0;
 let attaquant = null;
 
 window.addEventListener("load", () => {
-    window.addEventListener("contextmenu", (e) => e.preventDefault());
+    // window.addEventListener("contextmenu", (e) => e.preventDefault());
     document.querySelector(".show_card").addEventListener("click", hide_card);
     document.querySelector("#p_power").addEventListener("click", useHeroPower);
     document.querySelector(".turn").addEventListener("click", turn);
@@ -326,8 +326,12 @@ function setCardAttribute(card_data, node) {
     node.appendChild(utils.create_element_class("div", "uid", card_data["uid"]));
 
     let node1 = utils.create_element_class("div", "img");
-    node1.style.backgroundImage = "url(img/cards/" + card_data["id"] + ".jpg)";
-    node1.style.backgroundPosition = " top center ";
+    try {
+        node1.style.backgroundImage = "url(img/cards/" + card_data["id"] + ".jpg)";
+    } catch {
+        node1.style.backgroundImage = "url(img/cards/0.jpg)";
+    }
+    node1.style.backgroundPosition = " center center ";
     node.appendChild(node1);
 }
 
@@ -405,6 +409,9 @@ function CheckGameState() {
                 } else if (response == "TOO_MANY_CALL_BAN" || response == "INVALID_KEY") {
                     console.log(response);
                     window.location.replace("index.php");
+                } else if (response == "LAST_GAME_WON") {
+                    console.log(response);
+                    document.querySelector(".timer").innerHTML = "WIN !!!";
                 }
             } else {
                 gameHandler(response);
