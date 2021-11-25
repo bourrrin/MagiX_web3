@@ -6,6 +6,7 @@ let mp = 0;
 let attaquant = null;
 
 window.addEventListener("load", () => {
+
     window.addEventListener("contextmenu", (e) => e.preventDefault());
     document.querySelector(".show_card").addEventListener("click", hide_card);
     document.querySelector("#p_power").addEventListener("click", useHeroPower);
@@ -46,17 +47,14 @@ function display_UI() {
     document.querySelector(".timer").style.transform = "translateX(0)";
     document.querySelector(".surrender").style.transform = "translateX(0)";
 
-    document.querySelector(".p_interface").style.opacity = "1";
-    document.querySelector(".o_interface").style.opacity = "1";
-    document.querySelector(".p_hp_bar").style.opacity = "1";
-    document.querySelector(".o_hp_bar").style.opacity = "1";
+    document.querySelector(".ui").style.opacity = "1";
 
     for (let i = 0; i < 10; i++) {
         document
-            .querySelector("#p_mana")
+            .querySelector("#o_mana_bar")
             .appendChild(utils.create_element_class("div", "mana-off"));
         document
-            .querySelector("#o_mana")
+            .querySelector("#p_mana_bar")
             .appendChild(utils.create_element_class("div", "mana-off"));
     }
 }
@@ -134,8 +132,8 @@ function useHeroPower() {
 
 function gameHandler(data) {
     if (yourTurn == null) {
-        // display_UI();
-        displayHeros(data);
+        display_UI();
+        // displayHeros(data);
     }
 
     yourTurn = data["yourTurn"];
@@ -342,7 +340,8 @@ function displayTimer(data) {
 }
 
 function displayMana(mp, target) {
-    let element = document.querySelector("#" + target + "_mana").children;
+   document.querySelector("#" + target + "_mana").innerHTML = mp;
+    let element = document.querySelector("#" + target + "_mana_bar").children;
     let tableChild = [];
     for (let i = 0; i < element.length; i++) {
         tableChild.push(element[i]);

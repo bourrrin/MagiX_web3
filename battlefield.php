@@ -1,7 +1,7 @@
 <?php
     require_once("partial/header.php");
 ?>
-    <!-- <script src="js/battlefield.js"></script> -->
+    <script src="js/battlefield.js"></script>
     <link rel="stylesheet" href="css/battlefield.css">
 
     <div class="battlefield_background_container">
@@ -14,18 +14,20 @@
             <div class=ui>
                 <div class="o_interface">
                     <div id="o_hero"></div>
-                    <div id="o_hp">...</div>
-                    <div id="o_deck">50</div>
-                    <div id="o_mana"></div>
+                    <div class="btn_ui" id="o_hp">hp</div>
+                    <div class="btn_ui" id="o_mana">mp</div>
+                    <div class="btn_ui" id="o_deck">deck</div>
+                    <div id="o_mana_bar"></div>
                 </div>
 
-                <!-- <div class="p_interface">
+                <div class="p_interface">
                     <div id="p_hero"></div>
-                    <div id="p_hp">...</div>
+                    <div class="btn_ui" id="p_hp">...</div>
+                    <div class="btn_ui" id="p_mana"></div>
+                    <div class="btn_ui" id="p_deck">50</div>
                     <div id="p_power">POWER</div>
-                    <div id="p_deck">50</div>
-                    <div id="p_mana"></div>
-                </div> -->
+                    <div id="p_mana_bar"></div>
+                </div>
             </div>
 
             <div class="o_board"></div>

@@ -81,10 +81,6 @@
 
 /*  region USERS INTERFACE  */
 
-.p_interface,
-.o_interface {
-}
-
 .ui {
     --color: rgba(0, 183, 255, 0.5);
     padding: 1vw;
@@ -92,58 +88,121 @@
     background: var(--color);
     box-shadow: 0 0 5px var(--color), 0 0 10px var(--color), 0 0 15px var(--color),
         0 0 100px var(--color);
+    opacity: 0;
+    transition: 1.5s;
 }
 
 .o_interface {
     width: 100%;
-    height: 40%;
-    background: green;
+    height: var(--UI-container-height);
+    border-bottom: solid 2px white;
 }
 
-.o_interface > div{
-    position: relative;
+.p_interface {
+    margin-top: 20%;
+}
+
+.btn_ui,
+#p_power {
+    position: absolute;
 
     width: var(--UI-btn-width);
-    color: black;
+    aspect-ratio: 1/1;
+
+    color: rgb(255, 255, 255);
+    text-shadow: -2px -2px 0px rgb(0, 0, 0), 2px -2px 0 rgb(0, 0, 0), -2px 2px 0 rgb(0, 0, 0),
+        2px 2px 0 rgb(0, 0, 0);
     font-size: 2rem;
     font-weight: bolder;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+#p_mana_bar,
+#o_mana_bar {
+    position: absolute;
+    width: calc(var(--UI-container-width) * 0.5);
+    height: calc(var(--UI-container-height) - 5vh);
+    background: rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    padding-top: 3vh;
+    transform: translate(calc(var(--UI-container-width) * 0.5));
+}
+
+.mana-on,
+.mana-off {
+    height: 35px;
+    width: 35px;
+    margin: 3%;
+    border-radius: 50%;
+    border: rgb(61, 0, 131) solid 2px;
+    box-shadow: 0 0 5px rgb(173, 239, 255), 0 0 10px rgb(136, 241, 255);
 }
 
 :root {
-    --UI-btn-width: 5vw;
+    --UI-container-width: 14vw;
+    --UI-container-height: 42vh;
+
+    --UI-btn-width: calc(var(--UI-container-width) * 0.24);
+    --ty: calc(var(--UI-btn-width) * 0.11);
+    --tx: calc(var(--UI-btn-width) * 0.2);
 }
 
 #o_hero {
-    background: red;
+    position: absolute;
+    /* background-image: url(../img/cards/10.jpg); */
+    background-size: cover;
 
-    width: 100% !important;
+    width: var(--UI-container-width);
+    aspect-ratio: 1/1.4;
+}
+
+#o_hp,
+#p_hp {
+    /* transform: translate(calc(var(--tx) * 0.35), calc(var(--tx) * 0.1)); */
+    transform: translate(var(--tx), calc(var(--ty)));
+}
+
+#o_mana,
+#p_mana {
+    transform: translate(var(--tx), calc(var(--ty) * 18));
+}
+
+#o_deck,
+#p_deck {
+    /* transform: translate(calc(var(--tx) * 0.35), calc(var(--tx) * 0.7)); */
+    transform: translate(var(--tx), calc(var(--ty) * 18 * 2));
+}
+
+#p_power {
+    position: absolute;
+    transform: translateY(42vh);
+    width: var(--UI-container-width);
     aspect-ratio: 7/1;
+    background: rgba(128, 127, 127, 0.5);
+    border: rgb(255, 255, 255) 2px solid;
+    box-shadow: 0 0 5px rgb(129, 129, 129), 0 0 10px rgb(95, 95, 95);
 }
 
-#o_hp {
-    background: rgb(0, 255, 0);
-    aspect-ratio: 1/1;
-}
-
-#o_hp::before {
+.btn_ui::after {
     content: "";
-    background: rgb(255, 0, 255);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
 
-    height: 10vw ;
-    width: 10vw ;
-
-    transform: translate(50vw);
-    /* transform: rotate(45deg); */
-}
-
-#o_deck {
-    background: rgb(217, 0, 255);
+    width: var(--UI-btn-width);
     aspect-ratio: 1/1;
-}
+    z-index: -1;
 
-#o_mana {
-    background: rgb(238, 255, 0);
-    aspect-ratio: 1/1;
+    background: rgba(128, 127, 127, 0.5);
+    border: rgb(255, 255, 255) 2px solid;
+    box-shadow: 0 0 5px rgb(129, 129, 129), 0 0 10px rgb(95, 95, 95);
 }
 
 /* #p_hero,
@@ -180,26 +239,7 @@
     background: rgba(255, 255, 255, 0.226);
     box-shadow: 0 0 5px #fff, 0 0 10px #fff;
 }
-
-#p_mana,
-#o_mana {
-    height: 25%;
-    width: 95%;
-    background: rgba(255, 255, 255, 0);
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-evenly;
-} */
-
-.mana-on,
-.mana-off {
-    height: 25px;
-    width: 25px;
-    margin: 0px 3%;
-    border-radius: 50%;
-    border: rgb(61, 0, 131) solid 2px;
-    box-shadow: 0 0 5px rgb(173, 239, 255), 0 0 10px rgb(136, 241, 255);
-}
+*/
 
 .mana-off {
     background: rgba(128, 128, 128, 0);
@@ -329,6 +369,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-image: url(../img/cards/1.jpg);
+    background-position:center center ;
     border-radius: 5%;
     box-shadow: 0 0 4px rgb(0, 0, 0), 0 0 10px rgb(255, 0, 212);
 }
