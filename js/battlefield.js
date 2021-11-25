@@ -6,7 +6,7 @@ let mp = 0;
 let attaquant = null;
 
 window.addEventListener("load", () => {
-    // window.addEventListener("contextmenu", (e) => e.preventDefault());
+    window.addEventListener("contextmenu", (e) => e.preventDefault());
     document.querySelector(".show_card").addEventListener("click", hide_card);
     document.querySelector("#p_power").addEventListener("click", useHeroPower);
     document.querySelector(".turn").addEventListener("click", turn);
@@ -65,14 +65,14 @@ function show_card() {
     let div = document.querySelector(".show_card");
     let data = event.currentTarget;
 
+    div.querySelector(".name").innerHTML = data.querySelector(".name").innerHTML;
     div.querySelector(".cost").innerHTML = data.querySelector(".cost").innerHTML;
     div.querySelector(".atk").innerHTML = data.querySelector(".atk").innerHTML;
     div.querySelector(".hp").innerHTML = data.querySelector(".hp").innerHTML;
     div.querySelector(".baseHP").innerHTML = data.querySelector(".baseHP").innerHTML;
     div.querySelector(".mechanics").innerHTML = data.querySelector(".mechanics").innerHTML;
     div.querySelector(".uid").innerHTML = data.querySelector(".uid").innerHTML;
-    div.querySelector(".img").style.backgroundImage =
-        data.querySelector(".img").style.backgroundImage;
+    div.style.backgroundImage = data.style.backgroundImage;
 
     div.style.left = "calc(98vw - var(--width))";
 }
@@ -134,7 +134,7 @@ function useHeroPower() {
 
 function gameHandler(data) {
     if (yourTurn == null) {
-        display_UI();
+        // display_UI();
         displayHeros(data);
     }
 
@@ -324,15 +324,9 @@ function setCardAttribute(card_data, node) {
     node.appendChild(utils.create_element_class("div", "baseHP", card_data["baseHP"]));
     node.appendChild(utils.create_element_class("div", "mechanics", card_data["mechanics"]));
     node.appendChild(utils.create_element_class("div", "uid", card_data["uid"]));
+    node.appendChild(utils.create_element_class("div", "name", "Soul eater"));
 
-    let node1 = utils.create_element_class("div", "img");
-    try {
-        node1.style.backgroundImage = "url(img/cards/" + card_data["id"] + ".jpg)";
-    } catch {
-        node1.style.backgroundImage = "url(img/cards/0.jpg)";
-    }
-    node1.style.backgroundPosition = " center center ";
-    node.appendChild(node1);
+    node.style.backgroundImage = "url(img/cards/" + card_data["id"] + ".jpg)";
 }
 
 //#endregion

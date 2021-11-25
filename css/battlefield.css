@@ -70,45 +70,83 @@
     grid-template-columns: 14vw 2vw 22vw 18vw 18vw 18vw 10vw;
     grid-template-rows: 16vh 8vh 20vh 5vh 20vh 10vh 21vh;
     grid-template-areas:
-        "o_interface o_hp_bar o_hand o_hand o_hand o_hand ."
-        "o_interface o_hp_bar o_board o_board o_board o_board ."
-        "o_interface o_hp_bar o_board o_board o_board o_board turn"
-        ". . . . . . turn"
-        "p_interface p_hp_bar p_board p_board p_board p_board turn"
-        "p_interface p_hp_bar p_board p_board p_board p_board ."
-        "p_interface p_hp_bar p_hand p_hand p_hand p_hand p_hand";
+        "ui ui o_hand o_hand o_hand o_hand ."
+        "ui ui o_board o_board o_board o_board ."
+        "ui ui o_board o_board o_board o_board turn"
+        "ui ui . . . . turn"
+        "ui ui p_board p_board p_board p_board turn"
+        "ui ui p_board p_board p_board p_board ."
+        "ui ui p_hand p_hand p_hand p_hand p_hand";
 }
 
 /*  region USERS INTERFACE  */
 
 .p_interface,
 .o_interface {
-    width: 100%;
-    height: 95%;
-    background: url(../img/lobby/pcb_refecrence.jpg);
-    background-size: contain;
-    margin-left: 5%;
-    border-radius: 5%;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-flow: column;
-
-    box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 100px var(--back-line-color);
 }
 
-.p_interface {
-    grid-area: p_interface;
-    padding-top: 5%;
+.ui {
+    --color: rgba(0, 183, 255, 0.5);
+    padding: 1vw;
+    grid-area: ui;
+    background: var(--color);
+    box-shadow: 0 0 5px var(--color), 0 0 10px var(--color), 0 0 15px var(--color),
+        0 0 100px var(--color);
 }
 
 .o_interface {
-    margin-top: auto;
-    grid-area: o_interface;
+    width: 100%;
+    height: 40%;
+    background: green;
 }
 
-#p_hero,
+.o_interface > div{
+    position: relative;
+
+    width: var(--UI-btn-width);
+    color: black;
+    font-size: 2rem;
+    font-weight: bolder;
+}
+
+:root {
+    --UI-btn-width: 5vw;
+}
+
+#o_hero {
+    background: red;
+
+    width: 100% !important;
+    aspect-ratio: 7/1;
+}
+
+#o_hp {
+    background: rgb(0, 255, 0);
+    aspect-ratio: 1/1;
+}
+
+#o_hp::before {
+    content: "";
+    background: rgb(255, 0, 255);
+
+    height: 10vw ;
+    width: 10vw ;
+
+    transform: translate(50vw);
+    /* transform: rotate(45deg); */
+}
+
+#o_deck {
+    background: rgb(217, 0, 255);
+    aspect-ratio: 1/1;
+}
+
+#o_mana {
+    background: rgb(238, 255, 0);
+    aspect-ratio: 1/1;
+}
+
+/* #p_hero,
 #o_hero {
     height: 30%;
     width: 80%;
@@ -151,7 +189,7 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
-}
+} */
 
 .mana-on,
 .mana-off {
@@ -170,25 +208,6 @@
     background: rgb(250, 252, 251);
 }
 
-.p_interface,
-.o_interface,
-.p_hp_bar,
-.o_hp_bar {
-    opacity: 0;
-    transition: 2s;
-}
-
-.p_hp_bar,
-.o_hp_bar {
-    width: 40%;
-    height: 95%;
-    margin-left: auto;
-    border-radius: 10%;
-    background: rgb(108, 214, 161);
-    border: black 1px solid;
-    box-shadow: 0 0 5px rgba(0, 0, 0), 0 0 10px rgba(0, 0, 0);
-}
-
 #p_hp,
 #o_hp {
     /* color: black;
@@ -200,14 +219,6 @@
     1px -1px 0 rgb(255, 255, 255),
     -1px 1px 0 rgb(255, 255, 255),
     1px 1px 0 rgb(255, 255, 255); */
-}
-
-.p_hp_bar {
-    grid-area: p_hp_bar;
-}
-.o_hp_bar {
-    margin-top: auto;
-    grid-area: o_hp_bar;
 }
 
 .menu_btn {
@@ -316,13 +327,15 @@
     width: var(--card-width);
     height: var(--card-height);
     background-repeat: no-repeat;
-    background-size: contain;
-    background-image: url(../img/cards/front2.png);
+    background-size: cover;
+    background-image: url(../img/cards/1.jpg);
+    border-radius: 5%;
+    box-shadow: 0 0 4px rgb(0, 0, 0), 0 0 10px rgb(255, 0, 212);
 }
 
 .card > div,
 .p_card_in_hand > div,
-.show_card >div {
+.show_card > div {
     --container-width: var(--card-width);
     --container-height: var(--card-height);
 
@@ -364,27 +377,32 @@
 .cost,
 .atk,
 .hp,
+.name,
 .mechanics {
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: black;
+    color: rgb(255, 255, 255);
     font-weight: bolder;
-    text-shadow: -1px -1px 0 rgb(255, 255, 255), 1px -1px 0 rgb(255, 255, 255),
-        -1px 1px 0 rgb(255, 255, 255), 1px 1px 0 rgb(255, 255, 255);
+    background: rgba(128, 127, 127, 0.5);
+    border: rgb(255, 255, 255) 2px solid;
+    box-shadow: 0 0 5px rgb(129, 129, 129), 0 0 10px rgb(95, 95, 95);
 
-    background-color: rgba(247, 254, 255, 0.6);
-    box-shadow: 0 0 4px rgb(0, 229, 255), 0 0 10px #fff, 0 0 20px #fff;
+    text-shadow: -2px -2px 0px rgb(0, 0, 0), 2px -2px 0 rgb(0, 0, 0), -2px 2px 0 rgb(0, 0, 0),
+        2px 2px 0 rgb(0, 0, 0);
 }
 
 .cost {
     --element-width: calc(var(--container-width) * 0.2);
-    --element-translateY: var(--card-border);
+    --element-translateY: calc(var(--card-border) * -0.5);
     --element-translateX: calc(var(--element-width) * -0.1);
 
     aspect-ratio: 1/1;
     border-radius: 50%;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 .atk {
@@ -422,13 +440,11 @@
     background-image: url(../img/cards/10.jpg);
     background-position: top center;
 }
-
-.mechanics {
+.name {
     --card-mech-pad: calc(var(--element-width) * 0.04);
     --card-txt-font: calc(var(--element-width) * 0.08);
-
     --element-width: calc(var(--container-width) * 0.85);
-    --element-translateY: calc(var(--container-height) * 0.645);
+    --element-translateY: calc(var(--container-height) * 0.03);
     --element-translateX: calc(
         calc(
                 calc(var(--container-width) - var(--element-width)) -
@@ -436,13 +452,35 @@
             ) - var(--card-mech-pad)
     );
 
-    aspect-ratio: 2.58/1;
+    aspect-ratio: 8.2/1;
+    background: rgba(0, 208, 255, 0.1) !important;
+    border: none !important;
+    border-bottom: rgb(255, 255, 255) 2px solid !important;
+    box-shadow: none !important;
+    font-size: var(--card-txt-font) !important;
+    border-radius: 5%;
+    padding: 0px var(--card-mech-pad);
+}
+
+.mechanics {
+    --card-mech-pad: calc(var(--element-width) * 0.04);
+    --card-txt-font: calc(var(--element-width) * 0.08);
+
+    --element-width: calc(var(--container-width) * 0.85);
+    --element-translateY: calc(var(--container-height) * 0.58);
+    --element-translateX: calc(
+        calc(
+                calc(var(--container-width) - var(--element-width)) -
+                    calc(calc(var(--container-width) - var(--element-width)) * 0.5)
+            ) - var(--card-mech-pad)
+    );
+
+    aspect-ratio: 2.5/1;
     background: rgba(0, 208, 255, 0.1) !important;
     font-size: var(--card-txt-font) !important;
     border-radius: 5%;
     padding: 0px var(--card-mech-pad);
     overflow: hidden;
-
 }
 
 .uid,
