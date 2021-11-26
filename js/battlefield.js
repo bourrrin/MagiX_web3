@@ -1,18 +1,41 @@
+//#region CHAT STYLE
+
+const applyStyles = (iframe) => {
+    let styles = {
+        fontColor: "white",
+        fontGoogleName: "Gruppo",
+        height: "100%",
+        fontSize: "20px",
+        inputBackgroundColor: "rgb(71, 71, 71,0.7)",
+    };
+    setTimeout(() => {
+        iframe.contentWindow.postMessage(JSON.stringify(styles), "*");
+    }, 100);
+};
+
+//#endregion
 let mana = 1;
 let utils = new Utils();
 let yourTurn = null;
 let heroPowerAlreadyUsed = false;
 let mp = 0;
+let hp = 30;
+let o_hp = 0;
 let attaquant = null;
+let chatIsDisplayed = false;
 
 window.addEventListener("load", () => {
-
     window.addEventListener("contextmenu", (e) => e.preventDefault());
     document.querySelector(".show_card").addEventListener("click", hide_card);
+    document.querySelector(".show_chat").addEventListener("click", hide_card);
     document.querySelector("#p_power").addEventListener("click", useHeroPower);
     document.querySelector(".turn").addEventListener("click", turn);
     document.querySelector(".surrender").addEventListener("click", surrender);
     document.querySelector(".o_interface").addEventListener("click", attackHero);
+    document.querySelector(".chat").addEventListener("click", displayChat);
+    document.querySelector(".quitter").addEventListener("click", () => {
+        window.location.replace("lobby.php");
+    });
 
     start_animation_ouverture();
     test();
@@ -35,7 +58,6 @@ function test() {
 }
 
 //#region ANIMATIONS
-
 function start_animation_ouverture() {
     document.querySelector(".battlefield_background").style.transition = "4.5s top";
     document.querySelector("#battlefield_background_up").style.top = "-20%";
@@ -84,11 +106,13 @@ function hide_card() {
 //#region GAME BASE LOGIC
 
 function surrender() {
+    clickedBtn(document.querySelector(".surrender"));
     APICall("action", "SURRENDER");
 }
 
 function turn() {
     if (yourTurn) {
+        clickedBtn(document.querySelector(".turn"));
         APICall("action", "END_TURN");
     }
 }
@@ -102,7 +126,20 @@ function playCard() {
 }
 
 function setAttacker() {
-    attaquant = event.currentTarget.querySelector(".uid").innerHTML;
+    let target = event.currentTarget;
+    let uid = event.currentTarget.querySelector(".uid").innerHTML;
+    let state = event.currentTarget.querySelector(".state").innerHTML;
+    console.log(state);
+    if (yourTurn) {
+        if (state != "SLEEP" && attaquant != uid) {
+            attaquant = uid;
+            target.style.boxShadow =
+                "0 0 5px rgb(255, 255, 255),0 0 10px rgb(255, 255, 255), 0 0 20px rgb(255, 255, 255)";
+        } else if (attaquant == uid) {
+            attaquant = null;
+            target.style.boxShadow = "0 0 4px rgb(0, 0, 0), 0 0 10px rgb(255, 0, 212)";
+        }
+    }
 }
 
 function setDefender() {
@@ -114,65 +151,74 @@ function setDefender() {
 }
 
 function attackHero() {
-    event.currentTarget.style.border = "solid red 2px";
     if (attaquant != null) {
         APICall("action", "ATTACK", attaquant, 0);
     }
 }
 
 function useHeroPower() {
-    if (!heroPowerAlreadyUsed) {
-        document.querySelector("#p_power").style.backgroundColor = "rgba(0, 0, 255, 0.3)";
-        setTimeout(() => {
-            document.querySelector("#p_power").style.backgroundColor = "rgba(151, 151, 151, 0.3)";
-        }, 1500);
+    if (!heroPowerAlreadyUsed && mp >= 2) {
+        let element = document.querySelector(".p_power");
+
+        clickedBtn(element);
+
         APICall("action", "HERO_POWER");
     }
 }
 
-function gameHandler(data) {
-    if (yourTurn == null) {
-        display_UI();
-        // displayHeros(data);
-    }
-
-    yourTurn = data["yourTurn"];
-    heroPowerAlreadyUsed = data["heroPowerAlreadyUsed"];
-    mp = data["mp"];
-
-    document.querySelector("#p_hp").innerHTML = data["hp"];
-    document.querySelector("#o_hp").innerHTML = data["opponent"]["hp"];
-    displayTimer(data);
-    displayEndTurn(data["yourTurn"]);
-
-    displayMana(data["mp"], "p");
-    displayMana(data["opponent"]["mp"], "o");
-    displayRemainingCardsCount(data["remainingCardsCount"], "p");
-    displayRemainingCardsCount(data["opponent"]["remainingCardsCount"], "o");
-    updateCardsAttribute(data["board"], "p");
-    updateCardsAttribute(data["opponent"]["board"], "o");
-
-    displayPlayerHand(data);
-    displayOpponentHand(data);
-    displayCardsOnBoard(data["board"], "p");
-    displayCardsOnBoard(data["opponent"]["board"], "o");
-
-    displaySelectedCard();
+function clickedBtn(element) {
+    element.classList.add("clicked");
+    setTimeout(() => {
+        element.classList.remove("clicked");
+    }, 1000);
 }
+
 //#endregion
 
 //#region DISPLAY FUNCTION
 
 //#region CARD RELATED
+function displayTauntMinion() {
+    let element = document.querySelector(".o_board");
+
+    element.childNodes.forEach((card) => {
+        let mech = card.querySelector(".mechanics").innerHTML;
+        if (mech.includes("Taunt")) {
+            card.style.filter = "brightness(3)";
+            setTimeout(() => {
+                card.style.filter = "brightness(1)";
+            }, 400);
+        }
+    });
+}
+
+function displayCardThatCanAtk(data, target) {
+    let element = document.querySelector("." + target + "_board");
+    let board = data;
+    element.childNodes.forEach((card) => {
+        board.forEach((card_Data) => {
+            let state = card_Data["state"];
+            let uid = card_Data["uid"];
+            let card_uid = card.querySelector(".uid").innerHTML;
+            if (state == "IDLE" && uid == card_uid) {
+                card.style.filter = "brightness(1)";
+            } else if (state == "SLEEP" && uid == card_uid) {
+                card.style.filter = "brightness(0.5)";
+                card.style.boxShadow = "0 0 4px rgb(0, 0, 0), 0 0 10px rgb(255, 0, 212)";
+                if (attaquant == uid) {
+                    attaquant = null;
+                }
+            }
+        });
+    });
+}
 
 function displaySelectedCard() {
     let element = document.querySelector(".p_board");
 
-    element.childNodes.forEach((child) => {
-        if (child.querySelector(".uid").innerHTML == attaquant) {
-            child.style.border = "solid 2px red";
-        } else {
-            child.style.border = "none";
+    element.childNodes.forEach((card) => {
+        if (card.querySelector(".uid").innerHTML != attaquant) {
+            card.style.boxShadow = "0 0 4px rgb(0, 0, 0), 0 0 10px rgb(255, 0, 212)";
         }
     });
 }
@@ -184,8 +230,32 @@ function updateCardsAttribute(data, target) {
                 child.querySelector(".hp").innerHTML = d["hp"];
                 child.querySelector(".atk").innerHTML = d["atk"];
                 child.querySelector(".mechanics").innerHTML = d["mechanics"];
+                child.querySelector(".state").innerHTML = d["state"];
             }
         });
+    });
+}
+
+function displayChangedCardAttribute(target) {
+    let element = document.querySelector("." + target + "_board");
+
+    element.childNodes.forEach((card) => {
+        let hp = card.querySelector(".hp");
+        let baseHP = card.querySelector(".baseHP");
+        let atk = card.querySelector(".atk");
+        let baseATK = card.querySelector(".baseATK");
+
+        if (hp.innerHTML < baseHP.innerHTML) {
+            hp.style.color = "red";
+        } else if (hp.innerHTML > baseHP.innerHTML) {
+            hp.style.color = "green";
+        }
+
+        if (atk.innerHTML < baseATK.innerHTML) {
+            atk.style.color = "red";
+        } else if (atk.innerHTML > baseATK.innerHTML) {
+            atk.style.color = "green";
+        }
     });
 }
 
@@ -210,7 +280,10 @@ function displayCardsOnBoard(board, target) {
     deadCards.forEach((deadCard_uid) => {
         element.childNodes.forEach((displayedCard) => {
             if (displayedCard.querySelector(".uid").innerHTML == deadCard_uid) {
-                element.removeChild(displayedCard);
+                displayedCard.classList.add("death");
+                setTimeout(() => {
+                    element.removeChild(displayedCard);
+                }, 1000);
             }
         });
     });
@@ -318,10 +391,12 @@ function createCardsInHand(card_data, target) {
 function setCardAttribute(card_data, node) {
     node.appendChild(utils.create_element_class("div", "cost", card_data["cost"]));
     node.appendChild(utils.create_element_class("div", "atk", card_data["atk"]));
+    node.appendChild(utils.create_element_class("div", "baseATK", card_data["atk"]));
     node.appendChild(utils.create_element_class("div", "hp", card_data["hp"]));
     node.appendChild(utils.create_element_class("div", "baseHP", card_data["baseHP"]));
     node.appendChild(utils.create_element_class("div", "mechanics", card_data["mechanics"]));
     node.appendChild(utils.create_element_class("div", "uid", card_data["uid"]));
+    node.appendChild(utils.create_element_class("div", "state", card_data["state"]));
     node.appendChild(utils.create_element_class("div", "name", "Soul eater"));
 
     node.style.backgroundImage = "url(img/cards/" + card_data["id"] + ".jpg)";
@@ -330,6 +405,19 @@ function setCardAttribute(card_data, node) {
 //#endregion
 
 //#region UI
+
+function displayChat() {
+    clickedBtn(document.querySelector(".chat"));
+    let div = document.querySelector(".show_chat");
+    if (chatIsDisplayed) {
+        div.style.left = "100vw";
+        chatIsDisplayed = false;
+    } else {
+        div.style.left = "calc(98vw - var(--width))";
+        chatIsDisplayed = true;
+    }
+}
+
 function displayTimer(data) {
     let timer = document.querySelector(".timer");
     if (data["yourTurn"]) {
@@ -337,10 +425,19 @@ function displayTimer(data) {
     } else {
         timer.innerHTML = "...";
     }
+
+    if (data["remainingTurnTime"] <= 15) {
+        document.querySelector(".timer").style.color = "red";
+        setTimeout(() => {
+            document.querySelector(".timer").style.color = "white";
+        }, 500);
+    } else {
+        document.querySelector(".timer").style.color = "white";
+    }
 }
 
 function displayMana(mp, target) {
-   document.querySelector("#" + target + "_mana").innerHTML = mp;
+    document.querySelector("#" + target + "_mana").innerHTML = mp;
     let element = document.querySelector("#" + target + "_mana_bar").children;
     let tableChild = [];
     for (let i = 0; i < element.length; i++) {
@@ -368,12 +465,59 @@ function displayRemainingCardsCount(data, target) {
     document.querySelector("#" + target + "_deck").innerHTML = data;
 }
 
-function displayEndTurn(turn) {
-    if (turn) {
+function displayEndTurn() {
+    if (yourTurn) {
         document.querySelector("#turn").setAttribute("class", "turn");
     } else {
         document.querySelector("#turn").setAttribute("class", "turn_disable");
     }
+}
+
+function displayHeroPower(data) {
+    if (!yourTurn || data["heroPowerAlreadyUsed"]) {
+        document.querySelector("#p_power").setAttribute("class", "p_power_disable");
+    } else {
+        document.querySelector("#p_power").setAttribute("class", "p_power");
+    }
+}
+
+function displayLifeLose(data, target) {
+    let x;
+    let element = document.querySelector("#" + target + "_hp");
+    if (target == "o") {
+        x = o_hp;
+    } else {
+        x = hp;
+    }
+
+    if (data["hp"] < x) {
+        element.style.color = "red";
+        setTimeout(() => {
+            element.style.color = "white";
+        }, 400);
+    }
+
+    if (target == "o") {
+        o_hp = data["hp"];
+    } else {
+        hp = data["hp"];
+    }
+
+    if (hp < 10) {
+        document.querySelector(":root").style.setProperty("--back-line-color", "red");
+    }
+}
+
+function displayEndGame(win) {
+    let element = document.querySelector("#gamwOver_txt");
+    if (win) {
+        element.innerHTML = "YOU WIN";
+        element.style.color = "#2c74d0";
+    } else {
+        element.style.color = "red";
+        element.innerHTML = "LOSER";
+    }
+    document.querySelector(".game_over").style.display = "block";
 }
 
 //#endregion
@@ -391,23 +535,27 @@ function CheckGameState() {
         .then((response) => response.json())
         .then((response) => {
             console.log(response);
-            setTimeout(() => {
-                CheckGameState();
-            }, 1000);
             if (typeof response !== "object") {
                 if (response == "LAST_GAME_LOST") {
                     document.querySelector("#p_hp").innerHTML = 0;
-                    document.querySelector(".battlefield_background_container").style.background =
-                        "radial-gradient(red,rgb(107, 11, 78))";
+                    document.querySelector(":root").style.setProperty("--back-line-color", "black");
+                    displayEndGame(false);
                 } else if (response == "TOO_MANY_CALL_BAN" || response == "INVALID_KEY") {
                     console.log(response);
                     window.location.replace("index.php");
                 } else if (response == "LAST_GAME_WON") {
                     console.log(response);
-                    document.querySelector(".timer").innerHTML = "WIN !!!";
+                    displayEndGame(true);
+                } else {
+                    setTimeout(() => {
+                        CheckGameState();
+                    }, 1000);
                 }
             } else {
                 gameHandler(response);
+                setTimeout(() => {
+                    CheckGameState();
+                }, 1000);
             }
         });
 }
@@ -431,7 +579,46 @@ function APICall(name, type, uid = null, targetuid = null) {
         .then((response) => response.json())
         .then((response) => {
             console.log(response);
+            if (response == "MUST_ATTACK_TAUNT_FIRST") {
+                displayTauntMinion();
+            }
         });
 }
 
 //#endregion
+
+function gameHandler(data) {
+    if (yourTurn == null) {
+        display_UI();
+        // displayHeros(data);
+    }
+
+    yourTurn = data["yourTurn"];
+    heroPowerAlreadyUsed = data["heroPowerAlreadyUsed"];
+    mp = data["mp"];
+    displayLifeLose(data["opponent"], "o");
+    displayLifeLose(data, "p");
+
+    document.querySelector("#p_hp").innerHTML = data["hp"];
+    document.querySelector("#o_hp").innerHTML = data["opponent"]["hp"];
+    displayTimer(data);
+    displayEndTurn();
+    displayHeroPower(data);
+    displayCardThatCanAtk(data["board"], "p");
+    displayCardThatCanAtk(data["opponent"]["board"], "o");
+    displayChangedCardAttribute("o");
+    displayChangedCardAttribute("p");
+
+    displayMana(data["mp"], "p");
+    displayMana(data["opponent"]["mp"], "o");
+    displayRemainingCardsCount(data["remainingCardsCount"], "p");
+    displayRemainingCardsCount(data["opponent"]["remainingCardsCount"], "o");
+    updateCardsAttribute(data["board"], "p");
+    updateCardsAttribute(data["opponent"]["board"], "o");
+
+    displayPlayerHand(data);
+    displayOpponentHand(data);
+    displayCardsOnBoard(data["board"], "p");
+    displayCardsOnBoard(data["opponent"]["board"], "o");
+    displaySelectedCard();
+}

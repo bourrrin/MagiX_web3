@@ -15,7 +15,6 @@
 
 .battlefield_background_container {
     background: radial-gradient(var(--back-color1), var(--back-color0));
-    /* background: radial-gradient(red,rgb(107, 11, 78)); */
     height: 100vh;
     width: 100vw;
     perspective: 800px;
@@ -70,8 +69,8 @@
     grid-template-columns: 14vw 2vw 22vw 18vw 18vw 18vw 10vw;
     grid-template-rows: 16vh 8vh 20vh 5vh 20vh 10vh 21vh;
     grid-template-areas:
-        "ui ui o_hand o_hand o_hand o_hand ."
-        "ui ui o_board o_board o_board o_board ."
+        "ui ui o_hand o_hand o_hand o_hand chat"
+        "ui ui o_board o_board o_board o_board chat"
         "ui ui o_board o_board o_board o_board turn"
         "ui ui . . . . turn"
         "ui ui p_board p_board p_board p_board turn"
@@ -88,8 +87,47 @@
     background: var(--color);
     box-shadow: 0 0 5px var(--color), 0 0 10px var(--color), 0 0 15px var(--color),
         0 0 100px var(--color);
-    opacity: 0;
+    /* opacity: 0; */
     transition: 1.5s;
+}
+
+.chat {
+    grid-area: chat;
+    margin-top: 10%;
+    width: 70%;
+    height: 20%;
+    color: rgb(255, 255, 255);
+    text-shadow: -2px -2px 0px rgb(0, 0, 0), 2px -2px 0 rgb(0, 0, 0), -2px 2px 0 rgb(0, 0, 0),
+        2px 2px 0 rgb(0, 0, 0);
+    font-size: 1.5rem;
+    font-weight: bolder;
+
+    background: rgba(128, 127, 127, 0.5);
+    border: rgb(255, 255, 255) 2px solid;
+    box-shadow: 0 0 5px rgb(129, 129, 129), 0 0 10px rgb(95, 95, 95);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: 0.5s;
+}
+
+.show_chat {
+    --width: 19vw;
+    --height: calc(var(--ratio) * var(--width));
+    background: rgba(0, 183, 255, 0.5);
+    position: absolute;
+    width: var(--width);
+    height: var(--height);
+    top: calc(98vh - var(--height));
+    left: 105vw;
+
+    transition: 0.8s left;
+}
+.show_chat > iframe {
+    height: 100%;
+    width: 100%;
 }
 
 .o_interface {
@@ -103,7 +141,8 @@
 }
 
 .btn_ui,
-#p_power {
+.p_power_disable,
+.p_power {
     position: absolute;
 
     width: var(--UI-btn-width);
@@ -119,6 +158,8 @@
     justify-content: center;
     align-items: center;
     z-index: 2;
+
+    transition: 0.5s;
 }
 
 #p_mana_bar,
@@ -179,7 +220,8 @@
     transform: translate(var(--tx), calc(var(--ty) * 18 * 2));
 }
 
-#p_power {
+.p_power,
+.p_power_disable {
     position: absolute;
     transform: translateY(42vh);
     width: var(--UI-container-width);
@@ -188,8 +230,23 @@
     border: rgb(255, 255, 255) 2px solid;
     box-shadow: 0 0 5px rgb(129, 129, 129), 0 0 10px rgb(95, 95, 95);
 }
-
 .btn_ui::after {
+    content: "♥";
+    position: absolute;
+    transform: translate(calc(var(--UI-btn-width) * -0.6), calc(var(--UI-btn-width) * 0.6));
+}
+
+#p_mana::after,
+#o_mana::after {
+    content: "o";
+}
+#o_deck::after,
+#p_deck::after {
+    font-size: 1.3rem;
+    content: "▯";
+}
+
+.btn_ui::before {
     content: "";
     position: absolute;
     left: 50%;
@@ -310,7 +367,8 @@
     min-height: 30%;
 }
 
-.turn_disable {
+.turn_disable,
+.p_power_disable {
     opacity: 0.8;
     border: rgb(0, 0, 0) 2px solid;
     color: rgb(0, 0, 0);
@@ -318,6 +376,8 @@
 }
 
 .turn:hover,
+.chat:hover,
+.p_power:hover,
 .surrender:hover {
     background: rgba(0, 0, 0, 0.8);
     box-shadow: 0 0 5px rgb(255, 255, 255), 0 0 10px rgb(255, 255, 255), 0 0 15px rgb(255, 255, 255);
@@ -369,9 +429,11 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-image: url(../img/cards/1.jpg);
-    background-position:center center ;
+    background-position: center center;
     border-radius: 5%;
     box-shadow: 0 0 4px rgb(0, 0, 0), 0 0 10px rgb(255, 0, 212);
+
+    transition: box-shadow 0.2s, transform 0.2s;
 }
 
 .card > div,
@@ -387,15 +449,54 @@
 
 .card {
     margin: 0px 0.5%;
+    animation: onBoard 1s both;
+    transition: 0.8s;
+}
+
+@keyframes onBoard {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .p_card_in_hand {
     transform: translateY(calc(var(--card-height) * 0.4));
     margin-left: calc(var(--card-width) * -0.3);
+    animation: flicker-on-1 0.8s both;
 }
 .p_card_in_hand:hover {
     transform: scale(1.5) translateY(-10vh);
     z-index: 2;
+}
+
+.death {
+    animation: death 1s forwards;
+}
+
+@keyframes death {
+    20% {
+        filter: brightness(20);
+        opacity: 1;
+    }
+    70% {
+        filter: brightness(0);
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.clicked {
+    animation: clicked 1s;
+}
+
+@keyframes clicked {
+    50% {
+        opacity: 0.3;
+    }
 }
 
 .show_card {
@@ -525,7 +626,9 @@
 }
 
 .uid,
+.state,
 .baseHP,
+.baseATK,
 .card > .cost {
     display: none !important;
 }
@@ -574,4 +677,66 @@
     transform: translateY(40%);
     transition: 0.2s transform;
     animation: flicker-on-1 0.8s both;
+}
+
+.game_over {
+    position: absolute;
+    width: 0vw;
+    height: 95vh;
+    background-color: black;
+    opacity: 0.8;
+    display: none;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    z-index: 555555;
+    box-shadow: 0 0 7px rgb(0, 0, 0), 0 0 10px rgb(0, 0, 0), 0 0 21px rgb(0, 0, 0),
+        0 0 100px rgb(0, 0, 0), 0 0 50px rgb(0, 0, 0), 0 0 200px rgb(0, 0, 0);
+
+    animation: flicker-on-2 1.5s both;
+}
+
+.game_over > *{
+    position: absolute;
+    animation: display_txt_gameOver 1.5s both 1.5s;
+    opacity: 0;
+
+}
+
+.game_over > h1 {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    font-size: 6rem;
+
+    text-shadow: -4px -4px 0px rgb(255, 255, 255), 2px -2px 0 rgb(255, 255, 255),
+        -2px 2px 0 rgb(255, 255, 255), 2px 2px 0 rgb(255, 255, 255);
+
+}
+.game_over > div {
+    top: 88%;
+    left: 91%;
+
+    color: white;
+    font-size: 1.5rem;
+
+    border-radius: 10%;
+    background: rgba(128, 127, 127, 0.5);
+    border: rgb(255, 255, 255) 2px solid;
+    box-shadow: 0 0 5px rgb(129, 129, 129), 0 0 10px rgb(95, 95, 95);
+}
+
+@keyframes flicker-on-2 {
+    100% {
+        width:95vw;
+    }
+}
+
+@keyframes display_txt_gameOver {
+    100% {
+        opacity: 1;
+    }
 }

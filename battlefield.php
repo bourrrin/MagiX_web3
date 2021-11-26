@@ -22,10 +22,10 @@
 
                 <div class="p_interface">
                     <div id="p_hero"></div>
-                    <div class="btn_ui" id="p_hp">...</div>
-                    <div class="btn_ui" id="p_mana"></div>
-                    <div class="btn_ui" id="p_deck">50</div>
-                    <div id="p_power">POWER</div>
+                    <div class="btn_ui" id="p_hp">hp</div>
+                    <div class="btn_ui" id="p_mana">mp</div>
+                    <div class="btn_ui" id="p_deck">deck</div>
+                    <div class="p_power" id="p_power">POWER</div>
                     <div id="p_mana_bar"></div>
                 </div>
             </div>
@@ -41,16 +41,27 @@
                     <div class="surrender"> SURRENDER</div>
                 </div>
             </div>
+            <div class="chat">CHAT</div>
         </div>
+    </div>
+    <div class="show_chat">
+        <iframe
+            src="https://magix.apps-de-cours.com/server/#/chat/<?=  $_SESSION["player_data"]->key?>?v=1" onload="applyStyles(this)" >
+        </iframe>
     </div>
     <div class="show_card">
         <div class="name"></div>
         <div class="cost"></div>
-        <div class=atk>5</div>
+        <div class=atk></div>
         <div class=hp></div>
         <div class=baseHP></div>
         <div class=mechanics></div>
         <div class=uid></div>
+    </div>
+
+    <div class="game_over">
+        <h1 id="gamwOver_txt"></h1>
+        <div class="quitter">QUITTER</div>
     </div>
 
 <?php
