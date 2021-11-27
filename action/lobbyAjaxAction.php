@@ -13,7 +13,7 @@
             $data["key"] = $_SESSION["player_data"]->key;
 
             if($_POST["action"] == "quitter"){
-                $rep = parent::callAPI("signout",$data);
+                $result = parent::callAPI("signout",$data);
             }
             else if($_POST["action"] == "jouer"){
                 $data["type"] = "PVP";

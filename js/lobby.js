@@ -156,7 +156,7 @@ function APICall(name, value) {
         .then((response) => response.json())
         .then((response) => {
             console.log(response);
-            if (response == "SIGNED_OUT") {
+            if (response == "SIGNED_OUT" || response == "INVALID_KEY") {
                 successfullSignedOut();
             } else if (response == "DECK_INCOMPLETE") {
                 alertMessage("DECK_INCOMPLETE");

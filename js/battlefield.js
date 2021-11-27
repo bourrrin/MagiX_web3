@@ -583,7 +583,7 @@ function displayEndTurn() {
 }
 
 function displayHeroPower(data) {
-    if (!yourTurn || data["heroPowerAlreadyUsed"]) {
+    if (!yourTurn || data["heroPowerAlreadyUsed"] || mp < 2) {
         document.querySelector("#p_power").setAttribute("class", "p_power_disable");
     } else {
         document.querySelector("#p_power").setAttribute("class", "p_power");
