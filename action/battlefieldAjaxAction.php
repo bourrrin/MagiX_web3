@@ -36,7 +36,6 @@
                     $data["targetuid"] = $_POST["targetuid"];
                     $result = parent::callAPI("games/action",$data);
                 }
-                // $result = $data;
             }else{
                 $result = parent::callAPI("games/state",$data);
             }

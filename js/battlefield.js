@@ -57,7 +57,7 @@ window.addEventListener("load", () => {
     });
 
     start_animation_ouverture();
-    // test();
+    test();
     CheckGameState();
 });
 
@@ -528,11 +528,7 @@ function setSettingStyle() {
 
 function displayTimer(data) {
     let timer = document.querySelector(".timer");
-    if (data["yourTurn"]) {
-        timer.innerHTML = data["remainingTurnTime"];
-    } else {
-        timer.innerHTML = "...";
-    }
+    timer.innerHTML = data["remainingTurnTime"];
 
     if (data["remainingTurnTime"] <= 15) {
         document.querySelector(".timer").style.color = "red";
@@ -663,10 +659,8 @@ function CheckGameState() {
                     document.querySelector(":root").style.setProperty("--back-line-color", "black");
                     displayEndGame(false);
                 } else if (response == "TOO_MANY_CALL_BAN" || response == "INVALID_KEY") {
-                    console.log(response);
                     window.location.replace("index.php");
                 } else if (response == "LAST_GAME_WON") {
-                    console.log(response);
                     displayEndGame(true);
                 } else {
                     setTimeout(() => {

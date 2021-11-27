@@ -501,9 +501,7 @@
 .turn_disable,
 .p_power_disable {
     opacity: 0.8;
-    border: rgb(0, 0, 0) 2px solid;
-    color: rgb(0, 0, 0);
-    box-shadow: none;
+    filter: brightness(0.1);
 }
 
 .turn:hover,

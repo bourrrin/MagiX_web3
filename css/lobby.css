@@ -1,17 +1,17 @@
-body{
+body {
     background: radial-gradient(#024577, #010717);
     transition: 1s;
 }
 
-:root{
-    --border-line:#00cfcf;
-    --box-shadow:#010717;
+:root {
+    --border-line: #00cfcf;
+    --box-shadow: #010717;
     --root-glow: rgb(40, 0, 63);
     --delay-animation: 4s;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Courier New", Courier, monospace;
 }
 
-.lobby_back_effect{
+.lobby_back_effect {
     background: url(../img/lobby/bck_effect.png);
     width: 100vw;
     height: 100vh;
@@ -19,8 +19,8 @@ body{
     opacity: 0.15;
 }
 
-.lobby-container{
-    padding:2%;
+.lobby-container {
+    padding: 2%;
     height: 100vh;
     display: none;
     transition: 2s;
@@ -33,35 +33,40 @@ body{
     grid-template-columns: auto;
     grid-template-rows: auto;
     grid-template-areas:
-    "load_bar titre titre titre titre titre titre quitter_btn"
-    "load_bar jouer_btn . . . . . chat"
-    "load_bar . . brain brain brain . chat"
-    "load_bar pratique_btn . brain brain brain . chat"
-    "load_bar bruh . . . . . chat"
-    "load_bar bruh . . . . . ."
+        "load_bar titre titre titre titre titre titre quitter_btn"
+        "load_bar main_display main_display main_display main_display main_display main_display chat"
+        "load_bar main_display main_display main_display main_display main_display main_display chat"
+        "load_bar main_display main_display main_display main_display main_display main_display chat"
+        "load_bar main_display main_display main_display main_display main_display main_display chat"
+        "load_bar bruh . . . . . .";
 }
 
-.bruh{
+.bruh {
     grid-area: bruh;
     width: 100%;
 }
 
-.chat{
+.chat {
     grid-area: chat;
-    border: var(--border-line) 4px solid ;
-    background-color: var(--box-shadow);
-    z-index: 1;
+    background: linear-gradient(rgba(134, 134, 134, 0.1), rgba(0, 0, 0, 0.6));
+    border-radius: 5% 5% 0px 0px;
+    z-index: 99999999;
     height: 0%;
-    overflow-y: hidden;
     animation: flicker-on-2 2s both, show_chat 3s 3s forwards;
+    box-shadow: 0px 0px 1px rgb(255, 255, 255), 0px 0px 5px black, 0px 0px 10px black,
+        0px 0px 15px rgba(0, 0, 0, 0.2);
+
+    overflow: hidden;
 }
 
-.chat > iframe{
+.chat > iframe {
     width: 100%;
     height: 100%;
+    border: none;
+    overflow: hidden;
 }
 
-#lobby_dead_pixel_effect{
+#lobby_dead_pixel_effect {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -69,13 +74,13 @@ body{
     display: none;
 }
 
-.dead_pixel{
+.dead_pixel {
     background: transparent;
     width: 100%;
     height: 5px;
 }
 
-.lobby-header{
+.lobby-header {
     grid-area: titre;
     display: flex;
     flex-flow: column;
@@ -85,12 +90,12 @@ body{
     font-size: 1.4rem;
 }
 
-.lobby-header > h1{
+.lobby-header > h1 {
     letter-spacing: 10px;
     animation: glow 25s infinite both;
 }
 
-.lobby-header > p >span{
+.lobby-header > p > span {
     font-weight: bolder;
     font-size: 2rem;
     background-image: url("../img/matrix-code.gif");
@@ -99,67 +104,59 @@ body{
     color: transparent;
 }
 
-.lobby-btn{
+.lobby-btn {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    width: 100%;
+    width: 40%;
+    aspect-ratio: 1/1;
     animation: flicker-on-2 0.5s linear 2.5s both;
     transition: transform 0.4s;
 }
 
-.lobby-btn:hover{
-    transform: scale(1.3);
-    color:white;
+.lobby-btn:hover {
+    transform: scale(1.4);
+    color: white;
 }
 
-.lobby-btn::before, .lobby-btn::after{
+.lobby-btn::before,
+.lobby-btn::after {
     content: "";
     position: absolute;
-    width: 8vw;
-    height: 8vw;
-
+    width: 5vw;
+    aspect-ratio: 1/1;
     border-style: solid;
     border-width: 2.5px;
     border-radius: 100%;
     border-color: var(--border-line) transparent;
     animation: rotation 7s both infinite linear;
+    z-index: -2222;
 }
 
-.lobby-btn::after{
-    width: 5vw;
-    height: 5vw;
-    border-color: transparent var(--border-line) ;
+.lobby-btn::after {
+    width: 3vw;
+    aspect-ratio: 1/1;
+    border-color: transparent var(--border-line);
     animation: rotation 3s both infinite linear;
 }
 
-#jouer{
-    grid-area: jouer_btn;
-}
-
-#pratique{
-    grid-area: pratique_btn;
-    font-size: 0.75em;
-}
-
-#quitter{
+#quitter {
     grid-area: quitter_btn;
     display: flex;
     justify-content: flex-end;
-    width:100%;
+    width: 100%;
     height: 100%;
     animation: flicker-on-2 0.5s linear 3s both;
 }
-#quitter>p{
+#quitter > p {
     transition: color 0.5s;
 }
 
-#quitter>p:hover{
+#quitter > p:hover {
     color: white;
 }
 
-#load_bar{
+#load_bar {
     grid-area: load_bar;
     transform: translateY(5%);
     width: 40%;
@@ -167,7 +164,7 @@ body{
     overflow-y: hidden;
 }
 
-#load_bar > div{
+#load_bar > div {
     background-color: var(--border-line);
     width: 5%;
     height: 4px;
@@ -175,92 +172,112 @@ body{
     animation: left_side_bar_anim 4s infinite linear both;
 }
 
-
 @keyframes glow {
-    0%{
-        text-shadow:
-        0 0 7px var(--root-glow),
-        0 0 10px var(--root-glow),
-        0 0 21px var(--root-glow),
-        0 0 42px var(--neon-color),
-        0 0 82px var(--neon-color),
-        0 0 92px var(--neon-color),
-        0 0 102px var(--neon-color),
-        0 0 151px var(--neon-color);
+    0% {
+        text-shadow: 0 0 7px var(--root-glow), 0 0 10px var(--root-glow), 0 0 21px var(--root-glow),
+            0 0 42px var(--neon-color), 0 0 82px var(--neon-color), 0 0 92px var(--neon-color),
+            0 0 102px var(--neon-color), 0 0 151px var(--neon-color);
     }
-    50%{
-        text-shadow:
-        0 0 7px var(--root-glow),
-        0 0 10px var(--root-glow) ,
-        0 0 21px var(--root-glow),
-        0 0 52px var(--container-color),
-        0 0 92px var(--container-color),
-        0 0 102px var(--container-color),
-        0 0 112px var(--container-color),
-        0 0 161px var(--container-color);
+    50% {
+        text-shadow: 0 0 7px var(--root-glow), 0 0 10px var(--root-glow), 0 0 21px var(--root-glow),
+            0 0 52px var(--container-color), 0 0 92px var(--container-color),
+            0 0 102px var(--container-color), 0 0 112px var(--container-color),
+            0 0 161px var(--container-color);
     }
-    100%{
-        text-shadow:
-        0 0 7px var(--root-glow),
-        0 0 10px var(--root-glow),
-        0 0 21px var(--root-glow),
-        0 0 42px var(--neon-color),
-        0 0 82px var(--neon-color),
-        0 0 92px var(--neon-color),
-        0 0 102px var(--neon-color),
-        0 0 151px var(--neon-color);
+    100% {
+        text-shadow: 0 0 7px var(--root-glow), 0 0 10px var(--root-glow), 0 0 21px var(--root-glow),
+            0 0 42px var(--neon-color), 0 0 82px var(--neon-color), 0 0 92px var(--neon-color),
+            0 0 102px var(--neon-color), 0 0 151px var(--neon-color);
     }
 }
 
 @keyframes rotation {
-    100%{transform: rotate(360deg);}
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes left_side_bar_anim {
-    0%{width: 0%;}
-    30%{width: 100%;}
-    50%{width: 30%;}
-    80%{width: 80%;}
-    100%{width: 0%;}
+    0% {
+        width: 0%;
+    }
+    30% {
+        width: 100%;
+    }
+    50% {
+        width: 30%;
+    }
+    80% {
+        width: 80%;
+    }
+    100% {
+        width: 0%;
+    }
 }
 
 @keyframes spinY {
-    to {transform:rotateY(-360deg); }
+    to {
+        transform: rotateY(-360deg);
+    }
 }
 
 @keyframes show {
-    to {opacity: 1;}
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes show_chat {
-    to {height: 100%;}
+    to {
+        height: 100%;
+    }
 }
 
 @keyframes flicker-on-2 {
-    0% {opacity: 0;}
-    10% {opacity: 1;}
-    15% {opacity: 0;}
-    30% {opacity: 1;}
-    55% {opacity: 1;}
-    57% {opacity: 0;}
-    75% {opacity: 0;}
-    76% {opacity: 1;}
-    99% {opacity: 0;}
-    100% {opacity: 1;}
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    15% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    55% {
+        opacity: 1;
+    }
+    57% {
+        opacity: 0;
+    }
+    75% {
+        opacity: 0;
+    }
+    76% {
+        opacity: 1;
+    }
+    99% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
-
 .scene {
-    grid-area: brain;
-    width: 80%;
-    height: 100%;
+    width: 40%;
+    height: 75%;
     perspective: 100rem;
     animation: flicker-on-2 2s linear 1.2s both;
+    transition: opacity 1s;
+    margin-left: 15%;
 }
 
 .wrapper {
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
     transform: rotateX(-8deg) rotateY(0deg);
     transform-style: preserve-3d;
 }
@@ -269,7 +286,7 @@ body{
     position: relative;
     width: 70%;
     height: 70%;
-    transform-style:  preserve-3d;
+    transform-style: preserve-3d;
     animation: spinY 25s 0ms linear infinite;
 }
 
@@ -277,27 +294,41 @@ body{
     position: absolute;
     width: 100%;
     height: 100%;
-    border: .3rem;
+    border: 0.3rem;
     border-style: dotted;
     border-radius: 50%;
-    color:var(--border-line);
+    color: var(--border-line);
     animation: show 0.75s forwards ease-in-out;
     opacity: 0;
 }
 
-.ring:nth-child(1) {transform: rotateY(4deg);}
-.ring:nth-child(2) {transform: rotateY(30deg);}
-.ring:nth-child(3) {transform: rotateY(56deg);}
-.ring:nth-child(4) {transform: rotateY(82deg);}
-.ring:nth-child(5) {transform: rotateY(108deg);}
-.ring:nth-child(6) {transform: rotateY(134deg);}
-.ring:nth-child(7) {transform: rotateY(160deg);}
+.ring:nth-child(1) {
+    transform: rotateY(4deg);
+}
+.ring:nth-child(2) {
+    transform: rotateY(30deg);
+}
+.ring:nth-child(3) {
+    transform: rotateY(56deg);
+}
+.ring:nth-child(4) {
+    transform: rotateY(82deg);
+}
+.ring:nth-child(5) {
+    transform: rotateY(108deg);
+}
+.ring:nth-child(6) {
+    transform: rotateY(134deg);
+}
+.ring:nth-child(7) {
+    transform: rotateY(160deg);
+}
 .ring:nth-child(8) {
     transform: rotateY(4deg) rotateX(75deg) scale(2);
     border-style: dashed;
 }
 .ring:nth-child(9) {
-    transform: rotateY(4deg)  rotateX(75deg) scale(1.75);
+    transform: rotateY(4deg) rotateX(75deg) scale(1.75);
     border-style: solid;
 }
 .ring:nth-child(10) {
@@ -307,14 +338,80 @@ body{
 .ring:nth-child(11) {
     transform: rotateY(4deg) rotateX(-75deg) scale(2);
     border-style: dashed;
-
 }
 .ring:nth-child(12) {
-    transform: rotateY(4deg)  rotateX(-75deg) scale(1.75);
+    transform: rotateY(4deg) rotateX(-75deg) scale(1.75);
     border-style: solid;
     animation: spinY 25s 0ms linear infinite;
 }
 .ring:nth-child(13) {
     transform: rotateY(4deg) rotateX(-75deg) scale(1.5);
     border-style: dashed;
+}
+
+.cool {
+    position: absolute;
+    width: 120%;
+    aspect-ratio: 1/1;
+    border-style: solid;
+    border-width: 2.5px;
+    border-radius: 100%;
+    border-color: var(--border-line) transparent;
+    animation: rotation 9s both infinite linear;
+    z-index: -2222;
+
+    left: -45vw;
+}
+
+.cool:nth-child(5) {
+    top: -80vh;
+}
+.cool:nth-child(6) {
+    top: -70vh;
+}
+.cool:nth-child(3) {
+    top: -60vh;
+}
+.cool:nth-child(4) {
+    top: -50vh;
+}
+
+.main_display {
+    grid-area: main_display;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main_display > div {
+    height: 100%;
+    width: 10%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+.center {
+    min-width: 90% !important;
+    justify-content: center;
+}
+
+.btn_left {
+    align-items: flex-start;
+}
+.btn_right {
+    align-items: center;
+}
+.deck {
+    display: none;
+    width: 100%;
+    height: 100%;
+    z-index: 222;
+}
+
+.deck > iframe {
+    width: 100%;
+    border: none;
 }
