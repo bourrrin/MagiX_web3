@@ -23,22 +23,41 @@ let hp = 30;
 let o_hp = 0;
 let attaquant = null;
 let chatIsDisplayed = false;
+let settingIsDisplayed = false;
 
 window.addEventListener("load", () => {
     window.addEventListener("contextmenu", (e) => e.preventDefault());
     document.querySelector(".show_card").addEventListener("click", hide_card);
     document.querySelector(".show_chat").addEventListener("click", hide_card);
+    document.querySelector(".show_settings").addEventListener("click", hide_card);
     document.querySelector("#p_power").addEventListener("click", useHeroPower);
     document.querySelector(".turn").addEventListener("click", turn);
     document.querySelector(".surrender").addEventListener("click", surrender);
     document.querySelector(".o_interface").addEventListener("click", attackHero);
     document.querySelector(".chat").addEventListener("click", displayChat);
+    document.querySelector(".settings").addEventListener("click", displaySettings);
+    document.querySelector("#control_btn").addEventListener("click", displaySettingControl);
+    document.querySelector("#sound_btn").addEventListener("click", displaySettingSound);
+    document.querySelector("#animation_btn").addEventListener("click", displaySettingAnimation);
+    document.querySelector("#p_sub_menu_btn").addEventListener("click", () => {
+        showSubMenu("p");
+    });
+    document.querySelector(".p_sub_menu").addEventListener("click", () => {
+        hideSubMenu("p");
+    });
+    document.querySelector(".o_sub_menu").addEventListener("click", () => {
+        hideSubMenu("o");
+    });
+    document.querySelector("#o_sub_menu_btn").addEventListener("click", () => {
+        showSubMenu("o");
+    });
+
     document.querySelector(".quitter").addEventListener("click", () => {
         window.location.replace("lobby.php");
     });
 
     start_animation_ouverture();
-    test();
+    // test();
     CheckGameState();
 });
 
@@ -68,8 +87,15 @@ function display_UI() {
     document.querySelector(".turn").style.transform = "translateX(0)";
     document.querySelector(".timer").style.transform = "translateX(0)";
     document.querySelector(".surrender").style.transform = "translateX(0)";
+    document.querySelector(".menu").style.transform = "translateX(0)";
 
-    document.querySelector(".ui").style.opacity = "1";
+    document.querySelector(".ui").style.width = "100%";
+    document.querySelector(".ui").childNodes.forEach((e) => {
+        if (e instanceof HTMLDivElement) e.style.transform = "translateX(1.85vw)";
+    });
+
+    displaySubMenu("o");
+    displaySubMenu("p");
 
     for (let i = 0; i < 10; i++) {
         document
@@ -79,6 +105,15 @@ function display_UI() {
             .querySelector("#p_mana_bar")
             .appendChild(utils.create_element_class("div", "mana-off"));
     }
+}
+
+function displaySubMenu(target) {
+    document.querySelector("." + target + "_sub_menu").style.opacity = 1;
+    document.querySelector("." + target + "_sub_menu").style.left = "17vw";
+    setTimeout(() => {
+        document.querySelector("." + target + "_sub_menu").style.left = "2vw";
+        document.querySelector("." + target + "_sub_menu").style.opacity = 0;
+    }, 10000);
 }
 
 function show_card() {
@@ -98,7 +133,19 @@ function show_card() {
 }
 
 function hide_card() {
-    document.querySelector(".show_card").style.left = "100vw";
+    document.querySelector(".show_card").style.left = "105vw";
+}
+
+function showSubMenu(target) {
+    let element = document.querySelector("." + target + "_sub_menu");
+    element.style.opacity = 1;
+    element.style.left = "17vw";
+}
+
+function hideSubMenu(target) {
+    let element = document.querySelector("." + target + "_sub_menu");
+    element.style.opacity = 0;
+    element.style.left = "2vw";
 }
 
 //#endregion
@@ -118,23 +165,30 @@ function turn() {
 }
 
 function playCard() {
-    let cost = event.currentTarget.querySelector(".cost").innerHTML;
-    let hand = document.querySelector(".p_board");
-    if (hand.childElementCount < 7 || yourTurn || cost < mp) {
-        APICall("action", "PLAY", event.currentTarget.querySelector(".uid").innerHTML);
+    let card = event.currentTarget;
+    let cost = card.querySelector(".cost").innerHTML;
+    let board_count = document.querySelector(".p_board").childElementCount;
+
+    if (board_count < 7 && yourTurn && cost <= mp) {
+        APICall("action", "PLAY", card.querySelector(".uid").innerHTML);
+
+        card.style.boxShadow =
+            "0 0 5px rgb(255, 255, 255),0 0 10px rgb(255, 255, 255), 0 0 20px rgb(255, 255, 255)";
+        setTimeout(() => {
+            card.style.boxShadow = "0 0 4px rgb(0, 0, 0), 0 0 10px rgb(255, 0, 212)";
+        }, 600);
     }
 }
 
 function setAttacker() {
     let target = event.currentTarget;
-    let uid = event.currentTarget.querySelector(".uid").innerHTML;
-    let state = event.currentTarget.querySelector(".state").innerHTML;
-    console.log(state);
+    let uid = target.querySelector(".uid").innerHTML;
+    let state = target.querySelector(".state").innerHTML;
     if (yourTurn) {
         if (state != "SLEEP" && attaquant != uid) {
             attaquant = uid;
             target.style.boxShadow =
-                "0 0 5px rgb(255, 255, 255),0 0 10px rgb(255, 255, 255), 0 0 20px rgb(255, 255, 255)";
+                "0 0 5px rgb(255, 255, 255),0 0 8px rgb(255, 255, 255), 0 0 12px rgb(255, 255, 255)";
         } else if (attaquant == uid) {
             attaquant = null;
             target.style.boxShadow = "0 0 4px rgb(0, 0, 0), 0 0 10px rgb(255, 0, 212)";
@@ -143,10 +197,15 @@ function setAttacker() {
 }
 
 function setDefender() {
-    let defenseur = event.currentTarget.querySelector(".uid").innerHTML;
-    event.currentTarget.querySelector(".uid").style.border = "solid red 2px";
+    let target = event.currentTarget;
+    let defenseur = target.querySelector(".uid").innerHTML;
     if (attaquant != null) {
         APICall("action", "ATTACK", attaquant, defenseur);
+        target.style.boxShadow =
+            "0 0 5px rgb(255, 255, 255),0 0 6px rgb(255, 255, 255), 0 0 8px rgb(255, 255, 255)";
+        setTimeout(() => {
+            target.style.boxShadow = "0 0 4px rgb(0, 0, 0), 0 0 10px rgb(255, 0, 212)";
+        }, 500);
     }
 }
 
@@ -399,7 +458,11 @@ function setCardAttribute(card_data, node) {
     node.appendChild(utils.create_element_class("div", "state", card_data["state"]));
     node.appendChild(utils.create_element_class("div", "name", "Soul eater"));
 
-    node.style.backgroundImage = "url(img/cards/" + card_data["id"] + ".jpg)";
+    if (card_data["id"] >= 1 && card_data["id"] <= 100) {
+        node.style.backgroundImage = "url(img/cards/" + card_data["id"] + ".jpg)";
+    } else {
+        node.style.backgroundImage = "url(img/cards/0.jpg)";
+    }
 }
 
 //#endregion
@@ -416,6 +479,51 @@ function displayChat() {
         div.style.left = "calc(98vw - var(--width))";
         chatIsDisplayed = true;
     }
+}
+
+function displaySettings() {
+    clickedBtn(document.querySelector(".settings"));
+    let div = document.querySelector(".show_settings");
+    if (settingIsDisplayed) {
+        div.style.left = "100vw";
+        settingIsDisplayed = false;
+    } else {
+        div.style.left = "calc(98vw - var(--width))";
+        settingIsDisplayed = true;
+    }
+}
+
+function displaySettingControl() {
+    setSettingStyle();
+    document.querySelector("#control").style.display = "block";
+    document.querySelector("#control_btn").classList.add("btn_selected");
+}
+
+function displaySettingAnimation() {
+    setSettingStyle();
+    document.querySelector("#animation").style.display = "block";
+    document.querySelector("#animation_btn").classList.add("btn_selected");
+}
+
+function displaySettingSound() {
+    setSettingStyle();
+    document.querySelector("#sound").style.display = "block";
+    document.querySelector("#sound_btn").classList.add("btn_selected");
+}
+
+function setSettingStyle() {
+    document.querySelector("#settings_btn").childNodes.forEach((btn) => {
+        if (btn instanceof HTMLDivElement) {
+            if (btn.classList.contains("btn_selected")) {
+                btn.classList.remove("btn_selected");
+            }
+        }
+    });
+    document.querySelector(".settings_txt").childNodes.forEach((txt) => {
+        if (txt instanceof HTMLDivElement) {
+            txt.style.display = "none";
+        }
+    });
 }
 
 function displayTimer(data) {
@@ -454,11 +562,16 @@ function displayMana(mp, target) {
     });
 }
 
-function displayHeros(data) {
-    document.querySelector("#p_hero").style.background =
-        "url(img/hero/" + data["heroClass"] + ".jfif)";
-    document.querySelector("#o_hero").style.background =
-        "url(img/hero/" + data["opponent"]["heroClass"] + ".jfif)";
+function displayPlayerInfo(data, target) {
+    if (target == "o") {
+        document.querySelector("#" + target + "_username").innerHTML = data["username"];
+    } else {
+        document.querySelector("#" + target + "_username").innerHTML = "";
+    }
+    document.querySelector("#" + target + "_welcome_txt").innerHTML =
+        '"' + data["welcomeText"] + '"';
+    document.querySelector("#" + target + "_hero_class").innerHTML = data["heroClass"];
+    document.querySelector("#" + target + "_talent").innerHTML = data["talent"];
 }
 
 function displayRemainingCardsCount(data, target) {
@@ -518,6 +631,15 @@ function displayEndGame(win) {
         element.innerHTML = "LOSER";
     }
     document.querySelector(".game_over").style.display = "block";
+}
+
+function displayTurnIndicator(data) {
+    if (data["yourTurn"] != yourTurn && data["yourTurn"]) {
+        document.querySelector(".turn_indicator").style.display = "flex";
+        setTimeout(() => {
+            document.querySelector(".turn_indicator").style.display = "none";
+        }, 3000);
+    }
 }
 
 //#endregion
@@ -590,10 +712,13 @@ function APICall(name, type, uid = null, targetuid = null) {
 function gameHandler(data) {
     if (yourTurn == null) {
         display_UI();
-        // displayHeros(data);
+        displayPlayerInfo(data["opponent"], "o");
+        displayPlayerInfo(data, "p");
+    } else {
+        displayTurnIndicator(data);
     }
-
     yourTurn = data["yourTurn"];
+
     heroPowerAlreadyUsed = data["heroPowerAlreadyUsed"];
     mp = data["mp"];
     displayLifeLose(data["opponent"], "o");

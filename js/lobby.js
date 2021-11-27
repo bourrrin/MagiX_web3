@@ -118,12 +118,10 @@ function quitter() {
 
 function jouer() {
   APICall("action", "jouer");
-  // start_transition_tunel();
 }
 
 function pratique() {
   APICall("action", "pratique");
-  // start_transition_tunel();
 }
 
 function APICall(name, value) {
