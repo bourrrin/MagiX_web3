@@ -21,6 +21,11 @@
     src: url(../font/OriginTech_personal_use.ttf);
 }
 
+@font-face {
+    font-family: gomeover;
+    src: url(../font/big_noodle_titling_oblique.ttf);
+}
+
 body{
     width: 100vw;
     height: 100vh;

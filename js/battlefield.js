@@ -34,6 +34,7 @@ window.addEventListener("load", () => {
     document.querySelector(".turn").addEventListener("click", turn);
     document.querySelector(".surrender").addEventListener("click", surrender);
     document.querySelector(".o_interface").addEventListener("click", attackHero);
+    document.querySelector(".o_hand").addEventListener("click", attackHero);
     document.querySelector(".chat").addEventListener("click", displayChat);
     document.querySelector(".settings").addEventListener("click", displaySettings);
     document.querySelector("#control_btn").addEventListener("click", displaySettingControl);
@@ -331,30 +332,32 @@ function displayCardsOnBoard(board, target) {
         possessedCards.push(c["uid"]);
     });
 
-    //IDENTIFIE CARTES EN TROP OU MANQUANTE
-    let deadCards = displayedCards.filter((x) => !possessedCards.includes(x));
-    let missingCards = possessedCards.filter((x) => !displayedCards.includes(x));
+    if (!utils.isArrayEqual(displayedCards, possessedCards)) {
+        //IDENTIFIE CARTES EN TROP OU MANQUANTE
+        let deadCards = displayedCards.filter((x) => !possessedCards.includes(x));
+        let missingCards = possessedCards.filter((x) => !displayedCards.includes(x));
 
-    //AFFICHE CARTES EN TROP
-    deadCards.forEach((deadCard_uid) => {
-        element.childNodes.forEach((displayedCard) => {
-            if (displayedCard.querySelector(".uid").innerHTML == deadCard_uid) {
-                displayedCard.classList.add("death");
-                setTimeout(() => {
-                    element.removeChild(displayedCard);
-                }, 1000);
-            }
+        //AFFICHE CARTES EN TROP
+        deadCards.forEach((deadCard_uid) => {
+            element.childNodes.forEach((displayedCard) => {
+                if (displayedCard.querySelector(".uid").innerHTML == deadCard_uid) {
+                    displayedCard.classList.add("death");
+                    setTimeout(() => {
+                        element.removeChild(displayedCard);
+                    }, 1000);
+                }
+            });
         });
-    });
 
-    //AFFICHE CARTES MANQUANTE
-    missingCards.forEach((missingCard_uid) => {
-        board.forEach((possessedCard) => {
-            if (possessedCard["uid"] == missingCard_uid) {
-                createCardOnBoard(possessedCard, target);
-            }
+        //AFFICHE CARTES MANQUANTE
+        missingCards.forEach((missingCard_uid) => {
+            board.forEach((possessedCard) => {
+                if (possessedCard["uid"] == missingCard_uid) {
+                    createCardOnBoard(possessedCard, target);
+                }
+            });
         });
-    });
+    }
 }
 
 function displayPlayerHand(data) {
@@ -372,27 +375,29 @@ function displayPlayerHand(data) {
         possessedCards.push(c["uid"]);
     });
 
-    //IDENTIFIE CARTES EN TROP OU MANQUANTE
-    let playedCards = displayedCards.filter((x) => !possessedCards.includes(x));
-    let missingCards = possessedCards.filter((x) => !displayedCards.includes(x));
+    if (!utils.isArrayEqual(displayedCards, possessedCards)) {
+        //IDENTIFIE CARTES EN TROP OU MANQUANTE
+        let playedCards = displayedCards.filter((x) => !possessedCards.includes(x));
+        let missingCards = possessedCards.filter((x) => !displayedCards.includes(x));
 
-    //AFFICHE CARTES EN TROP
-    playedCards.forEach((playedCard_uid) => {
-        element.childNodes.forEach((displayedCard) => {
-            if (displayedCard.querySelector(".uid").innerHTML == playedCard_uid) {
-                element.removeChild(displayedCard);
-            }
+        //AFFICHE CARTES EN TROP
+        playedCards.forEach((playedCard_uid) => {
+            element.childNodes.forEach((displayedCard) => {
+                if (displayedCard.querySelector(".uid").innerHTML == playedCard_uid) {
+                    element.removeChild(displayedCard);
+                }
+            });
         });
-    });
 
-    //AFFICHE CARTES MANQUANTE
-    missingCards.forEach((missingCard_uid) => {
-        hand.forEach((possessedCard) => {
-            if (possessedCard["uid"] == missingCard_uid) {
-                createCardsInHand(possessedCard, "p");
-            }
+        //AFFICHE CARTES MANQUANTE
+        missingCards.forEach((missingCard_uid) => {
+            hand.forEach((possessedCard) => {
+                if (possessedCard["uid"] == missingCard_uid) {
+                    createCardsInHand(possessedCard, "p");
+                }
+            });
         });
-    });
+    }
 }
 
 function displayOpponentHand(data) {
@@ -458,11 +463,23 @@ function setCardAttribute(card_data, node) {
     node.appendChild(utils.create_element_class("div", "state", card_data["state"]));
     node.appendChild(utils.create_element_class("div", "name", "Soul eater"));
 
+    node.appendChild(
+        setCardMechIcon(card_data["mechanics"], utils.create_element_class("div", "mech_icon"))
+    );
+
     if (card_data["id"] >= 1 && card_data["id"] <= 100) {
         node.style.backgroundImage = "url(img/cards/" + card_data["id"] + ".jpg)";
     } else {
         node.style.backgroundImage = "url(img/cards/0.jpg)";
     }
+}
+
+function setCardMechIcon(mech, node) {
+    if (mech.includes("Taunt")) node.appendChild(utils.create_img("img/taunt.png"));
+    if (mech.includes("Stealth")) node.appendChild(utils.create_img("img/deathrattle.png"));
+    if (mech.includes("Charge")) node.appendChild(utils.create_img("img/charge.png"));
+
+    return node;
 }
 
 //#endregion
@@ -476,7 +493,7 @@ function displayChat() {
         div.style.left = "100vw";
         chatIsDisplayed = false;
     } else {
-        div.style.left = "calc(98vw - var(--width))";
+        div.style.left = "calc(97vw - var(--width))";
         chatIsDisplayed = true;
     }
 }
@@ -620,11 +637,11 @@ function displayLifeLose(data, target) {
 function displayEndGame(win) {
     let element = document.querySelector("#gamwOver_txt");
     if (win) {
-        element.innerHTML = "YOU WIN";
-        element.style.color = "#2c74d0";
+        element.innerHTML = "VICTORY!";
+        element.classList.add("victory");
     } else {
-        element.style.color = "red";
-        element.innerHTML = "LOSER";
+        element.innerHTML = "DEFEAT";
+        element.classList.add("defeat");
     }
     document.querySelector(".game_over").style.display = "block";
 }

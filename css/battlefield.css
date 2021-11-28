@@ -140,7 +140,7 @@
 
 .show_chat,
 .show_settings {
-    --width: 19vw;
+    --width: 21vw;
     --height: calc(var(--ratio) * var(--width));
     background: rgba(0, 183, 255, 0.7);
     position: absolute;
@@ -649,6 +649,7 @@
 .atk,
 .hp,
 .name,
+.mech_icon,
 .mechanics {
     position: absolute;
     display: flex;
@@ -754,6 +755,23 @@
     overflow: hidden;
 }
 
+.mech_icon {
+    --element-width: calc(var(--container-width) * 0.15);
+    --element-translateY: calc(var(--card-border) * 4.5);
+    --element-translateX: calc(var(--element-width) * 0.2);
+
+    aspect-ratio: 1/5;
+    background: none;
+    flex-direction: column;
+    justify-content: start;
+    border: none;
+    box-shadow: none;
+}
+.mech_icon > img {
+    width: 100%;
+    margin-top: 30%;
+}
+
 .uid,
 .state,
 .baseHP,
@@ -829,20 +847,19 @@
 
 .game_over > * {
     position: absolute;
-    animation: display_txt_gameOver 1.5s both 1.5s;
-    opacity: 0;
 }
 
 .game_over > h1 {
+    font-family: gomeover;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
-    font-size: 6rem;
-
-    text-shadow: -4px -4px 0px rgb(255, 255, 255), 2px -2px 0 rgb(255, 255, 255),
-        -2px 2px 0 rgb(255, 255, 255), 2px 2px 0 rgb(255, 255, 255);
+    font-size: 8rem;
+    font-style: italic;
+    opacity: 1 !important;
+    animation: shake 0.5s infinite alternate;
 }
+
 .game_over > div {
     top: 88%;
     left: 91%;
@@ -854,6 +871,8 @@
     background: rgba(128, 127, 127, 0.5);
     border: rgb(255, 255, 255) 2px solid;
     box-shadow: 0 0 5px rgb(129, 129, 129), 0 0 10px rgb(95, 95, 95);
+    animation: display_txt_gameOver 1.5s both 1.5s;
+    opacity: 0;
 }
 
 @keyframes flicker-on-2 {
@@ -916,5 +935,57 @@
         transform: scale(1.5);
         left: 44vw;
         top: 45vh;
+    }
+}
+
+.victory {
+    --text-shadow: #813d08;
+    color: #fdc844;
+    text-shadow: -2px -2px 0px var(--text-shadow), 2px -2px 0 var(--text-shadow),
+        -2px 2px 0 var(--text-shadow), 2px 2px 0 var(--text-shadow);
+    font-size: 1.2rem;
+}
+
+.defeat {
+    --text-shadow: #810808;
+    color: #fd4444;
+    text-shadow: -2px -2px 0px var(--text-shadow), 2px -2px 0 var(--text-shadow),
+        -2px 2px 0 var(--text-shadow), 2px 2px 0 var(--text-shadow);
+    font-size: 1.2rem;
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(-50.5%, -50.8%);
+    }
+    10% {
+        transform: translate(-50.4%, -50.1%);
+    }
+    20% {
+        transform: translate(-50.3%, -50.5%);
+    }
+    30% {
+        transform: translate(-50.8%, -50.1%);
+    }
+    40% {
+        transform: translate(-50.2%, -50.8%);
+    }
+    50% {
+        transform: translate(-50.6%, -50.1%);
+    }
+    60% {
+        transform: translate(-50.1%, -50.7%);
+    }
+    70% {
+        transform: translate(-50.6%, -50.3%);
+    }
+    80% {
+        transform: translate(-50%, -50.4%);
+    }
+    90% {
+        transform: translate(-50.9%, -50.2%);
+    }
+    100% {
+        transform: translate(-50.2%, -50.1%);
     }
 }
