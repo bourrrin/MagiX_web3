@@ -21,12 +21,13 @@ class Utils {
         return node;
     }
 
-    create_img(src) {
+    create_img(src, class_name = null) {
         let node = document.createElement("img");
         node.src = src;
+        if (class_name != null) node.setAttribute("class", class_name);
+
         return node;
     }
-
 
     shuffle(array) {
         // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array

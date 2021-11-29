@@ -2,6 +2,7 @@
     require_once("partial/header.php");
 ?>
     <script src="js/battlefield.js"></script>
+    <script src="js/Carte.js"></script>
     <link rel="stylesheet" href="css/battlefield.css">
 
     <div class="battlefield_background_container">
@@ -127,6 +128,11 @@
 
     <div class="game_over">
         <h1 id="gamwOver_txt"></h1>
+        <div class="quitter">QUITTER</div>
+    </div>
+
+    <div class="waiting_screen game_over">
+        <h1>WAITING ...</h1>
         <div class="quitter">QUITTER</div>
     </div>
 

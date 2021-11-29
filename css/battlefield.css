@@ -758,7 +758,7 @@
 .mech_icon {
     --element-width: calc(var(--container-width) * 0.15);
     --element-translateY: calc(var(--card-border) * 4.5);
-    --element-translateX: calc(var(--element-width) * 0.2);
+    --element-translateX: calc(var(--element-width) * 0.28);
 
     aspect-ratio: 1/5;
     background: none;
@@ -767,6 +767,7 @@
     border: none;
     box-shadow: none;
 }
+
 .mech_icon > img {
     width: 100%;
     margin-top: 30%;
@@ -845,7 +846,8 @@
     animation: flicker-on-2 1.5s both;
 }
 
-.game_over > * {
+.game_over > *,
+.waiting_screen > * {
     position: absolute;
 }
 
@@ -860,7 +862,7 @@
     animation: shake 0.5s infinite alternate;
 }
 
-.game_over > div {
+.quitter {
     top: 88%;
     left: 91%;
 
@@ -871,7 +873,7 @@
     background: rgba(128, 127, 127, 0.5);
     border: rgb(255, 255, 255) 2px solid;
     box-shadow: 0 0 5px rgb(129, 129, 129), 0 0 10px rgb(95, 95, 95);
-    animation: display_txt_gameOver 1.5s both 1.5s;
+    animation: display_txt_gameOver 1s both 1.5s;
     opacity: 0;
 }
 
@@ -988,4 +990,16 @@
     100% {
         transform: translate(-50.2%, -50.1%);
     }
+}
+
+.waiting_screen {
+    display: flex;
+    width: 100%;
+    background: none;
+    box-shadow: none;
+    animation: flicker-on-2 1s !important;
+}
+
+.waiting_screen > * {
+    animation: flicker-on-1 1s both !important;
 }

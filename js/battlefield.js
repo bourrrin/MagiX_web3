@@ -14,8 +14,8 @@ const applyStyles = (iframe) => {
 };
 
 //#endregion
-let mana = 1;
 let utils = new Utils();
+let carte = new Carte();
 let yourTurn = null;
 let heroPowerAlreadyUsed = false;
 let mp = 0;
@@ -284,13 +284,15 @@ function displaySelectedCard() {
 }
 
 function updateCardsAttribute(data, target) {
-    document.querySelector("." + target + "_board").childNodes.forEach((child) => {
+    document.querySelector("." + target).childNodes.forEach((child) => {
         data.forEach((d) => {
             if (d["uid"] == child.querySelector(".uid").innerHTML) {
                 child.querySelector(".hp").innerHTML = d["hp"];
                 child.querySelector(".atk").innerHTML = d["atk"];
                 child.querySelector(".mechanics").innerHTML = d["mechanics"];
                 child.querySelector(".state").innerHTML = d["state"];
+                child.querySelector(".state").innerHTML = d["state"];
+                child.style.backgroundImage = "url(img/cards/" + d["id"] + ".jpg)";
             }
         });
     });
@@ -461,7 +463,8 @@ function setCardAttribute(card_data, node) {
     node.appendChild(utils.create_element_class("div", "mechanics", card_data["mechanics"]));
     node.appendChild(utils.create_element_class("div", "uid", card_data["uid"]));
     node.appendChild(utils.create_element_class("div", "state", card_data["state"]));
-    node.appendChild(utils.create_element_class("div", "name", "Soul eater"));
+
+    node.appendChild(utils.create_element_class("div", "name", carte.getNomCarte[card_data["id"]]));
 
     node.appendChild(
         setCardMechIcon(card_data["mechanics"], utils.create_element_class("div", "mech_icon"))
@@ -475,11 +478,59 @@ function setCardAttribute(card_data, node) {
 }
 
 function setCardMechIcon(mech, node) {
-    if (mech.includes("Taunt")) node.appendChild(utils.create_img("img/taunt.png"));
-    if (mech.includes("Stealth")) node.appendChild(utils.create_img("img/deathrattle.png"));
-    if (mech.includes("Charge")) node.appendChild(utils.create_img("img/charge.png"));
+    if (mech.includes("Taunt")) node.appendChild(utils.create_img("img/taunt.png", "taunt"));
+    if (mech.includes("Stealth"))
+        node.appendChild(utils.create_img("img/deathrattle.png", "stealth"));
+    if (mech.includes("Charge")) node.appendChild(utils.create_img("img/charge.png", "charge"));
 
     return node;
+}
+
+function updateMechIcon(board, target) {
+    if (board.length > 0) {
+        let element = document.querySelector("." + target + "_board");
+
+        element.childNodes.forEach((e) => {
+            let uid = +e.querySelector(".uid").innerHTML;
+            let displayedIcons = [];
+            let possessedIcons = [];
+            let mech_icon = e.querySelector(".mech_icon");
+
+            // IDENTIFIE LES ICONS AFFICHER
+            if (mech_icon.childElementCount > 0) {
+                mech_icon.childNodes.forEach((icons) => {
+                    let temp = icons.classList;
+                    displayedIcons.push(temp[0]);
+                });
+            }
+
+            board.forEach((possessedCard) => {
+                if (possessedCard["uid"] == uid) {
+                    if (possessedCard["mechanics"].includes("Taunt")) possessedIcons.push("taunt");
+                    if (possessedCard["mechanics"].includes("Stealth"))
+                        possessedIcons.push("stealth");
+                    if (possessedCard["mechanics"].includes("Charge"))
+                        possessedIcons.push("charge");
+                    possessedCard;
+                }
+            });
+
+            if (!utils.isArrayEqual(displayedIcons, possessedIcons)) {
+                mech_icon.childNodes.forEach((icons) => {
+                    mech_icon.removeChild(icons);
+                });
+
+                if (possessedIcons.includes("taunt")) {
+                    mech_icon.appendChild(utils.create_img("img/taunt.png", "taunt"));
+                    console.log("xfkjsdlf Taut");
+                }
+                if (possessedIcons.includes("stealth"))
+                    mech_icon.appendChild(utils.create_img("img/deathrattle.png", "stealth"));
+                if (possessedIcons.includes("charge"))
+                    mech_icon.appendChild(utils.create_img("img/charge.png", "charge"));
+            }
+        });
+    }
 }
 
 //#endregion
@@ -725,6 +776,7 @@ function gameHandler(data) {
         display_UI();
         displayPlayerInfo(data["opponent"], "o");
         displayPlayerInfo(data, "p");
+        document.querySelector(".waiting_screen").style.display = "none";
     } else {
         displayTurnIndicator(data);
     }
@@ -749,12 +801,28 @@ function gameHandler(data) {
     displayMana(data["opponent"]["mp"], "o");
     displayRemainingCardsCount(data["remainingCardsCount"], "p");
     displayRemainingCardsCount(data["opponent"]["remainingCardsCount"], "o");
-    updateCardsAttribute(data["board"], "p");
-    updateCardsAttribute(data["opponent"]["board"], "o");
+    updateCardsAttribute(data["board"], "p_board");
+    updateCardsAttribute(data["board"], "p_hand");
+    updateCardsAttribute(data["opponent"]["board"], "o_board");
 
     displayPlayerHand(data);
     displayOpponentHand(data);
     displayCardsOnBoard(data["board"], "p");
     displayCardsOnBoard(data["opponent"]["board"], "o");
     displaySelectedCard();
+    updateMechIcon(data["board"], "p");
+    updateMechIcon(data["opponent"]["board"], "o");
+}
+
+function myFunction() {
+    var splitResearchArea = [];
+    var textInput = document.getElementById("numb").value;
+    var splitTextInput = textInput.split(",");
+
+    for (var i = 0; i < splitTextInput.length; i++) {
+        var spltResearchArea = splitTextInput[i];
+        splitResearchArea.Push(spltResearchArea);
+    }
+
+    console.log(splitResearchArea);
 }
