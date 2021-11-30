@@ -813,16 +813,3 @@ function gameHandler(data) {
     updateMechIcon(data["board"], "p");
     updateMechIcon(data["opponent"]["board"], "o");
 }
-
-function myFunction() {
-    var splitResearchArea = [];
-    var textInput = document.getElementById("numb").value;
-    var splitTextInput = textInput.split(",");
-
-    for (var i = 0; i < splitTextInput.length; i++) {
-        var spltResearchArea = splitTextInput[i];
-        splitResearchArea.Push(spltResearchArea);
-    }
-
-    console.log(splitResearchArea);
-}
