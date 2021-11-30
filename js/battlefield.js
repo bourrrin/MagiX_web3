@@ -58,7 +58,7 @@ window.addEventListener("load", () => {
     });
 
     start_animation_ouverture();
-    test();
+    // test();
     CheckGameState();
 });
 

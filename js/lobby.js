@@ -175,13 +175,17 @@ function APICall(name, value) {
 //#endregion
 
 function successfullSignedOut() {
-    start_dead_pixel_animation("#024577");
+    flash_animation_login();
     setTimeout(() => {
-        start_dead_pixel_animation("black");
+        flash_animation_login();
         setTimeout(() => {
             window.location.replace("index.php");
         }, 2000);
     }, 100);
+}
+
+function flash_animation_login() {
+    document.querySelector("body").appendChild(utils.create_element_id("div", "animation_fin"));
 }
 
 function alertMessage(message) {

@@ -268,11 +268,11 @@ body {
 
 .scene {
     width: 40%;
-    height: 75%;
+    /* height: 75%; */
+    aspect-ratio: 1/1;
     perspective: 100rem;
     animation: flicker-on-2 2s linear 1.2s both;
     transition: opacity 1s;
-    margin-left: 15%;
 }
 
 .wrapper {
@@ -360,7 +360,7 @@ body {
     animation: rotation 9s both infinite linear;
     z-index: -2222;
 
-    left: -45vw;
+    left: -47vw;
 }
 
 .cool:nth-child(5) {
@@ -414,4 +414,36 @@ body {
 .deck > iframe {
     width: 100%;
     border: none;
+}
+
+#animation_fin {
+    background: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    opacity: 1;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgb(255, 255, 255), 0 0 10px #fff, 0 0 25px #fff, 0 0 50px #fff,
+        0 0 100px #024577, 0 0 150px #024577, 0 0 200px #024577, 0 0 500px #024577;
+    animation: animation_fin;
+    animation-fill-mode: both;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+}
+
+@keyframes animation_fin {
+    0% {
+        width: 0vw;
+        height: 0vw;
+        opacity: 0.7;
+        background: radial-gradient(#024577, #010717);
+    }
+    100% {
+        width: 120vw;
+        height: 120vw;
+        opacity: 1;
+        background: radial-gradient(#024577, #010717);
+    }
 }

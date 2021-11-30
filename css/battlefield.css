@@ -140,7 +140,7 @@
 
 .show_chat,
 .show_settings {
-    --width: 21vw;
+    --width: 22vw;
     --height: calc(var(--ratio) * var(--width));
     background: rgba(0, 183, 255, 0.7);
     position: absolute;
@@ -155,7 +155,9 @@
     height: 100%;
     width: 100%;
 }
-
+.show_chat {
+    left: 75vw;
+}
 .show_settings > div:first-child {
     display: flex;
     justify-content: space-around;

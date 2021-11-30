@@ -63,7 +63,7 @@
         </div>
         <div class="settings_txt">
             <div id="control">
-                <p>- Attack opponent : left click on hp indicator</p>
+                <p>- Attack opponent : left click on hp indicator or on his card</p>
                 <p>- Play Card : left click</p>
                 <p>- Show Card : right click</p>
                 <p>- Hide Card : left click</p>
