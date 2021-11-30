@@ -464,7 +464,7 @@ function setCardAttribute(card_data, node) {
     node.appendChild(utils.create_element_class("div", "uid", card_data["uid"]));
     node.appendChild(utils.create_element_class("div", "state", card_data["state"]));
 
-    node.appendChild(utils.create_element_class("div", "name", carte.getNomCarte[card_data["id"]]));
+    node.appendChild(utils.create_element_class("div", "name", carte.getNomCarte(card_data["id"])));
 
     node.appendChild(
         setCardMechIcon(card_data["mechanics"], utils.create_element_class("div", "mech_icon"))

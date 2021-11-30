@@ -1,29 +1,14 @@
 <?php
     require_once("partial/header.php");
 ?>
-    <script src="js/battlefield.js"></script>
     <script src="js/Carte.js"></script>
+    <script src="js/battlefield.js"></script>
     <link rel="stylesheet" href="css/battlefield.css">
 
     <div class="battlefield_background_container">
         <div class="battlefield_background" id="battlefield_background_up"></div>
         <div class="battlefield_background" id="battlefield_background_down"></div>
     </div>
-
-    <!-- <div class="card">
-        <div class="name"></div>
-        <div class="cost"></div>
-        <div class=atk></div>
-        <div class=hp></div>
-        <div class=baseHP></div>
-        <div class=mechanics></div>
-        <div class=uid></div>
-        <div class=mech_icon>
-            <img src="img/charge.png" alt="">
-            <img src="img/taunt.png" alt="">
-            <img src="img/deathratlle.png" alt="">
-        </div>
-    </div> -->
 
     <div class=battlefield_container>
         <div class="battlefield_wrapper">
@@ -133,6 +118,7 @@
 
     <div class="waiting_screen game_over">
         <h1>WAITING ...</h1>
+        <!-- <span></span> -->
         <div class="quitter">QUITTER</div>
     </div>
 
