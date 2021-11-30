@@ -112,8 +112,8 @@
     justify-content: start;
     align-items: center;
     flex-flow: column;
+    z-index: 65464;
 
-    transform: translate(20vw);
     transition: 1.5s;
 }
 
@@ -155,9 +155,7 @@
     height: 100%;
     width: 100%;
 }
-.show_chat {
-    left: 75vw;
-}
+
 .show_settings > div:first-child {
     display: flex;
     justify-content: space-around;
@@ -509,6 +507,7 @@
 .turn:hover,
 .menu > div:hover,
 .p_power:hover,
+.quitter:hover,
 .surrender:hover {
     background: rgba(0, 0, 0, 0.8);
     box-shadow: 0 0 5px rgb(255, 255, 255), 0 0 10px rgb(255, 255, 255), 0 0 15px rgb(255, 255, 255);
@@ -865,8 +864,10 @@
 }
 
 .quitter {
-    top: 88%;
-    left: 91%;
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    z-index: 4654364;
 
     color: white;
     font-size: 1.5rem;
@@ -996,14 +997,17 @@
 
 .waiting_screen {
     display: flex;
-    width: 100%;
+    width: 80%;
     background: none;
     box-shadow: none;
     animation: flicker-on-2 1s !important;
+    margin: 0px auto;
 }
 
 .waiting_screen > h1 {
     animation: flicker-on-1 1s both !important;
+    width: 100%;
+    text-align: center;
 }
 
 .waiting_screen > span {

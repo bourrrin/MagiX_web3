@@ -27,6 +27,8 @@ let settingIsDisplayed = false;
 
 window.addEventListener("load", () => {
     window.addEventListener("contextmenu", (e) => e.preventDefault());
+
+    document.querySelector(".quitter").addEventListener("click", quitter);
     document.querySelector(".show_card").addEventListener("click", hide_card);
     document.querySelector(".show_chat").addEventListener("click", hide_card);
     document.querySelector(".show_settings").addEventListener("click", hide_card);
@@ -88,7 +90,6 @@ function display_UI() {
     document.querySelector(".turn").style.transform = "translateX(0)";
     document.querySelector(".timer").style.transform = "translateX(0)";
     document.querySelector(".surrender").style.transform = "translateX(0)";
-    document.querySelector(".menu").style.transform = "translateX(0)";
 
     document.querySelector(".ui").style.width = "100%";
     document.querySelector(".ui").childNodes.forEach((e) => {
@@ -231,6 +232,11 @@ function clickedBtn(element) {
     setTimeout(() => {
         element.classList.remove("clicked");
     }, 1000);
+}
+
+function quitter() {
+    console.log("click");
+    window.location.replace("lobby.php");
 }
 
 //#endregion
@@ -687,6 +693,8 @@ function displayLifeLose(data, target) {
 
 function displayEndGame(win) {
     let element = document.querySelector("#gamwOver_txt");
+    document.querySelector(".waiting_screen").style.display = "none";
+    document.querySelector(".quitter").style.opacity = 1;
     if (win) {
         element.innerHTML = "VICTORY!";
         element.classList.add("victory");

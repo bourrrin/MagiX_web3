@@ -113,14 +113,13 @@
 
     <div class="game_over">
         <h1 id="gamwOver_txt"></h1>
-        <div class="quitter">QUITTER</div>
     </div>
 
     <div class="waiting_screen game_over">
         <h1>WAITING ...</h1>
         <!-- <span></span> -->
-        <div class="quitter">QUITTER</div>
     </div>
+    <div class="quitter">QUITTER</div>
 
 <?php
     require_once("partial/footer.php");
