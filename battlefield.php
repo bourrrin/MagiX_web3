@@ -59,7 +59,7 @@
 
             <div class="menu">
                 <div class="chat">CHAT</div>
-                <div class="settings">SETTINGS</div>
+                <div class="settings_btn">SETTINGS</div>
             </div>
         </div>
     </div>
@@ -68,30 +68,9 @@
             src="https://magix.apps-de-cours.com/server/#/chat/<?=  $_SESSION["player_data"]->key?>?v=1" onload="applyStyles(this)" >
         </iframe>
     </div>
-    <div class=show_settings>
-        <div id="settings_btn">
-            <div id="control_btn">CONTROL</div>
-            <div id="sound_btn">SOUNDS</div>
-            <div id="animation_btn">ANIMATIONS</div>
-        </div>
-        <div class="settings_txt">
-            <div id="control">
-                <p>- Attack opponent : left click on hp indicator or on his card</p>
-                <p>- Play Card : left click</p>
-                <p>- Show Card : right click</p>
-                <p>- Hide Card : left click</p>
-                <p>- Attack Card : left click on your card then on the target</p>
-                <p>- Use button : left click</p>
-            </div>
-            <div id="sound">
-                <p>NOT AVALAIBLE</p>
-            </div>
-            <div id="animation">
-                <p>NOT AVALAIBLE LATTER</p>
-            </div>
-        </div>
 
-    </div>
+    <?php require_once("partial/settings.php");  ?>
+
     <div class="show_card">
         <div class="name"></div>
         <div class="cost"></div>

@@ -145,44 +145,17 @@
     --height: calc(var(--ratio) * var(--width));
     background: rgba(0, 183, 255, 0.7);
     position: absolute;
-    width: var(--width);
-    height: var(--height);
+    width: var(--width) !important;
+    height: var(--height) !important;
     top: calc(98vh - var(--height));
     left: 105vw;
 
     transition: 0.8s left;
 }
+
 .show_chat > iframe {
     height: 100%;
     width: 100%;
-}
-
-.show_settings > div:first-child {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-    width: 90%;
-    height: 8%;
-    margin: 0px auto;
-    border-bottom: 1px solid white;
-}
-
-.show_settings > div:first-child > div {
-    color: rgb(255, 255, 255);
-    background: rgba(128, 127, 127, 0.5);
-    box-shadow: 0 0 5px rgb(129, 129, 129), 0 0 10px rgb(95, 95, 95);
-    transition: 0.5s;
-}
-
-.show_settings > div:first-child > div:hover {
-    background: rgba(0, 0, 0, 0.5);
-    box-shadow: 0 0 5px rgb(255, 255, 255), 0 0 10px rgb(255, 255, 255), 0 0 15px rgb(255, 255, 255);
-}
-
-.settings_txt > div {
-    width: 90%;
-    margin: 5% auto;
 }
 
 .btn_selected {
@@ -251,15 +224,6 @@
     font-size: 0.8rem;
 }
 
-#control,
-#sound,
-#animation {
-    display: none;
-}
-
-.settings_txt > div > p {
-    margin-bottom: 1%;
-}
 .o_interface {
     width: 100%;
     height: var(--UI-container-height);

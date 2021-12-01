@@ -26,10 +26,22 @@ window.addEventListener("load", () => {
 
 function set_lobby_elements() {
     document.querySelector("#quitter").addEventListener("click", quitter);
+    document.querySelector("#settings").addEventListener("click", () => {
+        displayMainMenu("settings");
+    });
     document.querySelector("#jouer").addEventListener("click", jouer);
     document.querySelector("#pratique").addEventListener("click", pratique);
-    document.querySelector("#deck").addEventListener("click", deck);
-    document.querySelector("#note").addEventListener("click", note);
+    document.querySelector("#deck").addEventListener("click", () => {
+        displayMainMenu("deck");
+    });
+    document.querySelector("#note").addEventListener("click", () => {
+        displayMainMenu("note");
+    });
+
+    document.querySelectorAll(".set_animation").forEach((e) => {
+        e.addEventListener("click", setAnimationTiming);
+    });
+
     create_dead_pixel_animation();
     create_loadingBar_animation();
 }
@@ -47,17 +59,37 @@ function animation_reduite(state) {
     }
 }
 
+function setAnimationTiming() {
+    let timing = event.currentTarget.innerHTML;
+    console.log(timing);
+
+    let formData = new FormData();
+    formData.append("anim_timing", timing);
+
+    fetch("lobbyAjax.php", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+    })
+        .then((response) => response.json())
+        .then((response) => {
+            console.log(response);
+            
+        });
+}
+
 //#region ANIMATION HANDLERS
 
-function deck() {
-    let deck = document.querySelector(".deck");
-    if (deck.style.display == "none" || deck.style.display == "") {
+function displayMainMenu(target) {
+    let div = document.querySelector("." + target);
+    console.log(div);
+    if (div.style.display == "none" || div.style.display == "") {
         document.querySelector(".center").childNodes.forEach((element) => {
             if (element instanceof HTMLDivElement) {
                 element.style.display = "none";
             }
         });
-        deck.style.display = "flex";
+        div.style.display = "flex";
     } else {
         document.querySelector(".center").childNodes.forEach((element) => {
             if (element instanceof HTMLDivElement) {

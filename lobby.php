@@ -17,8 +17,8 @@
             </div>
             <div class="main_display">
                 <div>
-                    <div class="lobby-btn" id="jouer">Jouer</div>
-                    <div class="lobby-btn" id="pratique">Pratique</div>
+                    <div class="lobby-btn" id="jouer">Play</div>
+                    <div class="lobby-btn" id="pratique">Training</div>
                     <div class="lobby-btn" id="deck">Deck</div>
                     <div class="lobby-btn" id="note">Note</div>
                 </div>
@@ -47,13 +47,18 @@
                             src="https://magix.apps-de-cours.com/server/#/deck/<?=  $_SESSION["player_data"]->key?>">
                         </iframe>
                     </div>
+                    <?php require_once("partial/settings.php");  ?>
+                    <div class="note">LOL</div>
                 </div>
             </div>
             <div class="cool"></div>
             <div class="cool"></div>
             <div class="cool"></div>
             <div class="cool"></div>
-            <div class="" id="quitter"><p>Quitter</p></div>
+            <div class="menu">
+                <p id="quitter">Exit</p>
+                <p id="settings">Settings</p>
+            </div>
             <div id="load_bar"></div>
             <div class="bruh"></div>
             <div class="chat">

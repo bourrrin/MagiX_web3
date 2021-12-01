@@ -28,6 +28,10 @@ let settingIsDisplayed = false;
 window.addEventListener("load", () => {
     window.addEventListener("contextmenu", (e) => e.preventDefault());
 
+    let test = '<%=Session["key"]%>';
+    console.log(test);
+
+    document.querySelector(".settings").classList.add("show_settings");
     document.querySelector(".quitter").addEventListener("click", quitter);
     document.querySelector(".show_card").addEventListener("click", hide_card);
     document.querySelector(".show_chat").addEventListener("click", hide_card);
@@ -38,7 +42,7 @@ window.addEventListener("load", () => {
     document.querySelector(".o_interface").addEventListener("click", attackHero);
     document.querySelector(".o_hand").addEventListener("click", attackHero);
     document.querySelector(".chat").addEventListener("click", displayChat);
-    document.querySelector(".settings").addEventListener("click", displaySettings);
+    document.querySelector(".settings_btn").addEventListener("click", displaySettings);
     document.querySelector("#control_btn").addEventListener("click", displaySettingControl);
     document.querySelector("#sound_btn").addEventListener("click", displaySettingSound);
     document.querySelector("#animation_btn").addEventListener("click", displaySettingAnimation);
