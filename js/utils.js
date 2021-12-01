@@ -53,4 +53,10 @@ class Utils {
             return true;
         }
     }
+
+    // addEventListener(target, event, f) {
+    //     document.querySelector(target).addEventListener(event, () => {
+    //         f;
+    //     });
+    // }
 }

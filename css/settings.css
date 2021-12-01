@@ -40,30 +40,31 @@
 }
 
 #sound,
-#control {
+#animation {
     display: none;
 }
 
 #animation {
-    display: flex;
-}
-
-#animation {
-    width: 15%;
+    width: 50%;
     margin-left: 10%;
 }
 
 #animation > button {
     text-align: center;
-    padding: 3%;
     border-radius: 5% !important;
     background-color: rgba(255, 255, 255, 0.3);
     box-shadow: 0px 0px 2px white;
     color: white;
-    width: 50%;
-    margin-top: 15%;
+    width: 5vw;
+    height: 3vh;
+    margin-top: 2vh;
+    margin-right: auto;
 }
 
 #animation > button:hover {
     box-shadow: 0px 0px 2px white, 0px 0px 12px white;
+}
+
+.btn_selected {
+    background: rgba(0, 0, 0, 0.5) !important;
 }

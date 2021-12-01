@@ -3,9 +3,9 @@
 
  <div class=settings>
     <div id="settings_btn">
-        <div id="control_btn">CONTROL</div>
+        <div id="control_btn" class="btn_selected">CONTROL</div>
         <div id="sound_btn">SOUNDS</div>
-        <div id="animation_btn">ANIMATIONS</div>
+        <div id="animation_btn">TRANSITION</div>
     </div>
     <div class="settings_txt">
         <div id="control">
@@ -20,9 +20,29 @@
             <p>NOT AVALAIBLE</p>
         </div>
         <div id="animation">
-            <button class="set_animation">Normal</button>
-            <button class="set_animation">Fast</button>
-            <button class="set_animation">Disable</button>
+
+            <button class="set_animation" id="Normal"
+                <?php
+                if($_SESSION["anim_timing"] == "Normal"){
+                    ?>
+                    style="color:black";
+                    <?php
+                }
+                ?>>Normal</button>
+            <button class="set_animation" id="Faster"<?php
+                if($_SESSION["anim_timing"] == "Faster"){
+                    ?>
+                    style="color:black;"
+                    <?php
+                }
+                ?>>Faster</button>
+            <button class="set_animation" id="Disable"<?php
+                if($_SESSION["anim_timing"] == "Disable"){
+                    ?>
+                    style="color:black";
+                    <?php
+                }
+                ?>>Disable</button>
         </div>
     </div>
 </div>

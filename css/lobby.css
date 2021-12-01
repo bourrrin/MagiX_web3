@@ -402,11 +402,35 @@ body {
     width: 100%;
     height: 100%;
     z-index: 222;
+    overflow-y: hidden;
 }
 
 .deck > iframe {
+    position: relative;
     width: 100%;
+    height: 200%;
     border: none;
+    transition: transform 1s;
+}
+
+.deck > div {
+    width: 2vw;
+    aspect-ratio: 1/1;
+    position: absolute;
+    z-index: 638435;
+    transform: translate(57vw, 7vh) rotate(180deg);
+    background: url(../img/arrow-down-sign-to-navigate.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.deck > div:nth-child(2) {
+    transform: translate(57vw, 71vh) rotate(0deg);
+    background: url(../img/arrow-down-sign-to-navigate.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 #animation_fin {
@@ -442,9 +466,11 @@ body {
 }
 
 .note,
+.settings,
 .scene {
     display: none;
 }
-.settings {
-    /* display: none; */
+
+.deck {
+    display: flex;
 }

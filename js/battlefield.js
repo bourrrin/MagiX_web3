@@ -28,8 +28,9 @@ let settingIsDisplayed = false;
 window.addEventListener("load", () => {
     window.addEventListener("contextmenu", (e) => e.preventDefault());
 
-    let test = '<%=Session["key"]%>';
-    console.log(test);
+    document.querySelectorAll(".set_animation").forEach((e) => {
+        e.addEventListener("click", setAnimationTiming);
+    });
 
     document.querySelector(".settings").classList.add("show_settings");
     document.querySelector(".quitter").addEventListener("click", quitter);
@@ -578,6 +579,7 @@ function displayChat() {
         chatIsDisplayed = true;
     }
 }
+//#region SETTINGS
 
 function displaySettings() {
     clickedBtn(document.querySelector(".settings"));
@@ -599,13 +601,13 @@ function displaySettingControl() {
 
 function displaySettingAnimation() {
     setSettingStyle();
-    document.querySelector("#animation").style.display = "block";
+    document.querySelector("#animation").style.display = "flex";
     document.querySelector("#animation_btn").classList.add("btn_selected");
 }
 
 function displaySettingSound() {
     setSettingStyle();
-    document.querySelector("#sound").style.display = "block";
+    document.querySelector("#sound").style.display = "flex";
     document.querySelector("#sound_btn").classList.add("btn_selected");
 }
 
@@ -623,6 +625,29 @@ function setSettingStyle() {
         }
     });
 }
+
+function setAnimationTiming() {
+    let timing = event.currentTarget.innerHTML;
+    console.log(timing);
+
+    let formData = new FormData();
+    formData.append("anim_timing", timing);
+
+    fetch("lobbyAjax.php", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+    })
+        .then((response) => response.json())
+        .then((response) => {
+            anima_timing = response;
+            document.querySelectorAll(".set_animation").forEach((e) => {
+                e.style.color = "white";
+            });
+            document.querySelector("#" + response).style.color = "black";
+        });
+}
+//#endregion
 
 function displayTimer(data) {
     let timer = document.querySelector(".timer");

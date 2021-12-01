@@ -1,5 +1,5 @@
 class LoadingScreen {
-    constructor(anim_container, main_container) {
+    constructor(anim_container, main_container, timing) {
         main_container.style.display = "none";
         setTimeout(() => {
             let start = document.querySelector(".start");
@@ -33,13 +33,13 @@ class LoadingScreen {
                                         document.querySelector(".end").remove();
                                         main_container.style.display = "block";
                                     }, 2000);
-                                }, 400);
-                            }, 100);
-                        }, 100);
-                    }, 50);
-                }, 100);
-            }, 200);
-        }, 500);
+                                }, 400 * timing);
+                            }, 100 * timing);
+                        }, 100 * timing);
+                    }, 50 * timing);
+                }, 100 * timing);
+            }, 200 * timing);
+        }, 500 * timing);
     }
 }
 

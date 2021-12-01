@@ -1,6 +1,13 @@
 <?php
     require_once("partial/header.php");
+
+ if(!isset($_SESSION["anim_timing"]) || $_SESSION["anim_timing"] === undefined ){
+        $_SESSION["anim_timing"] = "Normal";
+    }
 ?>
+
+    <div id="anim_timing" style="display: none;" value="<?=$_SESSION["anim_timing"]?>"><?=$_SESSION["anim_timing"]?></div>
+
     <script src="js/Carte.js"></script>
     <script src="js/battlefield.js"></script>
     <link rel="stylesheet" href="css/battlefield.css">

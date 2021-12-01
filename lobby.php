@@ -2,7 +2,14 @@
     require_once("partial/header.php");
     require_once("partial/lobby_intro.php");
     require_once("partial/lobby_transition_tunel.php");
+
+    if(!isset($_SESSION["anim_timing"]) || $_SESSION["anim_timing"] === undefined ){
+        $_SESSION["anim_timing"] = "Normal";
+    }
 ?>
+
+    <div id="anim_timing" style="display: none;" value="<?=$_SESSION["anim_timing"]?>"><?=$_SESSION["anim_timing"]?></div>
+
     <link rel="stylesheet" href="css/lobby.css">
     <script src="js/lobby.js"></script>
 
@@ -43,6 +50,8 @@
                         </div>
                     </div>
                     <div class="deck">
+                        <div id="scroll_deck_up"></div>
+                        <div id="scroll_deck_down"></div>
                         <iframe class="deck_iframe"
                             src="https://magix.apps-de-cours.com/server/#/deck/<?=  $_SESSION["player_data"]->key?>">
                         </iframe>
