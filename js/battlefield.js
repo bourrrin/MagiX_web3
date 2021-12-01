@@ -82,14 +82,15 @@ function test() {
 //#region ANIMATIONS
 function start_animation_ouverture() {
     document.querySelector(".battlefield_background").style.transition = "4.5s top";
-    document.querySelector("#battlefield_background_up").style.top = "-20%";
-    document.querySelector("#battlefield_background_down").style.top = "35%";
+    document.querySelector("#battlefield_background_o").style.top = "-20%";
+    document.querySelector("#battlefield_background_p").style.top = "35%";
 }
 
 function display_UI() {
     document.querySelector(".turn").style.transform = "translateX(0)";
     document.querySelector(".timer").style.transform = "translateX(0)";
     document.querySelector(".surrender").style.transform = "translateX(0)";
+    document.querySelector(".quitter").style.display = "none";
 
     document.querySelector(".ui").style.width = "100%";
     document.querySelector(".ui").childNodes.forEach((e) => {
@@ -189,6 +190,7 @@ function setAttacker() {
     if (yourTurn) {
         if (state != "SLEEP" && attaquant != uid) {
             attaquant = uid;
+            attaquant_atk = target.querySelector(".atk").innerHTML;
             target.style.boxShadow =
                 "0 0 5px rgb(255, 255, 255),0 0 8px rgb(255, 255, 255), 0 0 12px rgb(255, 255, 255)";
         } else if (attaquant == uid) {
@@ -293,6 +295,9 @@ function updateCardsAttribute(data, target) {
     document.querySelector("." + target).childNodes.forEach((child) => {
         data.forEach((d) => {
             if (d["uid"] == child.querySelector(".uid").innerHTML) {
+                let current_hp = child.querySelector(".hp").innerHTML;
+                if (current_hp - d["hp"] > 0)
+                    displayExplosion(target, d["uid"], current_hp - d["hp"]);
                 child.querySelector(".hp").innerHTML = d["hp"];
                 child.querySelector(".atk").innerHTML = d["atk"];
                 child.querySelector(".mechanics").innerHTML = d["mechanics"];
@@ -469,7 +474,7 @@ function setCardAttribute(card_data, node) {
     node.appendChild(utils.create_element_class("div", "mechanics", card_data["mechanics"]));
     node.appendChild(utils.create_element_class("div", "uid", card_data["uid"]));
     node.appendChild(utils.create_element_class("div", "state", card_data["state"]));
-
+    node.appendChild(utils.create_element_class("div", "explosion"));
     node.appendChild(utils.create_element_class("div", "name", carte.getNomCarte(card_data["id"])));
 
     node.appendChild(
@@ -522,14 +527,15 @@ function updateMechIcon(board, target) {
             });
 
             if (!utils.isArrayEqual(displayedIcons, possessedIcons)) {
-                mech_icon.childNodes.forEach((icons) => {
-                    mech_icon.removeChild(icons);
-                });
-
-                if (possessedIcons.includes("taunt")) {
-                    mech_icon.appendChild(utils.create_img("img/taunt.png", "taunt"));
-                    console.log("xfkjsdlf Taut");
+                for (let i = 0; i < mech_icon.childElementCount; i++) {
+                    mech_icon.removeChild(mech_icon.lastChild);
                 }
+                // e.querySelector(".mech_icon").childNodes.forEach((icons) => {
+                //     mech_icon.removeChild(icons);
+                // });
+
+                if (possessedIcons.includes("taunt"))
+                    mech_icon.appendChild(utils.create_img("img/taunt.png", "taunt"));
                 if (possessedIcons.includes("stealth"))
                     mech_icon.appendChild(utils.create_img("img/deathrattle.png", "stealth"));
                 if (possessedIcons.includes("charge"))
@@ -537,6 +543,20 @@ function updateMechIcon(board, target) {
             }
         });
     }
+}
+
+function displayExplosion(target, uid, damage) {
+    let board = document.querySelector("." + target);
+
+    board.childNodes.forEach((card) => {
+        if (card.querySelector(".uid").innerHTML == uid) {
+            card.querySelector(".explosion").style.display = "flex";
+            card.querySelector(".explosion").innerHTML = "-" + damage;
+            setTimeout(() => {
+                card.querySelector(".explosion").style.display = "none";
+            }, 3000);
+        }
+    });
 }
 
 //#endregion
@@ -665,36 +685,40 @@ function displayHeroPower(data) {
 }
 
 function displayLifeLose(data, target) {
-    let x;
+    let last_hp;
     let element = document.querySelector("#" + target + "_hp");
+    let background = document.querySelector("#battlefield_background_" + target);
     if (target == "o") {
-        x = o_hp;
-    } else {
-        x = hp;
-    }
-
-    if (data["hp"] < x) {
-        element.style.color = "red";
-        setTimeout(() => {
-            element.style.color = "white";
-        }, 400);
-    }
-
-    if (target == "o") {
+        last_hp = o_hp;
         o_hp = data["hp"];
     } else {
+        last_hp = hp;
         hp = data["hp"];
     }
 
-    if (hp < 10) {
-        document.querySelector(":root").style.setProperty("--back-line-color", "red");
+    if (last_hp != data["hp"]) {
+        if (data["hp"] < last_hp) {
+            element.style.color = "red";
+            // background.style.boxShadow =
+            //     "0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 100px red, 0 0 400px red, 0 0 700px red,0 0 1000px red, 0 0 1300px red";
+
+            setTimeout(() => {
+                element.style.color = "white";
+                // background.style.boxShadow =
+                //     "0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 100px var(--back-line-color), 0 0 400px var(--back-line-color), 0 0 700px var(--back-line-color),0 0 1000px var(--back-line-color), 0 0 1300px var(--back-line-color)";
+            }, 400);
+        }
+
+        if (hp < 10) {
+            document.querySelector(":root").style.setProperty("--back-line-color", "red");
+        }
     }
 }
 
 function displayEndGame(win) {
     let element = document.querySelector("#gamwOver_txt");
     document.querySelector(".waiting_screen").style.display = "none";
-    document.querySelector(".quitter").style.opacity = 1;
+    document.querySelector(".quitter").style.display = "flex";
     if (win) {
         element.innerHTML = "VICTORY!";
         element.classList.add("victory");
@@ -810,7 +834,6 @@ function gameHandler(data) {
     displayRemainingCardsCount(data["remainingCardsCount"], "p");
     displayRemainingCardsCount(data["opponent"]["remainingCardsCount"], "o");
     updateCardsAttribute(data["board"], "p_board");
-    updateCardsAttribute(data["board"], "p_hand");
     updateCardsAttribute(data["opponent"]["board"], "o_board");
 
     displayPlayerHand(data);

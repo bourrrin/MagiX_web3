@@ -13,12 +13,6 @@ const applyStyles = (iframe) => {
     }, 100);
 };
 
-// window.onload = function () {
-//     let frameElement = document.querySelector(".chat_iframe");
-//     let doc = frameElement.contentDocument;
-//     doc.body.innerHTML = doc.body.innerHTML + "<style>.bar {width:45%;}</style>";
-// };
-
 //#endregion
 
 let dead_pixel_array = [];
@@ -76,7 +70,7 @@ function deck() {
 
 function create_loadingBar_animation() {
     setTimeout(() => {
-        for (let i = 0; i < 135; i++) {
+        for (let i = 0; i < 200; i++) {
             let delay = Math.random() * (5 - 1) + 1;
             let node = document.createElement("div");
             node.style.animationDelay = delay + "s";

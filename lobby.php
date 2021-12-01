@@ -16,7 +16,7 @@
                 <p> logged in <span>the MagiX</span></p>
             </div>
             <div class="main_display">
-                <div class="btn_left">
+                <div>
                     <div class="lobby-btn" id="jouer">Jouer</div>
                     <div class="lobby-btn" id="pratique">Pratique</div>
                     <div class="lobby-btn" id="deck">Deck</div>

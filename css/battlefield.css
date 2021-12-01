@@ -28,24 +28,25 @@
     width: 160vw;
     height: 80vh;
     left: -30vw;
+    background-image: linear-gradient(to right, var(--back-line-color) 1px, transparent 1vh),
+        linear-gradient(to bottom, var(--back-line-color) 1px, transparent 1vh);
     box-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 100px var(--back-line-color),
         0 0 400px var(--back-line-color), 0 0 700px var(--back-line-color),
         0 0 1000px var(--back-line-color), 0 0 1300px var(--back-line-color);
-    background-size: 10vh 2.5vh;
-    background-image: linear-gradient(to right, var(--back-line-color) 1px, transparent 1vh),
-        linear-gradient(to bottom, var(--back-line-color) 1px, transparent 1vh);
 
     transition: 4s top;
 }
 
-#battlefield_background_up {
+#battlefield_background_o {
     top: -100%;
     transform: rotateX(-80deg);
+    background-size: 10vh 2.5vh;
 }
 
-#battlefield_background_down {
+#battlefield_background_p {
     top: 150%;
     transform: rotateX(80deg);
+    background-size: 10vh 2.5vh;
 }
 
 @keyframes test {
@@ -552,7 +553,6 @@
 }
 
 .show_card,
-.card,
 .p_card_in_hand {
     width: var(--card-width);
     height: var(--card-height);
@@ -566,7 +566,6 @@
     transition: box-shadow 0.8s, 0.2s;
 }
 
-.card > div,
 .p_card_in_hand > div,
 .show_card > div {
     --container-width: var(--card-width);
@@ -577,21 +576,6 @@
     font-size: var(--card-ui-font);
 }
 
-.card {
-    margin: 0px 0.5%;
-    animation: onBoard 1s both;
-    transition: 0.5s;
-}
-
-@keyframes onBoard {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
 .p_card_in_hand {
     transform: translateY(calc(var(--card-height) * 0.4));
     margin-left: calc(var(--card-width) * -0.3);
@@ -600,33 +584,6 @@
 .p_card_in_hand:hover {
     transform: scale(1.5) translateY(-10vh) !important;
     z-index: 2;
-}
-
-.death {
-    animation: death 1s forwards;
-}
-
-@keyframes death {
-    20% {
-        filter: brightness(20);
-        opacity: 1;
-    }
-    70% {
-        filter: brightness(0);
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
-.clicked {
-    animation: clicked 1s;
-}
-
-@keyframes clicked {
-    50% {
-        opacity: 0.3;
-    }
 }
 
 .show_card {
@@ -644,142 +601,6 @@
 .show_card > div {
     --container-width: 19vw;
     --container-height: calc(var(--ratio) * 19vw);
-}
-
-.cost,
-.atk,
-.hp,
-.name,
-.mech_icon,
-.mechanics {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: rgb(255, 255, 255);
-    font-weight: bolder;
-    background: rgba(128, 127, 127, 0.5);
-    border: rgb(255, 255, 255) 2px solid;
-    box-shadow: 0 0 5px rgb(129, 129, 129), 0 0 10px rgb(95, 95, 95);
-
-    text-shadow: -1px -1px 0px rgb(0, 0, 0), 1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0),
-        1px 1px 0 rgb(0, 0, 0);
-}
-
-.cost {
-    --element-width: calc(var(--container-width) * 0.2);
-    --element-translateY: calc(var(--card-border) * -0.5);
-    --element-translateX: calc(var(--element-width) * -0.1);
-
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    background: none !important;
-    border: none !important;
-    box-shadow: none !important;
-}
-
-.atk {
-    --element-width: calc(var(--container-width) * 0.2);
-    --element-translateY: calc(var(--container-height) - var(--element-width));
-    --element-translateX: var(--card-border);
-
-    aspect-ratio: 1.4/1;
-    border-radius: 15%;
-}
-
-.hp {
-    --element-width: calc(var(--container-width) * 0.2);
-    --element-translateY: calc(var(--container-height) - var(--element-width));
-    --element-translateX: calc(
-        calc(var(--container-width) - var(--element-width)) - var(--card-border)
-    );
-
-    aspect-ratio: 1.4/1;
-    border-radius: 15%;
-}
-
-.img {
-    --element-width: calc(var(--container-width) * 0.82);
-    --element-translateY: calc(var(--container-height) * 0.08);
-    --element-translateX: calc(
-        calc(var(--container-width) - var(--element-width)) -
-            calc(calc(var(--container-width) - var(--element-width)) * 0.5)
-    );
-
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-image: url(../img/cards/10.jpg);
-    background-position: top center;
-}
-.name {
-    --card-mech-pad: calc(var(--element-width) * 0.04);
-    --card-txt-font: calc(var(--element-width) * 0.08);
-    --element-width: calc(var(--container-width) * 0.85);
-    --element-translateY: calc(var(--container-height) * 0.03);
-    --element-translateX: calc(
-        calc(
-                calc(var(--container-width) - var(--element-width)) -
-                    calc(calc(var(--container-width) - var(--element-width)) * 0.5)
-            ) - var(--card-mech-pad)
-    );
-
-    aspect-ratio: 8.2/1;
-    background: rgba(0, 208, 255, 0.1) !important;
-    border: none !important;
-    border-bottom: rgb(255, 255, 255) 2px solid !important;
-    box-shadow: none !important;
-    font-size: var(--card-txt-font) !important;
-    border-radius: 5%;
-    padding: 0px var(--card-mech-pad);
-}
-
-.mechanics {
-    --card-mech-pad: calc(var(--element-width) * 0.04);
-    --card-txt-font: calc(var(--element-width) * 0.08);
-
-    --element-width: calc(var(--container-width) * 0.85);
-    --element-translateY: calc(var(--container-height) * 0.58);
-    --element-translateX: calc(
-        calc(
-                calc(var(--container-width) - var(--element-width)) -
-                    calc(calc(var(--container-width) - var(--element-width)) * 0.5)
-            ) - var(--card-mech-pad)
-    );
-
-    aspect-ratio: 2.5/1;
-    background: rgba(0, 208, 255, 0.1) !important;
-    font-size: var(--card-txt-font) !important;
-    border-radius: 5%;
-    padding: 0px var(--card-mech-pad);
-    overflow: hidden;
-}
-
-.mech_icon {
-    --element-width: calc(var(--container-width) * 0.15);
-    --element-translateY: calc(var(--card-border) * 4.5);
-    --element-translateX: calc(var(--element-width) * 0.28);
-
-    aspect-ratio: 1/5;
-    background: none;
-    flex-direction: column;
-    justify-content: start;
-    border: none;
-    box-shadow: none;
-}
-
-.mech_icon > img {
-    width: 100%;
-    margin-top: 30%;
-}
-
-.uid,
-.state,
-.baseHP,
-.baseATK,
-.card > .cost {
-    display: none !important;
 }
 
 .p_board,
@@ -876,8 +697,8 @@
     background: rgba(128, 127, 127, 0.5);
     border: rgb(255, 255, 255) 2px solid;
     box-shadow: 0 0 5px rgb(129, 129, 129), 0 0 10px rgb(95, 95, 95);
-    animation: display_txt_gameOver 1s both 1.5s;
     opacity: 0;
+    animation: display_txt_gameOver 1s both 0.5s;
 }
 
 @keyframes flicker-on-2 {

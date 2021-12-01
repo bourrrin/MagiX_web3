@@ -1,0 +1,254 @@
+:root {
+    /* ratio front-image: 11/7 */
+    --ratio: calc(11 / 7);
+    --card-width: 10vw;
+    --card-height: calc(var(--card-width) * var(--ratio));
+    --card-border: calc(var(--card-width) * 0.03);
+    --card-ui-font: calc(var(--card-width) * 0.15);
+}
+
+body {
+    background-color: black;
+}
+
+.card {
+    margin: 0px 0.5%;
+    animation: onBoard 1s both;
+    transition: 0.5s;
+
+    width: var(--card-width);
+    height: var(--card-height);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url(../img/cards/0.jpg);
+    background-position: center center;
+    border-radius: 5%;
+    box-shadow: 0 0 4px rgb(0, 0, 0), 0 0 10px rgb(255, 0, 212);
+
+    transition: box-shadow 0.8s, 0.2s;
+}
+
+.card > div {
+    --container-width: var(--card-width);
+    --container-height: var(--card-height);
+
+    width: var(--element-width);
+    transform: translate(var(--element-translateX), var(--element-translateY));
+    font-size: var(--card-ui-font);
+}
+
+.cost,
+.atk,
+.hp,
+.name,
+.mech_icon,
+.mechanics {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(255, 255, 255);
+    font-weight: bolder;
+    background: rgba(128, 127, 127, 0.5);
+    border: rgb(255, 255, 255) 2px solid;
+    box-shadow: 0 0 5px rgb(129, 129, 129), 0 0 10px rgb(95, 95, 95);
+
+    text-shadow: -1px -1px 0px rgb(0, 0, 0), 1px -1px 0 rgb(0, 0, 0), -1px 1px 0 rgb(0, 0, 0),
+        1px 1px 0 rgb(0, 0, 0);
+}
+
+.cost {
+    --element-width: calc(var(--container-width) * 0.2);
+    --element-translateY: calc(var(--card-border) * -0.5);
+    --element-translateX: calc(var(--element-width) * -0.1);
+
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.atk {
+    --element-width: calc(var(--container-width) * 0.2);
+    --element-translateY: calc(var(--container-height) - var(--element-width));
+    --element-translateX: var(--card-border);
+
+    aspect-ratio: 1.4/1;
+    border-radius: 15%;
+}
+
+.hp {
+    --element-width: calc(var(--container-width) * 0.2);
+    --element-translateY: calc(var(--container-height) - var(--element-width));
+    --element-translateX: calc(
+        calc(var(--container-width) - var(--element-width)) - var(--card-border)
+    );
+
+    aspect-ratio: 1.4/1;
+    border-radius: 15%;
+}
+
+.img {
+    --element-width: calc(var(--container-width) * 0.82);
+    --element-translateY: calc(var(--container-height) * 0.08);
+    --element-translateX: calc(
+        calc(var(--container-width) - var(--element-width)) -
+            calc(calc(var(--container-width) - var(--element-width)) * 0.5)
+    );
+
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(../img/cards/10.jpg);
+    background-position: top center;
+}
+.name {
+    --card-mech-pad: calc(var(--element-width) * 0.04);
+    --card-txt-font: calc(var(--element-width) * 0.08);
+    --element-width: calc(var(--container-width) * 0.85);
+    --element-translateY: calc(var(--container-height) * 0.03);
+    --element-translateX: calc(
+        calc(
+                calc(var(--container-width) - var(--element-width)) -
+                    calc(calc(var(--container-width) - var(--element-width)) * 0.5)
+            ) - var(--card-mech-pad)
+    );
+
+    aspect-ratio: 8.2/1;
+    background: rgba(0, 208, 255, 0.1) !important;
+    border: none !important;
+    border-bottom: rgb(255, 255, 255) 2px solid !important;
+    box-shadow: none !important;
+    font-size: var(--card-txt-font) !important;
+    border-radius: 5%;
+    padding: 0px var(--card-mech-pad);
+}
+
+.mechanics {
+    --card-mech-pad: calc(var(--element-width) * 0.04);
+    --card-txt-font: calc(var(--element-width) * 0.08);
+
+    --element-width: calc(var(--container-width) * 0.85);
+    --element-translateY: calc(var(--container-height) * 0.58);
+    --element-translateX: calc(
+        calc(
+                calc(var(--container-width) - var(--element-width)) -
+                    calc(calc(var(--container-width) - var(--element-width)) * 0.5)
+            ) - var(--card-mech-pad)
+    );
+
+    aspect-ratio: 2.5/1;
+    background: rgba(0, 208, 255, 0.1) !important;
+    font-size: var(--card-txt-font) !important;
+    border-radius: 5%;
+    padding: 0px var(--card-mech-pad);
+    overflow: hidden;
+}
+
+.mech_icon {
+    --element-width: calc(var(--container-width) * 0.15);
+    --element-translateY: calc(var(--card-border) * 4.5);
+    --element-translateX: calc(var(--element-width) * 0.28);
+
+    aspect-ratio: 1/5;
+    background: none;
+    flex-direction: column;
+    justify-content: start;
+    border: none;
+    box-shadow: none;
+}
+
+.explosion {
+    --element-width: calc(var(--container-width) * 1);
+    --element-translateY: calc(var(--card-border) * 0.2);
+    --element-translateX: calc(var(--element-width) * 0);
+
+    aspect-ratio: 1/1;
+    background: url(../img/explosionDegat.gif);
+    /* background: red; */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: absolute;
+
+    --color-shadow: rgb(0, 0, 0);
+    color: rgb(194, 3, 3);
+    text-shadow: -4px -4px 0px var(--color-shadow), 2px -2px 0 var(--color-shadow),
+        -2px 2px 0 var(--color-shadow), 2px 2px 0 var(--color-shadow);
+    font-size: 2.5rem !important;
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    animation: identifier 1.2s both;
+}
+
+@keyframes identifier {
+    0% {
+        transform: scale(0);
+    }
+    10% {
+        transform: scale(1.2);
+    }
+    40% {
+        transform: scale(1.5);
+    }
+    70% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+
+.mech_icon > img {
+    width: 100%;
+    margin-top: 30%;
+}
+
+.uid,
+.state,
+.baseHP,
+.baseATK,
+.card > .cost {
+    display: none !important;
+}
+
+@keyframes onBoard {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.death {
+    animation: death 1s forwards;
+}
+
+@keyframes death {
+    20% {
+        filter: brightness(20);
+        opacity: 1;
+    }
+    70% {
+        filter: brightness(0);
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.clicked {
+    animation: clicked 1s;
+}
+
+@keyframes clicked {
+    50% {
+        opacity: 0.3;
+    }
+}

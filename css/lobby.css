@@ -20,7 +20,7 @@ body {
 }
 
 .lobby-container {
-    padding: 2%;
+    padding: 2vh 2vw;
     height: 100vh;
     display: none;
     transition: 2s;
@@ -30,20 +30,11 @@ body {
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: auto;
+    grid-template-columns: 5vw 68vw 23vw;
+    grid-template-rows: 20vh 76vh;
     grid-template-areas:
-        "load_bar titre titre titre titre titre titre quitter_btn"
-        "load_bar main_display main_display main_display main_display main_display main_display chat"
-        "load_bar main_display main_display main_display main_display main_display main_display chat"
-        "load_bar main_display main_display main_display main_display main_display main_display chat"
-        "load_bar main_display main_display main_display main_display main_display main_display chat"
-        "load_bar bruh . . . . . .";
-}
-
-.bruh {
-    grid-area: bruh;
-    width: 100%;
+        "load_bar titre quitter_btn"
+        "load_bar main_display chat";
 }
 
 .chat {
@@ -51,7 +42,8 @@ body {
     background: linear-gradient(rgba(134, 134, 134, 0.1), rgba(0, 0, 0, 0.6));
     border-radius: 5% 5% 0px 0px;
     z-index: 99999999;
-    height: 0%;
+    height: 90%;
+    width: 100%;
     animation: flicker-on-2 2s both, show_chat 3s 3s forwards;
     box-shadow: 0px 0px 1px rgb(255, 255, 255), 0px 0px 5px black, 0px 0px 10px black,
         0px 0px 15px rgba(0, 0, 0, 0.2);
@@ -160,8 +152,9 @@ body {
     grid-area: load_bar;
     transform: translateY(5%);
     width: 40%;
-    height: 84%;
+    height: 85%;
     overflow-y: hidden;
+    margin: auto 0px;
 }
 
 #load_bar > div {
@@ -379,7 +372,7 @@ body {
 .main_display {
     grid-area: main_display;
     width: 100%;
-    min-height: 110%;
+    min-height: 85%;
 
     display: flex;
     justify-content: space-between;
@@ -388,7 +381,7 @@ body {
 
 .main_display > div {
     height: 100%;
-    width: 12%;
+    width: 10%;
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
@@ -398,12 +391,6 @@ body {
     justify-content: center;
 }
 
-.btn_left {
-    align-items: flex-start;
-}
-.btn_right {
-    align-items: center;
-}
 .deck {
     display: none;
     width: 100%;
