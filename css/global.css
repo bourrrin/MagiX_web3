@@ -14,6 +14,8 @@
     color: rgb(106, 193, 233);
     font-size: 20px;
     font-family: font;
+    --unit-w: 1vw;
+    --unit-h: 1vh;
 }
 
 @font-face {
@@ -30,8 +32,46 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    border: 1px solid white;
 }
 
+html {
+    overflow: hidden;
+    border: 1px solid red;
+}
+html,
+body {
+    position: relative;
+}
 audio {
     display: none;
+}
+
+@media only screen and (orientation: portrait) {
+    html,
+    body {
+        height: 100vw !important;
+        width: 100vh !important;
+    }
+
+    html {
+        transform: rotate(90deg);
+    }
+    :root {
+        font-size: 0.8rem;
+        --unit-w: 1vh;
+        --unit-h: 1vw;
+    }
+}
+
+@media only screen and (orientation: landscape) {
+    html {
+        transform: rotate(0deg);
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    :root {
+        font-size: 0.5rem;
+    }
 }
