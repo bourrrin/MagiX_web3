@@ -1,10 +1,12 @@
 <?php
     require_once("partial/header.php");
 
- if(!isset($_SESSION["anim_timing"]) || $_SESSION["anim_timing"] === undefined ){
+ if(!isset($_SESSION["anim_timing"])){
         $_SESSION["anim_timing"] = "Normal";
     }
 ?>
+
+
 
     <div id="anim_timing" style="display: none;" value="<?=$_SESSION["anim_timing"]?>"><?=$_SESSION["anim_timing"]?></div>
 

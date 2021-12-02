@@ -20,40 +20,12 @@ let utils = new Utils();
 let h = window.innerHeight;
 let anima_timing = "Normal";
 let value = 0;
+let isDeckDown = false;
 
 window.addEventListener("load", () => {
     anima_timing = document.querySelector("#anim_timing").innerHTML;
-    console.log(anima_timing);
-    animation_reduite();
-    set_lobby_elements();
-});
 
-function scrollDeck() {
-    let target = event.currentTarget.id;
-    let x = 50;
-    let max = -50;
-    let min = 0;
-    if (target == "scroll_deck_up") {
-        if (value - x > max) {
-            value = value - x;
-        } else {
-            value = max;
-        }
-    } else {
-        if (value + x < min) {
-            value = value + x;
-        } else {
-            value = min;
-        }
-    }
-
-    console.log(value);
-    document.querySelector(".deck_iframe").style.transform = "translateY(" + value + "vh)";
-}
-
-function set_lobby_elements() {
-    document.querySelector("#scroll_deck_up").addEventListener("click", scrollDeck);
-    document.querySelector("#scroll_deck_down").addEventListener("click", scrollDeck);
+    document.querySelector("#scroll_deck").addEventListener("click", scrollDeck);
 
     document.querySelector("#quitter").addEventListener("click", quitter);
     document.querySelector("#settings").addEventListener("click", () => {
@@ -76,29 +48,13 @@ function set_lobby_elements() {
     document.querySelector("#sound_btn").addEventListener("click", displaySettingSound);
     document.querySelector("#animation_btn").addEventListener("click", displaySettingAnimation);
 
-    create_dead_pixel_animation();
     create_loadingBar_animation();
-}
+    animation_reduite();
 
-function animation_reduite() {
-    if (anima_timing == "Disable") {
-        document.querySelector(".lobby-container").style.display = "block";
-        document.querySelector("#quitter").style.animationDelay = "0s";
-        document.querySelector(".container").style.display = "none";
-    } else if (anima_timing == "Normal") {
-        intro = new LoadingScreen(
-            document.querySelector(".container"),
-            document.querySelector(".lobby-container"),
-            1.2
-        );
-    } else if (anima_timing == "Faster") {
-        intro = new LoadingScreen(
-            document.querySelector(".container"),
-            document.querySelector(".lobby-container"),
-            0.5
-        );
-    }
-}
+    setTimeout(() => {
+        document.querySelector("#music").play();
+    }, 5000);
+});
 
 //#region SETTINGS
 
@@ -154,7 +110,7 @@ function setAnimationTiming() {
     let formData = new FormData();
     formData.append("anim_timing", timing);
 
-    fetch("lobbyAjax.php", {
+    fetch("settingsAjax.php", {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -172,6 +128,60 @@ function setAnimationTiming() {
 //#endregion
 
 //#region ANIMATION HANDLERS
+
+function scrollDeck() {
+    console.log(value);
+
+    if (isDeckDown) {
+        isDeckDown = false;
+        document.querySelector(".deck_iframe").style.transform = "translateY(0vh)";
+        setTimeout(() => {
+            document.querySelector("#scroll_deck").style.transform =
+                "translate(var(--deck-tx),var(--deck-ty)) rotate(0deg)";
+        }, 1000);
+    } else {
+        document.querySelector(".deck_iframe").style.transform = "translateY(-65vh)";
+        setTimeout(() => {
+            document.querySelector("#scroll_deck").style.transform =
+                "translate(var(--deck-tx), var(--deck-ty)) rotate(180deg)";
+            isDeckDown = true;
+        }, 1000);
+    }
+}
+
+function animation_reduite() {
+    if (anima_timing == "Disable") {
+        document.querySelector(".lobby-container").style.display = "block";
+        document.querySelector("#quitter").style.animationDelay = "0s";
+        document.querySelector(".container").style.display = "none";
+    } else if (anima_timing == "Normal") {
+        intro = new LoadingScreen(
+            document.querySelector(".container"),
+            document.querySelector(".lobby-container"),
+            1.2
+        );
+    } else if (anima_timing == "Faster") {
+        intro = new LoadingScreen(
+            document.querySelector(".container"),
+            document.querySelector(".lobby-container"),
+            0.5
+        );
+    }
+}
+
+function successfullSignedOut() {
+    flash_animation_login();
+    setTimeout(() => {
+        flash_animation_login();
+        setTimeout(() => {
+            window.location.replace("index.php");
+        }, 2000);
+    }, 100);
+}
+
+function flash_animation_login() {
+    document.querySelector("body").appendChild(utils.create_element_id("div", "animation_fin"));
+}
 
 function displayMainMenu(target) {
     let div = document.querySelector("." + target);
@@ -300,20 +310,32 @@ function APICall(name, value) {
 
 //#endregion
 
-function successfullSignedOut() {
-    flash_animation_login();
-    setTimeout(() => {
-        flash_animation_login();
-        setTimeout(() => {
-            window.location.replace("index.php");
-        }, 2000);
-    }, 100);
+function createMusic() {
+    let fileName = 1;
+    //Create the audio tag
+    let soundFile = document.createElement("audio");
+    soundFile.preload = "auto";
+
+    //Load the sound file (using a source element for expandability)
+    let src = document.createElement("source");
+    src.src = "sound/music/" + fileName + ".mp3";
+    soundFile.appendChild(src);
+
+    //Load the audio tag
+    //It auto plays as a fallback
+    soundFile.load();
+    soundFile.volume = 0.0;
+    soundFile.play();
 }
 
-function flash_animation_login() {
-    document.querySelector("body").appendChild(utils.create_element_id("div", "animation_fin"));
-}
+//Plays the sound
+function play() {
+    //Set the current time for the audio file to the beginning
+    soundFile.currentTime = 0.01;
+    soundFile.volume = 0.1;
 
-function alertMessage(message) {
-    alert(message);
+    //Due to a bug in Firefox, the audio needs to be played after a delay
+    setTimeout(function () {
+        soundFile.play();
+    }, 1);
 }

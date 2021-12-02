@@ -12,22 +12,16 @@
             $data = [];
             $data["key"] = $_SESSION["player_data"]->key;
 
-            if(isset($_POST["action"])){
-                if($_POST["action"] == "quitter"){
-                    $result = parent::callAPI("signout",$data);
-                }
-                else if($_POST["action"] == "jouer"){
-                    $data["type"] = "PVP";
-                    $result = parent::callAPI("games/auto-match",$data);
-                }
-                else if($_POST["action"] == "pratique"){
-                    $data["type"] = "TRAINING";
-                    $result = parent::callAPI("games/auto-match",$data);
-                }
+            if($_POST["action"] == "quitter"){
+                $result = parent::callAPI("signout",$data);
             }
-            else if(isset($_POST["anim_timing"])){
-                $_SESSION["anim_timing"] = $_POST["anim_timing"];
-                $result =  $_SESSION["anim_timing"];
+            else if($_POST["action"] == "jouer"){
+                $data["type"] = "PVP";
+                $result = parent::callAPI("games/auto-match",$data);
+            }
+            else if($_POST["action"] == "pratique"){
+                $data["type"] = "TRAINING";
+                $result = parent::callAPI("games/auto-match",$data);
             }
 
             return compact("result");

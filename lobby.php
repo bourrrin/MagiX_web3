@@ -3,10 +3,11 @@
     require_once("partial/lobby_intro.php");
     require_once("partial/lobby_transition_tunel.php");
 
-    if(!isset($_SESSION["anim_timing"]) || $_SESSION["anim_timing"] === undefined ){
+    if(!isset($_SESSION["anim_timing"])){
         $_SESSION["anim_timing"] = "Normal";
     }
 ?>
+    <audio id="music" controls src="sound/music/1.mp3"></audio>
 
     <div id="anim_timing" style="display: none;" value="<?=$_SESSION["anim_timing"]?>"><?=$_SESSION["anim_timing"]?></div>
 
@@ -50,8 +51,7 @@
                         </div>
                     </div>
                     <div class="deck">
-                        <div id="scroll_deck_up"></div>
-                        <div id="scroll_deck_down"></div>
+                        <div id="scroll_deck"></div>
                         <iframe class="deck_iframe"
                             src="https://magix.apps-de-cours.com/server/#/deck/<?=  $_SESSION["player_data"]->key?>">
                         </iframe>
@@ -69,7 +69,6 @@
                 <p id="settings">Settings</p>
             </div>
             <div id="load_bar"></div>
-            <div class="bruh"></div>
             <div class="chat">
                 <iframe class="chat_iframe"
                 src="https://magix.apps-de-cours.com/server/#/chat/<?=  $_SESSION["player_data"]->key?>?v=1" onload="applyStyles(this)" >
