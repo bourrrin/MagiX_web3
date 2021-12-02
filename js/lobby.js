@@ -105,7 +105,6 @@ function setSettingStyle() {
 
 function setAnimationTiming() {
     let timing = event.currentTarget.innerHTML;
-    console.log(timing);
 
     let formData = new FormData();
     formData.append("anim_timing", timing);

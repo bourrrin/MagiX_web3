@@ -628,12 +628,11 @@ function setSettingStyle() {
 
 function setAnimationTiming() {
     let timing = event.currentTarget.innerHTML;
-    console.log(timing);
 
     let formData = new FormData();
     formData.append("anim_timing", timing);
 
-    fetch("lobbyAjax.php", {
+    fetch("settingsAjax.php", {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -740,6 +739,8 @@ function displayLifeLose(data, target) {
 
         if (hp < 10) {
             document.querySelector(":root").style.setProperty("--back-line-color", "red");
+        } else {
+            document.querySelector(":root").style.setProperty("--back-line-color", "#2c74d0");
         }
     }
 }
