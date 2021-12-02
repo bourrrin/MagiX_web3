@@ -51,9 +51,9 @@ window.addEventListener("load", () => {
     create_loadingBar_animation();
     animation_reduite();
 
-    setTimeout(() => {
+    setInterval(() => {
         document.querySelector("#music").play();
-    }, 5000);
+    }, 1000);
 });
 
 //#region SETTINGS
@@ -310,6 +310,7 @@ function APICall(name, value) {
 
 //#endregion
 
+let playedMusic = true;
 function createMusic() {
     let fileName = 1;
     //Create the audio tag
@@ -330,12 +331,16 @@ function createMusic() {
 
 //Plays the sound
 function play() {
-    //Set the current time for the audio file to the beginning
-    soundFile.currentTime = 0.01;
-    soundFile.volume = 0.1;
+    if (playedMusic) {
+        console.log(playedMusic);
 
-    //Due to a bug in Firefox, the audio needs to be played after a delay
-    setTimeout(function () {
-        soundFile.play();
-    }, 1);
+        //Set the current time for the audio file to the beginning
+        soundFile.volume = 0.01;
+
+        //Due to a bug in Firefox, the audio needs to be played after a delay
+        setTimeout(function () {
+            soundFile.play();
+        }, 1);
+        playedMusic = false;
+    }
 }

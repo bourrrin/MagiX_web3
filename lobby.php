@@ -7,7 +7,7 @@
         $_SESSION["anim_timing"] = "Normal";
     }
 ?>
-    <audio id="music" controls src="sound/music/1.mp3"></audio>
+    <audio id="music" src="sound/music/1.mp3"></audio>
 
     <div id="anim_timing" style="display: none;" value="<?=$_SESSION["anim_timing"]?>"><?=$_SESSION["anim_timing"]?></div>
 

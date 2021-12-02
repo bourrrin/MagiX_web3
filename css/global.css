@@ -1,17 +1,17 @@
-*{
+* {
     margin: 0px;
     padding: 0px;
     cursor: default;
 }
 
-:root{
+:root {
     --open-animation-duration: 8s;
     --blur-animation-duration: 5s;
-    --container-color:rgb(34, 73, 110);
-    --cliclable-color:rgb(110, 34, 93);
-    --width:70vw;
-    --neon-color:#0fa;
-    color:rgb(106, 193, 233);
+    --container-color: rgb(34, 73, 110);
+    --cliclable-color: rgb(110, 34, 93);
+    --width: 70vw;
+    --neon-color: #0fa;
+    color: rgb(106, 193, 233);
     font-size: 20px;
     font-family: font;
 }
@@ -26,8 +26,12 @@
     src: url(../font/big_noodle_titling_oblique.ttf);
 }
 
-body{
+body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+}
+
+audio {
+    display: none;
 }
