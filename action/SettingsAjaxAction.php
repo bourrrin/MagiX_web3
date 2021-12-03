@@ -13,6 +13,16 @@
                 $_SESSION["anim_timing"] = $_POST["anim_timing"];
                 $result =  $_SESSION["anim_timing"];
             }
+            if(isset($_POST["music"])){
+                $result = [];
+                if($_POST["music"] == "disable_music"){
+                    $_SESSION["isDisable"] = "true";
+                }else{
+                    $_SESSION["isDisable"] = "false";
+                }
+                $result["volume"] = $_SESSION["volume"];
+                $result["isDisable"] = $_SESSION["isDisable"];
+            }
 
             return compact("result");
         }

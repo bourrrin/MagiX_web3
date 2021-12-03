@@ -32,12 +32,10 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    border: 1px solid white;
 }
 
 html {
     overflow: hidden;
-    border: 1px solid red;
 }
 html,
 body {

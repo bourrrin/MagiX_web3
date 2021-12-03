@@ -21,9 +21,16 @@ let h = window.innerHeight;
 let anima_timing = "Normal";
 let value = 0;
 let isDeckDown = false;
+let music;
 
 window.addEventListener("load", () => {
     anima_timing = document.querySelector("#anim_timing").innerHTML;
+
+    music = new Music(
+        document.querySelector("#music"),
+        document.querySelector("#volume_data").innerHTML,
+        document.querySelector("#isDisable_data").innerHTML
+    );
 
     document.querySelector("#scroll_deck").addEventListener("click", scrollDeck);
 
@@ -44,17 +51,38 @@ window.addEventListener("load", () => {
         e.addEventListener("click", setAnimationTiming);
     });
 
+    document.querySelectorAll(".set_music").forEach((e) => {
+        e.addEventListener("click", setMusic);
+    });
+
     document.querySelector("#control_btn").addEventListener("click", displaySettingControl);
     document.querySelector("#sound_btn").addEventListener("click", displaySettingSound);
     document.querySelector("#animation_btn").addEventListener("click", displaySettingAnimation);
 
     create_loadingBar_animation();
     animation_reduite();
-
-    setInterval(() => {
-        document.querySelector("#music").play();
-    }, 1000);
 });
+
+function setMusic() {
+    let value = event.currentTarget.id;
+    let formData = new FormData();
+    formData.append("music", value);
+
+    fetch("settingsAjax.php", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+    })
+        .then((response) => response.json())
+        .then((response) => {
+            music.setAttribute(response["volume"], response["isDisable"]);
+        });
+
+    document.querySelectorAll(".set_music").forEach((e) => {
+        e.style.color = "white";
+    });
+    event.currentTarget.style.color = "black";
+}
 
 //#region SETTINGS
 
@@ -308,38 +336,3 @@ function APICall(name, value) {
 }
 
 //#endregion
-
-let playedMusic = true;
-function createMusic() {
-    let fileName = 1;
-    //Create the audio tag
-    let soundFile = document.createElement("audio");
-    soundFile.preload = "auto";
-
-    //Load the sound file (using a source element for expandability)
-    let src = document.createElement("source");
-    src.src = "sound/music/" + fileName + ".mp3";
-    soundFile.appendChild(src);
-
-    //Load the audio tag
-    //It auto plays as a fallback
-    soundFile.load();
-    soundFile.volume = 0.0;
-    soundFile.play();
-}
-
-//Plays the sound
-function play() {
-    if (playedMusic) {
-        console.log(playedMusic);
-
-        //Set the current time for the audio file to the beginning
-        soundFile.volume = 0.01;
-
-        //Due to a bug in Firefox, the audio needs to be played after a delay
-        setTimeout(function () {
-            soundFile.play();
-        }, 1);
-        playedMusic = false;
-    }
-}

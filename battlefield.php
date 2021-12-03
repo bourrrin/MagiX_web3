@@ -4,6 +4,8 @@
  if(!isset($_SESSION["anim_timing"])){
         $_SESSION["anim_timing"] = "Normal";
     }
+
+    require_once("partial/music.php");
 ?>
 
 

@@ -460,11 +460,11 @@ body {
 }
 
 .note,
-.settings,
+.scene,
 .deck {
     display: none;
 }
 
-.scene {
+.settings {
     display: flex;
 }

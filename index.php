@@ -1,6 +1,6 @@
 <?php
     require_once("partial/header.php");
-
+    require_once("partial/music.php");
 ?>
     <link rel="stylesheet" href="css/login.css">
     <script src="js/login.js"></script>
@@ -18,6 +18,7 @@
         </form>
         <button id="button" class="btn_no_style" > LOG IN</button>
     </div>
+    
 <?php
     require_once("partial/footer.php");
 ?>

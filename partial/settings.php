@@ -17,11 +17,24 @@
             <p>- Use buttons : left click</p>
         </div>
         <div id="sound">
-            <p>NOT AVALAIBLE</p>
+            <button class="setting_btn set_music" id="disable_music"
+                <?php
+                if($_SESSION["isDisable"] =="true" ){
+                    ?>
+                    style="color:black";
+                    <?php
+                }
+                ?>>Disable Music</button>
+            <button class="setting_btn set_music" id="enable_music"<?php
+                if($_SESSION["isDisable"] =="false" ){
+                    ?>
+                    style="color:black;"
+                    <?php
+                }
+                ?>>Enable Music</button>
         </div>
         <div id="animation">
-
-            <button class="set_animation" id="Normal"
+            <button class="setting_btn set_animation" id="Normal"
                 <?php
                 if($_SESSION["anim_timing"] == "Normal"){
                     ?>
@@ -29,14 +42,14 @@
                     <?php
                 }
                 ?>>Normal</button>
-            <button class="set_animation" id="Faster"<?php
+            <button class="setting_btn set_animation" id="Faster"<?php
                 if($_SESSION["anim_timing"] == "Faster"){
                     ?>
                     style="color:black;"
                     <?php
                 }
                 ?>>Faster</button>
-            <button class="set_animation" id="Disable"<?php
+            <button class="setting_btn set_animation" id="Disable"<?php
                 if($_SESSION["anim_timing"] == "Disable"){
                     ?>
                     style="color:black";

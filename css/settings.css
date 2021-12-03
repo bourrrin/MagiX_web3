@@ -34,22 +34,19 @@
     width: 90%;
     margin: 5% auto;
     flex-direction: column;
+    margin-left: 10%;
+    display: flex;
 }
 .settings_txt > div > p {
     margin-bottom: 1%;
 }
 
-#sound,
+#control,
 #animation {
     display: none;
 }
 
-#animation {
-    width: 50%;
-    margin-left: 10%;
-}
-
-#animation > button {
+.setting_btn {
     text-align: center;
     border-radius: 5% !important;
     background-color: rgba(255, 255, 255, 0.3);
@@ -61,7 +58,7 @@
     margin-right: auto;
 }
 
-#animation > button:hover {
+.setting_btn:hover {
     box-shadow: 0px 0px 2px white, 0px 0px 12px white;
 }
 

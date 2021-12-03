@@ -31,11 +31,11 @@ body {
 .page_title {
     z-index: 1;
     color: var(--text-color);
-    font-size: 3.5rem;
+    font-size: 3.8rem;
 
     position: absolute;
     left: calc(50 * var(--unit-w));
-    top: calc(20 * var(--unit-h));
+    top: calc(15 * var(--unit-h));
     transform: translate(-50%, -50%);
 }
 
@@ -49,7 +49,7 @@ body {
     aspect-ratio: 2/1;
     position: absolute;
     left: calc(50 * var(--unit-w));
-    top: calc(60 * var(--unit-h));
+    top: calc(53 * var(--unit-h));
     transform: translate(-50%, -50%);
     display: flex;
     justify-content: space-around;
@@ -177,7 +177,7 @@ input:hover {
     animation-fill-mode: both;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
-    left: calc(115 * var(--unit-w));
+    left: calc(110 * var(--unit-w));
 }
 
 @keyframes move-left {

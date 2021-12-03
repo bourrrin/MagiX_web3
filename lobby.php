@@ -6,9 +6,9 @@
     if(!isset($_SESSION["anim_timing"])){
         $_SESSION["anim_timing"] = "Normal";
     }
+    
+    require_once("partial/music.php");
 ?>
-    <audio id="music" src="sound/music/1.mp3"></audio>
-
     <div id="anim_timing" style="display: none;" value="<?=$_SESSION["anim_timing"]?>"><?=$_SESSION["anim_timing"]?></div>
 
     <link rel="stylesheet" href="css/lobby.css">
