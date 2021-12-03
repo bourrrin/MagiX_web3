@@ -1,11 +1,8 @@
 let utils = new Utils();
+let music;
 
 window.addEventListener("load", () => {
-    let music = new Music(
-        document.querySelector("#music"),
-        document.querySelector("#volume_data").innerHTML,
-        document.querySelector("#isDisable_data").innerHTML
-    );
+    music = new Music(document.querySelector("#music"));
 
     document.querySelector("#button").addEventListener("click", login);
     load_ships();
