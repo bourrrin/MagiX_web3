@@ -141,7 +141,7 @@
 
 .show_chat,
 .show_settings {
-    --width: 22vw;
+    --width: 23vw;
     --height: calc(var(--ratio) * var(--width));
     background: rgba(0, 183, 255, 0.7);
     position: absolute;
@@ -150,6 +150,7 @@
     top: calc(98vh - var(--height));
     left: 105vw;
 
+    z-index: 99999999 !important;
     transition: 0.8s left;
 }
 

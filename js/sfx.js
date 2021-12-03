@@ -1,36 +1,20 @@
-class Music {
-    constructor(audioElement, type = null) {
-        this.soundFile = audioElement;
-        this.isDisable = null;
-        this.type = type;
-        this.scr = "lobby";
-
-        this.setSource();
-        this.setDefaultValueAjax();
-        this.soundFile.currentTime = 2244;
-
-        this.setVolume();
-
-        this.soundFile.addEventListener("ended", () => {
-            // console.log("ended");
-            this.changeMusic();
-            this.musicHandler();
-        });
-
-        this.musicMainControl = setInterval(() => {
-            this.musicPlayer();
-        }, 1000);
-
-        document.querySelectorAll(".set_music").forEach((e) => {
-            e.addEventListener("click", this.toggleMusicAjax);
-        });
-    }
-
-    setSource() {
-        if (this.type !== null) {
-            this.scr = 1;
-        }
-        this.soundFile.scr = "sound/music/" + this.scr + ".mp3";
+class Sfx {
+    constructor(audioElement) {
+        // this.soundFile = audioElement;
+        // this.isDisable = null;
+        // this.soundFile.currentTime = 2244;
+        // this.setVolume();
+        // this.soundFile.addEventListener("ended", () => {
+        //     // console.log("ended");
+        //     this.changeMusic();
+        //     this.musicHandler();
+        // });
+        // this.musicMainControl = setInterval(() => {
+        //     this.musicPlayer();
+        // }, 1000);
+        // document.querySelectorAll(".set_music").forEach((e) => {
+        //     e.addEventListener("click", this.toggleMusicAjax);
+        // });
     }
 
     musicPlayer() {
@@ -58,12 +42,7 @@ class Music {
     }
 
     changeMusic() {
-        if (this.type !== null && this.scr < 9) {
-            this.scr++;
-        } else {
-            this.scr = 0;
-        }
-        this.soundFile.scr = "sound/music/" + this.scr + ".mp3";
+        this.soundFile.src = "sound/music/2.mp3";
         this.soundFile.load();
     }
 

@@ -22,15 +22,13 @@ let anima_timing = "Normal";
 let value = 0;
 let isDeckDown = false;
 let music;
+let sfx;
 
 window.addEventListener("load", () => {
     anima_timing = document.querySelector("#anim_timing").innerHTML;
 
-    music = new Music(
-        document.querySelector("#music"),
-        document.querySelector("#volume_data").innerHTML,
-        document.querySelector("#isDisable_data").innerHTML
-    );
+    music = new Music(document.querySelector("#music"));
+    sfx = new Sfx();
 
     document.querySelector("#scroll_deck").addEventListener("click", scrollDeck);
 
@@ -51,10 +49,6 @@ window.addEventListener("load", () => {
         e.addEventListener("click", setAnimationTiming);
     });
 
-    document.querySelectorAll(".set_music").forEach((e) => {
-        e.addEventListener("click", setMusic);
-    });
-
     document.querySelector("#control_btn").addEventListener("click", displaySettingControl);
     document.querySelector("#sound_btn").addEventListener("click", displaySettingSound);
     document.querySelector("#animation_btn").addEventListener("click", displaySettingAnimation);
@@ -62,27 +56,6 @@ window.addEventListener("load", () => {
     create_loadingBar_animation();
     animation_reduite();
 });
-
-function setMusic() {
-    let value = event.currentTarget.id;
-    let formData = new FormData();
-    formData.append("music", value);
-
-    fetch("settingsAjax.php", {
-        method: "POST",
-        credentials: "include",
-        body: formData,
-    })
-        .then((response) => response.json())
-        .then((response) => {
-            music.setAttribute(response["volume"], response["isDisable"]);
-        });
-
-    document.querySelectorAll(".set_music").forEach((e) => {
-        e.style.color = "white";
-    });
-    event.currentTarget.style.color = "black";
-}
 
 //#region SETTINGS
 

@@ -34,10 +34,9 @@
     width: 90%;
     margin: 5% auto;
     flex-direction: column;
-    margin-left: 10%;
     display: flex;
 }
-.settings_txt > div > p {
+#control > p {
     margin-bottom: 1%;
 }
 
@@ -52,7 +51,7 @@
     background-color: rgba(255, 255, 255, 0.3);
     box-shadow: 0px 0px 2px white;
     color: white;
-    width: 5vw;
+    width: 7vw;
     height: 3vh;
     margin-top: 2vh;
     margin-right: auto;
@@ -64,4 +63,64 @@
 
 .btn_selected {
     background: rgba(0, 0, 0, 0.5) !important;
+}
+
+#sound > div > h2 {
+    width: 100%;
+    border-bottom: 1px solid white;
+    margin-bottom: 2vh;
+    color: white;
+}
+
+#sound > div {
+    margin: 2vh 0px;
+}
+
+#setting_music_container {
+    width: 100%;
+    max-width: 35vw;
+
+    height: 40%;
+}
+
+#setting_music_container > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 2vh 0px;
+}
+
+#setting_music_container button {
+    margin: 0px;
+    padding: 0px 2%;
+    width: auto;
+}
+
+/* https://www.w3schools.com/howto/howto_js_rangeslider.asp */
+.slidecontainer {
+    width: 50%;
+}
+
+/* The slider itself */
+.slider {
+    appearance: none;
+    width: 100%;
+    height: 1vh;
+    background: #d3d3d3;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 2vh;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background: var(--border-line);
+    cursor: pointer;
 }

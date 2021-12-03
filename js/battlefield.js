@@ -24,8 +24,13 @@ let o_hp = 0;
 let attaquant = null;
 let chatIsDisplayed = false;
 let settingIsDisplayed = false;
+let music;
+let sfx;
 
 window.addEventListener("load", () => {
+    music = new Music(document.querySelector("#music"),"game");
+    sfx = new Sfx();
+
     window.addEventListener("contextmenu", (e) => e.preventDefault());
 
     document.querySelectorAll(".set_animation").forEach((e) => {

@@ -1,7 +1,7 @@
 
 <?php
     if(!isset($_SESSION["volume"])){
-        $_SESSION["volume"] = "0.01";
+        $_SESSION["volume"] = "0.5";
     }
 
     if(!isset($_SESSION["isDisable"])){
@@ -15,3 +15,4 @@
 
     <audio id="music" src="sound/music/lobby.mp3"></audio>
    <script src="js/music.js"></script>
+   <script src="js/sfx.js"></script>

@@ -17,21 +17,60 @@
             <p>- Use buttons : left click</p>
         </div>
         <div id="sound">
-            <button class="setting_btn set_music" id="disable_music"
-                <?php
-                if($_SESSION["isDisable"] =="true" ){
-                    ?>
-                    style="color:black";
+            <div id="setting_music_container">
+                <h2>Music</h2>
+                <div>
+                    <p>Volume</p>
+                    <div class="slidecontainer">
+                        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                    </div>
+                    <p id="music_volume">0</p>
+                </div>
+                <div id="music_btn_container">
+                    <button class="setting_btn set_music" id="disable_music"
                     <?php
-                }
-                ?>>Disable Music</button>
-            <button class="setting_btn set_music" id="enable_music"<?php
-                if($_SESSION["isDisable"] =="false" ){
-                    ?>
-                    style="color:black;"
+                    if($_SESSION["isDisable"] =="true" ){
+                        ?>
+                        style="color:black";
+                        <?php
+                    }
+                    ?>>Disable Music</button>
+                    <button class="setting_btn set_music" id="enable_music"<?php
+                    if($_SESSION["isDisable"] =="false" ){
+                        ?>
+                        style="color:black;"
+                        <?php
+                    }
+                    ?>>Enable Music</button>
+                </div>
+            </div>
+            <div id="setting_music_container">
+                <h2>SFX</h2>
+                <div>
+                    <p>Volume</p>
+                    <div class="slidecontainer">
+                        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                    </div>
+                    <p id="music_volume">50</p>
+                </div>
+                <div>
+                    <button class="setting_btn set_music" id="disable_music"
                     <?php
-                }
-                ?>>Enable Music</button>
+                    if($_SESSION["isDisable"] =="true" ){
+                        ?>
+                        style="color:black";
+                        <?php
+                    }
+                    ?>>Disable Music</button>
+                    <button class="setting_btn set_music" id="enable_music"<?php
+                    if($_SESSION["isDisable"] =="false" ){
+                        ?>
+                        style="color:black;"
+                        <?php
+                    }
+                    ?>>Enable Music</button>
+                </div>
+            </div>
         </div>
         <div id="animation">
             <button class="setting_btn set_animation" id="Normal"
