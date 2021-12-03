@@ -2,7 +2,7 @@ let utils = new Utils();
 let music;
 
 window.addEventListener("load", () => {
-    music = new Music(document.querySelector("#music"));
+    // music = new Music(document.querySelector("#music"));
 
     document.querySelector("#button").addEventListener("click", login);
     load_ships();

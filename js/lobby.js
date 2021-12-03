@@ -170,6 +170,7 @@ function animation_reduite() {
 }
 
 function successfullSignedOut() {
+    document.querySelector("body").style.opacity = 0;
     flash_animation_login();
     setTimeout(() => {
         flash_animation_login();
