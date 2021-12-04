@@ -3,11 +3,11 @@ class Music {
         this.soundFile = audioElement;
         this.isDisable = null;
         this.type = type;
-        this.scr = "lobby";
+        this.src = "lobby";
 
         this.setSource();
         this.setDefaultValueAjax();
-        this.soundFile.currentTime = 2244;
+        // this.soundFile.currentTime = 2244;
 
         this.setVolume();
 
@@ -28,14 +28,16 @@ class Music {
 
     setSource() {
         if (this.type !== null) {
-            this.scr = 1;
+            this.src = 1;
         }
-        this.soundFile.scr = "sound/music/" + this.scr + ".mp3";
+        this.soundFile.src = "sound/music/" + this.src + ".mp3";
+        this.soundFile.load();
     }
 
     musicPlayer() {
-        // console.log(this.soundFile.volume);
+        // console.log(this.soundFile.currentTime);
         // console.log(this.isDisable);
+        // console.log(this.soundFile.src);
         if (!this.isDisable) {
             if (this.soundFile.duration > 0 && !this.soundFile.paused) {
             } else {
@@ -58,12 +60,12 @@ class Music {
     }
 
     changeMusic() {
-        if (this.type !== null && this.scr < 9) {
-            this.scr++;
+        if (this.type !== null && this.src < 9) {
+            this.src++;
         } else {
-            this.scr = 0;
+            this.src = 0;
         }
-        this.soundFile.scr = "sound/music/" + this.scr + ".mp3";
+        this.soundFile.src = "sound/music/" + this.src + ".mp3";
         this.soundFile.load();
     }
 
@@ -75,7 +77,7 @@ class Music {
     }
 
     setVolume() {
-        let slider = document.querySelector(".slider");
+        let slider = document.querySelector("#music_slider");
         let output = document.querySelector("#music_volume");
         output.innerHTML = slider.value;
 

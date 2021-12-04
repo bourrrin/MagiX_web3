@@ -28,8 +28,9 @@ let music;
 let sfx;
 
 window.addEventListener("load", () => {
-    music = new Music(document.querySelector("#music"),"game");
+    music = new Music(document.querySelector("#music"), "game");
     sfx = new Sfx();
+    sfx.clickSfx(document.querySelectorAll(".sfx_btn"));
 
     window.addEventListener("contextmenu", (e) => e.preventDefault());
 
@@ -70,24 +71,8 @@ window.addEventListener("load", () => {
     });
 
     start_animation_ouverture();
-    // test();
     CheckGameState();
 });
-
-function test() {
-    let formData = new FormData();
-    formData.append("action", "pratique");
-
-    fetch("lobbyAjax.php", {
-        method: "POST",
-        credentials: "include",
-        body: formData,
-    })
-        .then((response) => response.json())
-        .then((response) => {
-            console.log(response);
-        });
-}
 
 //#region ANIMATIONS
 function start_animation_ouverture() {
@@ -177,6 +162,16 @@ function turn() {
     }
 }
 
+function notEnoughEnergy() {
+    card = document.querySelector("#p_mana_bar");
+    card.style.filter = "brightness(5)";
+    card.style.background = "rgba(255, 255, 255, 0.05)";
+    setTimeout(() => {
+        card.style.filter = "brightness(1)";
+        card.style.background = "rgba(0, 0, 0, 0.05)";
+    }, 400);
+}
+
 function playCard() {
     let card = event.currentTarget;
     let cost = card.querySelector(".cost").innerHTML;
@@ -190,6 +185,8 @@ function playCard() {
         setTimeout(() => {
             card.style.boxShadow = "0 0 4px rgb(0, 0, 0), 0 0 10px rgb(255, 0, 212)";
         }, 600);
+    } else if (cost > mp) {
+        notEnoughEnergy();
     }
 }
 

@@ -16,9 +16,9 @@
             <input id="login_name" type="text" name="username" value=Bourrrin placeholder="Username">
             <input id="login_mdp" type="password" name="mdp" value=1977599  placeholder="Password">
         </form>
-        <button id="button" class="btn_no_style" > LOG IN</button>
+        <button id="button" class="btn_no_style sfx_btn"> LOG IN</button>
     </div>
-    
+
 <?php
     require_once("partial/footer.php");
 ?>

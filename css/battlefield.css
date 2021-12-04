@@ -264,6 +264,7 @@
     justify-content: space-evenly;
     padding-top: 3vh;
     transform: translate(calc(var(--UI-container-width) * 0.5));
+    transition: 0.5s;
 }
 
 .mana-on,

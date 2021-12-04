@@ -76,14 +76,16 @@
     margin: 2vh 0px;
 }
 
-#setting_music_container {
+#setting_music_container,
+#setting_sfx_container {
     width: 100%;
     max-width: 35vw;
 
     height: 40%;
 }
 
-#setting_music_container > div {
+#setting_music_container > div,
+#setting_sfx_container > div {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -91,7 +93,8 @@
     margin: 2vh 0px;
 }
 
-#setting_music_container button {
+#setting_music_container button,
+#setting_sfx_container button {
     margin: 0px;
     padding: 0px 2%;
     width: auto;

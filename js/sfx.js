@@ -1,39 +1,51 @@
 class Sfx {
-    constructor(audioElement) {
-        // this.soundFile = audioElement;
-        // this.isDisable = null;
-        // this.soundFile.currentTime = 2244;
-        // this.setVolume();
-        // this.soundFile.addEventListener("ended", () => {
-        //     // console.log("ended");
-        //     this.changeMusic();
-        //     this.musicHandler();
-        // });
-        // this.musicMainControl = setInterval(() => {
-        //     this.musicPlayer();
-        // }, 1000);
-        // document.querySelectorAll(".set_music").forEach((e) => {
-        //     e.addEventListener("click", this.toggleMusicAjax);
-        // });
+    constructor() {
+        document.querySelectorAll(".set_sfx").forEach((e) => {
+            e.addEventListener("click", this.toggleSfxAjax);
+        });
+
+        this.container = document.querySelector("#audio_container");
+        this.volume;
+        this.setDefaultValueAjax();
+        this.setVolume();
+        this.utils = new Utils();
+        this.path = "sound/sfx/";
+        this.extension_id = "_sfx_id";
     }
 
-    musicPlayer() {
-        // console.log(this.soundFile.volume);
-        // console.log(this.isDisable);
+    clickSfx(list_elements) {
+        this.createAudioSfx("click", "click");
+
+        list_elements.forEach((element) => {
+            element.addEventListener("click", () => {
+                let audio = document.querySelector("#click" + this.extension_id);
+                console.log(audio);
+                if (this.setAttribute(audio)) audio.play();
+            });
+        });
+    }
+
+    //#region CREATE AUDIO
+
+    createAudioSfx(src, name) {
+        let node = this.utils.create_element_id("audio", name + this.extension_id);
+        node.src = this.path + name + ".mp3";
+        this.container.appendChild(node);
+    }
+
+    setAttribute(audio) {
         if (!this.isDisable) {
-            if (this.soundFile.duration > 0 && !this.soundFile.paused) {
-            } else {
-                setTimeout(() => {
-                    this.soundFile.play();
-                }, 1);
-            }
+            audio.volume = this.volume;
+            audio.load();
+            return true;
         } else {
-            this.soundFile.pause();
+            return false;
         }
     }
 
-    setAttribute(volume, isDisable) {
-        this.soundFile.volume = volume;
+    saveAttribute(volume, isDisable) {
+        console.log(volume, isDisable);
+        this.volume = volume;
         if (isDisable == "true") {
             this.isDisable = true;
         } else {
@@ -41,21 +53,9 @@ class Sfx {
         }
     }
 
-    changeMusic() {
-        this.soundFile.src = "sound/music/2.mp3";
-        this.soundFile.load();
-    }
-
-    musicHandler() {
-        clearInterval(this.musicMainControl);
-        this.musicMainControl = setInterval(() => {
-            this.musicPlayer();
-        }, 1000);
-    }
-
     setVolume() {
-        let slider = document.querySelector(".slider");
-        let output = document.querySelector("#music_volume");
+        let slider = document.querySelector("#sfx_slider");
+        let output = document.querySelector("#sfx_volume");
         output.innerHTML = slider.value;
 
         slider.oninput = () => {
@@ -64,11 +64,15 @@ class Sfx {
         };
     }
 
-    toggleMusicAjax() {
+    //#endregion
+
+    //#region AJAX
+
+    toggleSfxAjax() {
         let value = event.currentTarget.id;
         let parent = event.currentTarget.parentNode;
         let formData = new FormData();
-        formData.append("music", value);
+        formData.append("sfx", value);
 
         fetch("settingsAjax.php", {
             method: "POST",
@@ -77,7 +81,7 @@ class Sfx {
         })
             .then((response) => response.json())
             .then((response) => {
-                music.setAttribute(response["volume"], response["isDisable"]);
+                sfx.saveAttribute(response["volume_sfx"], response["isDisable_sfx"]);
             });
 
         parent.childNodes.forEach((e) => {
@@ -88,7 +92,7 @@ class Sfx {
 
     setVolumeAjax(value) {
         let formData = new FormData();
-        formData.append("volume", value);
+        formData.append("volume_sfx", value);
 
         fetch("settingsAjax.php", {
             method: "POST",
@@ -97,7 +101,7 @@ class Sfx {
         })
             .then((response) => response.json())
             .then((response) => {
-                music.setAttribute(response["volume"], response["isDisable"]);
+                sfx.saveAttribute(response["volume_sfx"], response["isDisable_sfx"]);
             });
     }
 
@@ -109,9 +113,11 @@ class Sfx {
         })
             .then((response) => response.json())
             .then((response) => {
-                music.setAttribute(response["volume"], response["isDisable"]);
-                document.querySelector(".slider").value = response["volume"] * 100;
-                document.querySelector("#music_volume").innerHTML = response["volume"] * 100;
+                sfx.saveAttribute(response["volume_sfx"], response["isDisable_sfx"]);
+                document.querySelector("#sfx_slider").value = response["volume_sfx"] * 100;
+                document.querySelector("#sfx_volume").innerHTML = response["volume_sfx"] * 100;
             });
     }
+
+    //#endregion
 }

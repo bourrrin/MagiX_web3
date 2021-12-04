@@ -6,7 +6,7 @@
     if(!isset($_SESSION["anim_timing"])){
         $_SESSION["anim_timing"] = "Normal";
     }
-    
+
     require_once("partial/music.php");
 ?>
     <div id="anim_timing" style="display: none;" value="<?=$_SESSION["anim_timing"]?>"><?=$_SESSION["anim_timing"]?></div>
@@ -25,10 +25,10 @@
             </div>
             <div class="main_display">
                 <div>
-                    <div class="lobby-btn" id="jouer">Play</div>
-                    <div class="lobby-btn" id="pratique">Training</div>
-                    <div class="lobby-btn" id="deck">Deck</div>
-                    <div class="lobby-btn" id="note">Note</div>
+                    <div class="lobby-btn sfx_btn" id="jouer">Play</div>
+                    <div class="lobby-btn sfx_btn" id="pratique">Training</div>
+                    <div class="lobby-btn sfx_btn" id="deck">Deck</div>
+                    <div class="lobby-btn sfx_btn" id="note">Note</div>
                 </div>
                 <div class="center">
                     <div class="scene">
@@ -65,8 +65,8 @@
             <div class="cool"></div>
             <div class="cool"></div>
             <div class="menu">
-                <p id="quitter">Exit</p>
-                <p id="settings">Settings</p>
+                <p class="sfx_btn" id="quitter">Exit</p>
+                <p class="sfx_btn" id="settings">Settings</p>
             </div>
             <div id="load_bar"></div>
             <div class="chat">

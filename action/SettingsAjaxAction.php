@@ -8,6 +8,8 @@
         }
 
         protected function executeAction() {
+            //sorry pour le beau spaghetti :)
+
             $result = false;
             if(isset($_POST["anim_timing"])){
                 $_SESSION["anim_timing"] = $_POST["anim_timing"];
@@ -30,10 +32,29 @@
                 $result["volume"] = $_SESSION["volume"];
                 $result["isDisable"] = $_SESSION["isDisable"];
             }
+            else if(isset($_POST["sfx"])){
+                $result = [];
+                if($_POST["sfx"] == "disable_sfx"){
+                    $_SESSION["isDisable_sfx"] = "true";
+                }else{
+                    $_SESSION["isDisable_sfx"] = "false";
+                }
+
+                $result["volume_sfx"] = $_SESSION["volume_sfx"];
+                $result["isDisable_sfx"] = $_SESSION["isDisable_sfx"];
+            }
+            else if(isset($_POST["volume_sfx"])){
+                $result = [];
+                $_SESSION["volume_sfx"] = $_POST["volume_sfx"] ;
+                $result["volume_sfx"] = $_SESSION["volume_sfx"];
+                $result["isDisable_sfx"] = $_SESSION["isDisable_sfx"];
+            }
             else{
                 $result = [];
                 $result["volume"] = $_SESSION["volume"];
                 $result["isDisable"] = $_SESSION["isDisable"];
+                $result["volume_sfx"] = $_SESSION["volume_sfx"];
+                $result["isDisable_sfx"] = $_SESSION["isDisable_sfx"];
             }
 
             return compact("result");

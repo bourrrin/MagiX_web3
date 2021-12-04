@@ -50,7 +50,7 @@
                     <div class="btn_ui" id="p_hp">hp</div>
                     <div class="btn_ui" id="p_mana">mp</div>
                     <div class="btn_ui" id="p_deck">deck</div>
-                    <div class="p_power" id="p_power">POWER</div>
+                    <div class="p_power sfx_btn" id="p_power">POWER</div>
                     <div id="p_mana_bar"></div>
                 </div>
             </div>
@@ -62,15 +62,15 @@
             <div class="menu_btn">
                 <div class="timer"> 50s</div>
                 <div class="sub_container">
-                    <div class="turn" id="turn"> END TURN</div>
-                    <div class="surrender"> SURRENDER</div>
+                    <div class="turn sfx_btn" id="turn"> END TURN</div>
+                    <div class="surrender sfx_btn"> SURRENDER</div>
                 </div>
             </div>
             <div class="turn_indicator">YOUR TURN</div>
 
             <div class="menu">
-                <div class="chat">CHAT</div>
-                <div class="settings_btn">SETTINGS</div>
+                <div class="sfx_btn chat">CHAT</div>
+                <div class="sfx_btn settings_btn">SETTINGS</div>
             </div>
         </div>
     </div>
@@ -122,7 +122,7 @@
     <div class="waiting_screen game_over">
         <h1>WAITING ...</h1>
     </div>
-    <div class="quitter">QUITTER</div>
+    <div class="quitter sfx_btn">QUITTER</div>
 
 <?php
     require_once("partial/footer.php");

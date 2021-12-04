@@ -29,6 +29,7 @@ window.addEventListener("load", () => {
 
     music = new Music(document.querySelector("#music"));
     sfx = new Sfx();
+    sfx.clickSfx(document.querySelectorAll(".sfx_btn"));
 
     document.querySelector("#scroll_deck").addEventListener("click", scrollDeck);
 
