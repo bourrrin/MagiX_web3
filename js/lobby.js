@@ -27,6 +27,10 @@ let sfx;
 window.addEventListener("load", () => {
     window.addEventListener("contextmenu", (e) => e.preventDefault());
 
+    tippy("#scroll_deck", {
+        content: "use mouse wheel",
+    });
+
     anima_timing = document.querySelector("#anim_timing").innerHTML;
 
     music = new Music(document.querySelector("#music"));

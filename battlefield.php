@@ -60,9 +60,9 @@
         </div>
     </div>
     <div class="show_chat">
-        <iframe
+        <!-- <iframe
             src="https://magix.apps-de-cours.com/server/#/chat/<?=  $_SESSION["player_data"]->key?>?v=1" onload="applyStyles(this)" >
-        </iframe>
+        </iframe> -->
     </div>
 
     <?php require_once("partial/settings.php");  ?>

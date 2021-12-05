@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/lucAPI.css">
     <script src="js/utils.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
     <title>MagiX</title>
-    <link rel="icon" type="image/png" href="/img/deathrattle.png"/>
+    <link rel="icon" type="image/png" href="img/favicon.png"/>
 </head>
 <body>

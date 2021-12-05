@@ -189,7 +189,6 @@ function playCard() {
     let board_count = document.querySelector(".p_board").childElementCount;
 
     if (board_count < 7 && yourTurn && cost <= mp) {
-        sfx.playSfx("cardClick");
         APICall("action", "PLAY", card.querySelector(".uid").innerHTML);
 
         card.style.boxShadow =
@@ -387,6 +386,7 @@ function displayCardsOnBoard(board, target) {
         missingCards.forEach((missingCard_uid) => {
             board.forEach((possessedCard) => {
                 if (possessedCard["uid"] == missingCard_uid) {
+                    sfx.playSfx("cardOnBoard");
                     createCardOnBoard(possessedCard, target);
                 }
             });
@@ -427,6 +427,7 @@ function displayPlayerHand(data) {
         missingCards.forEach((missingCard_uid) => {
             hand.forEach((possessedCard) => {
                 if (possessedCard["uid"] == missingCard_uid) {
+                    sfx.playSfx("cardInHand");
                     createCardsInHand(possessedCard, "p");
                 }
             });

@@ -13,6 +13,7 @@ class Sfx {
 
         this.utils = new Utils();
         this.path = "sound/sfx/";
+        this.audio_extension = ".mp3";
         this.extension_id = "_sfx_id";
         this.createAllSfx();
     }
@@ -31,9 +32,10 @@ class Sfx {
         this.createAudioSfx("heroPowerActivate");
         this.createAudioSfx("lifeUnder10");
         this.createAudioSfx("timerEnd");
-        this.createAudioSfx("cardClick");
+        this.createAudioSfx("cardOnBoard");
         this.createAudioSfx("cardDead");
         this.createAudioSfx("cardTakeDamage");
+        this.createAudioSfx("cardInHand");
         this.createAudioSfx("mustAttackTaunt");
         this.createAudioSfx("notEnoughEnergy");
     }
@@ -55,7 +57,7 @@ class Sfx {
 
     createAudioSfx(name) {
         let node = this.utils.create_element_id("audio", name + this.extension_id);
-        node.src = this.path + name + ".mp3";
+        node.src = this.path + name + this.audio_extension;
         this.container.appendChild(node);
     }
 
