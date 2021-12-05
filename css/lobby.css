@@ -30,7 +30,7 @@ body {
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: 5vw 66.5vw 24.5vw;
+    grid-template-columns: 5vw 73vw 18vw;
     grid-template-rows: 20vh 76vh;
     grid-template-areas:
         "load_bar titre quitter_btn"
@@ -403,9 +403,9 @@ body {
 }
 
 .deck > iframe {
-    /* position: relative; */
+    position: relative;
     width: 100%;
-    height: 100%;
+    height: 1000%;
     border: none;
     transition: transform 0.5s;
 }
