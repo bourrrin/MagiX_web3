@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <div class="deck">
-                        <div id="scroll_deck"></div>
+                        <div id="scroll_deck"><img id="scroll_deck_click" src="img/arrow-down-sign-to-navigate.png" alt=""></div>
                         <iframe class="deck_iframe"
                             src="https://magix.apps-de-cours.com/server/#/deck/<?=  $_SESSION["player_data"]->key?>">
                         </iframe>

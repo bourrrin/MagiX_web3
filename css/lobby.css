@@ -393,9 +393,6 @@ body {
     min-width: 90% !important;
     justify-content: center;
 }
-.center > div {
-    /* width: 100%; */
-}
 
 .deck {
     display: none;
@@ -413,17 +410,24 @@ body {
     transition: transform 0.5s;
 }
 
-.deck > div {
+#scroll_deck {
     --deck-tx: 2.5vw;
-    --deck-ty: 0vh;
+    --deck-ty: 63vh;
     width: 55%;
-    height: 80%;
-    text-align: center;
-    aspect-ratio: 1/1;
+    height: 10%;
     position: absolute;
     z-index: 639998435;
     transform: translate(var(--deck-tx), var(--deck-ty)) rotate(0deg);
-    background-color: rgb(255, 255, 255, 0.1);
+    /* background-color: rgb(255, 255, 255, 0.1); */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#scroll_deck > img {
+    aspect-ratio: 1/1;
+    width: 2vw;
 }
 
 #animation_fin {
@@ -461,7 +465,7 @@ body {
 .deck,
 .note,
 .settings {
-    display: none !important;
+    display: none;
 }
 
 .scene {

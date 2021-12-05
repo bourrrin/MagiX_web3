@@ -25,6 +25,8 @@ let music;
 let sfx;
 
 window.addEventListener("load", () => {
+    window.addEventListener("contextmenu", (e) => e.preventDefault());
+
     anima_timing = document.querySelector("#anim_timing").innerHTML;
 
     music = new Music(document.querySelector("#music"));
@@ -32,6 +34,12 @@ window.addEventListener("load", () => {
     sfx.clickSfx(document.querySelectorAll(".sfx_btn"));
 
     document.querySelector("#scroll_deck").addEventListener("wheel", scrollDeck);
+    document.querySelector("#scroll_deck_click").addEventListener("click", () => {
+        scrollDeckClick(true);
+    });
+    document.querySelector("#scroll_deck_click").addEventListener("contextmenu", () => {
+        scrollDeckClick(false);
+    });
     document.querySelector("#quitter").addEventListener("click", quitter);
     document.querySelector("#settings").addEventListener("click", () => {
         displayMainMenu("settings");
@@ -135,6 +143,25 @@ function scrollDeck(event) {
 
     event.preventDefault();
     scroll = scroll - event.deltaY * 0.1;
+    if (scroll <= max) {
+        scroll = max;
+    } else if (scroll >= 0) {
+        scroll = 0;
+    }
+
+    el.style.transform = "translateY(" + scroll + "vh)";
+}
+
+function scrollDeckClick(direction) {
+    let el = document.querySelector(".deck_iframe");
+    let max = -120;
+    if (direction) {
+        delta = 40;
+    } else {
+        delta = -40;
+    }
+
+    scroll = scroll - delta;
     if (scroll <= max) {
         scroll = max;
     } else if (scroll >= 0) {
