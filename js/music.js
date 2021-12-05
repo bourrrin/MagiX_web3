@@ -4,12 +4,14 @@ class Music {
         this.isDisable = null;
         this.type = type;
         this.src = "lobby";
+        this.gameMusic = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        this.utils = new Utils();
 
         this.setSource();
         this.setDefaultValueAjax();
         // this.soundFile.currentTime = 2244;
 
-        this.setVolume();
+        if (this.type != "login") this.setVolume();
 
         this.soundFile.addEventListener("ended", () => {
             // console.log("ended");
@@ -28,7 +30,7 @@ class Music {
 
     setSource() {
         if (this.type !== null) {
-            this.src = 1;
+            this.src = this.utils.shuffle(this.gameMusic)[0];
         }
         this.soundFile.src = "sound/music/" + this.src + ".mp3";
         this.soundFile.load();
@@ -60,7 +62,7 @@ class Music {
     }
 
     changeMusic() {
-        if (this.type !== null && this.src < 9) {
+        if (this.type !== null) {
             this.src++;
         } else {
             this.src = 0;
@@ -133,8 +135,10 @@ class Music {
             .then((response) => response.json())
             .then((response) => {
                 music.setAttribute(response["volume"], response["isDisable"]);
-                document.querySelector(".slider").value = response["volume"] * 100;
-                document.querySelector("#music_volume").innerHTML = response["volume"] * 100;
+                if (this.type != "login") {
+                    document.querySelector(".slider").value = response["volume"] * 100;
+                    document.querySelector("#music_volume").innerHTML = response["volume"] * 100;
+                }
             });
     }
 }

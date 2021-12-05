@@ -24,6 +24,7 @@ let o_hp = 0;
 let attaquant = null;
 let chatIsDisplayed = false;
 let settingIsDisplayed = false;
+let lifeUnder10;
 let music;
 let sfx;
 
@@ -41,8 +42,6 @@ window.addEventListener("load", () => {
     document.querySelector(".settings").classList.add("show_settings");
     document.querySelector(".quitter").addEventListener("click", quitter);
     document.querySelector(".show_card").addEventListener("click", hide_card);
-    document.querySelector(".show_chat").addEventListener("click", hide_card);
-    document.querySelector(".show_settings").addEventListener("click", hide_card);
     document.querySelector("#p_power").addEventListener("click", useHeroPower);
     document.querySelector(".turn").addEventListener("click", turn);
     document.querySelector(".surrender").addEventListener("click", surrender);
@@ -115,6 +114,7 @@ function displaySubMenu(target) {
 }
 
 function show_card() {
+    sfx.playSfx("showSlide");
     let div = document.querySelector(".show_card");
     let data = event.currentTarget;
 
@@ -131,16 +131,22 @@ function show_card() {
 }
 
 function hide_card() {
+    sfx.playSfx("showSlide");
+
     document.querySelector(".show_card").style.left = "105vw";
 }
 
 function showSubMenu(target) {
+    sfx.playSfx("showSlide");
+
     let element = document.querySelector("." + target + "_sub_menu");
     element.style.opacity = 1;
     element.style.left = "17vw";
 }
 
 function hideSubMenu(target) {
+    sfx.playSfx("showSlide");
+
     let element = document.querySelector("." + target + "_sub_menu");
     element.style.opacity = 0;
     element.style.left = "2vw";
@@ -163,6 +169,7 @@ function turn() {
 }
 
 function notEnoughEnergy() {
+    sfx.playSfx("notEnoughEnergy");
     card = document.querySelector("#p_mana_bar");
     card.style.filter = "brightness(5)";
     card.style.background = "rgba(255, 255, 255, 0.05)";
@@ -178,6 +185,7 @@ function playCard() {
     let board_count = document.querySelector(".p_board").childElementCount;
 
     if (board_count < 7 && yourTurn && cost <= mp) {
+        sfx.playSfx("cardClick");
         APICall("action", "PLAY", card.querySelector(".uid").innerHTML);
 
         card.style.boxShadow =
@@ -229,7 +237,7 @@ function attackHero() {
 function useHeroPower() {
     if (!heroPowerAlreadyUsed && mp >= 2) {
         let element = document.querySelector(".p_power");
-
+        sfx.playSfx("heroPowerActivate");
         clickedBtn(element);
 
         APICall("action", "HERO_POWER");
@@ -255,6 +263,7 @@ function quitter() {
 //#region CARD RELATED
 function displayTauntMinion() {
     let element = document.querySelector(".o_board");
+    sfx.playSfx("mustAttackTaunt");
 
     element.childNodes.forEach((card) => {
         let mech = card.querySelector(".mechanics").innerHTML;
@@ -357,10 +366,11 @@ function displayCardsOnBoard(board, target) {
         let deadCards = displayedCards.filter((x) => !possessedCards.includes(x));
         let missingCards = possessedCards.filter((x) => !displayedCards.includes(x));
 
-        //AFFICHE CARTES EN TROP
+        //REMOVE CARTES EN TROP
         deadCards.forEach((deadCard_uid) => {
             element.childNodes.forEach((displayedCard) => {
                 if (displayedCard.querySelector(".uid").innerHTML == deadCard_uid) {
+                    sfx.playSfx("cardDead");
                     displayedCard.classList.add("death");
                     setTimeout(() => {
                         element.removeChild(displayedCard);
@@ -554,7 +564,7 @@ function updateMechIcon(board, target) {
 
 function displayExplosion(target, uid, damage) {
     let board = document.querySelector("." + target);
-
+    sfx.playSfx("cardTakeDamage");
     board.childNodes.forEach((card) => {
         if (card.querySelector(".uid").innerHTML == uid) {
             card.querySelector(".explosion").style.display = "flex";
@@ -655,6 +665,9 @@ function displayTimer(data) {
     timer.innerHTML = data["remainingTurnTime"];
 
     if (data["remainingTurnTime"] <= 15) {
+        if (data["remainingTurnTime"] == 5) {
+            sfx.playSfx("timerEnd");
+        }
         document.querySelector(".timer").style.color = "red";
         setTimeout(() => {
             document.querySelector(".timer").style.color = "white";
@@ -739,10 +752,13 @@ function displayLifeLose(data, target) {
             }, 400);
         }
 
-        if (hp < 10) {
+        if (hp < 10 && !lifeUnder10) {
+            sfx.playSfx("lifeUnder10");
             document.querySelector(":root").style.setProperty("--back-line-color", "red");
-        } else {
+            lifeUnder10 = true;
+        } else if (hp >= 10) {
             document.querySelector(":root").style.setProperty("--back-line-color", "#2c74d0");
+            lifeUnder10 = false;
         }
     }
 }
@@ -751,10 +767,14 @@ function displayEndGame(win) {
     let element = document.querySelector("#gamwOver_txt");
     document.querySelector(".waiting_screen").style.display = "none";
     document.querySelector(".quitter").style.display = "flex";
+    sfx.playSfx("gameOverMenuOpen");
     if (win) {
+        sfx.playSfx("victory");
         element.innerHTML = "VICTORY!";
         element.classList.add("victory");
     } else {
+        sfx.playSfx("defeat");
+
         element.innerHTML = "DEFEAT";
         element.classList.add("defeat");
     }
@@ -763,6 +783,7 @@ function displayEndGame(win) {
 
 function displayTurnIndicator(data) {
     if (data["yourTurn"] != yourTurn && data["yourTurn"]) {
+        sfx.playSfx("yourTurn");
         document.querySelector(".turn_indicator").style.display = "flex";
         setTimeout(() => {
             document.querySelector(".turn_indicator").style.display = "none";

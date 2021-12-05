@@ -1,7 +1,7 @@
 
 <?php
     if(!isset($_SESSION["volume"])){
-        $_SESSION["volume"] = "0.5";
+        $_SESSION["volume"] = "0.01";
     }
 
     if(!isset($_SESSION["isDisable"])){
@@ -11,9 +11,9 @@
     if(!isset($_SESSION["isDisable_sfx"])){
         $_SESSION["isDisable_sfx"] = "false";
     }
-    
+
     if(!isset($_SESSION["volume_sfx"])){
-        $_SESSION["volume_sfx"] = "0.5";
+        $_SESSION["volume_sfx"] = "0.20";
     }
 
 ?>

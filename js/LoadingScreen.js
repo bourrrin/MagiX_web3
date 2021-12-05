@@ -1,6 +1,8 @@
 class LoadingScreen {
     constructor(anim_container, main_container, timing) {
         main_container.style.display = "none";
+        let sfx = new Sfx("login");
+        sfx.playSfx("loadingLobby");
         setTimeout(() => {
             let start = document.querySelector(".start");
             start.style.opacity = 0;

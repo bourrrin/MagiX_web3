@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    require_once("partial/music.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -24,6 +24,13 @@
                 $result = parent::callAPI("games/auto-match",$data);
             }
 
+            if ($result == "SIGNED_OUT" || $result == "INVALID_KEY") {
+                session_unset();
+                session_destroy();
+                session_start();
+            }
+
+
             return compact("result");
         }
     }

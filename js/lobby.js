@@ -20,7 +20,7 @@ let utils = new Utils();
 let h = window.innerHeight;
 let anima_timing = "Normal";
 let value = 0;
-let isDeckDown = false;
+let scroll = 0;
 let music;
 let sfx;
 
@@ -31,8 +31,7 @@ window.addEventListener("load", () => {
     sfx = new Sfx();
     sfx.clickSfx(document.querySelectorAll(".sfx_btn"));
 
-    document.querySelector("#scroll_deck").addEventListener("click", scrollDeck);
-
+    document.querySelector("#scroll_deck").addEventListener("wheel", scrollDeck);
     document.querySelector("#quitter").addEventListener("click", quitter);
     document.querySelector("#settings").addEventListener("click", () => {
         displayMainMenu("settings");
@@ -130,24 +129,19 @@ function setAnimationTiming() {
 
 //#region ANIMATION HANDLERS
 
-function scrollDeck() {
-    console.log(value);
+function scrollDeck(event) {
+    let el = document.querySelector(".deck_iframe");
+    let max = -120;
 
-    if (isDeckDown) {
-        isDeckDown = false;
-        document.querySelector(".deck_iframe").style.transform = "translateY(0vh)";
-        setTimeout(() => {
-            document.querySelector("#scroll_deck").style.transform =
-                "translate(var(--deck-tx),var(--deck-ty)) rotate(0deg)";
-        }, 1000);
-    } else {
-        document.querySelector(".deck_iframe").style.transform = "translateY(-65vh)";
-        setTimeout(() => {
-            document.querySelector("#scroll_deck").style.transform =
-                "translate(var(--deck-tx), var(--deck-ty)) rotate(180deg)";
-            isDeckDown = true;
-        }, 1000);
+    event.preventDefault();
+    scroll = scroll - event.deltaY * 0.1;
+    if (scroll <= max) {
+        scroll = max;
+    } else if (scroll >= 0) {
+        scroll = 0;
     }
+
+    el.style.transform = "translateY(" + scroll + "vh)";
 }
 
 function animation_reduite() {
@@ -171,6 +165,7 @@ function animation_reduite() {
 }
 
 function successfullSignedOut() {
+    sfx.playSfx("transitionFlash");
     document.querySelector("body").style.opacity = 0;
     flash_animation_login();
     setTimeout(() => {
@@ -202,6 +197,9 @@ function displayMainMenu(target) {
             }
         });
         document.querySelector(".scene").style.display = "flex";
+        setTimeout(() => {
+            sfx.playSfx("mainContainerChange");
+        }, 550);
     }
 }
 

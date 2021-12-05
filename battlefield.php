@@ -5,11 +5,7 @@
         $_SESSION["anim_timing"] = "Normal";
     }
 
-    require_once("partial/music.php");
 ?>
-
-
-
     <div id="anim_timing" style="display: none;" value="<?=$_SESSION["anim_timing"]?>"><?=$_SESSION["anim_timing"]?></div>
 
     <script src="js/Carte.js"></script>
@@ -21,18 +17,6 @@
         <div class="battlefield_background" id="battlefield_background_o"></div>
         <div class="battlefield_background" id="battlefield_background_p"></div>
     </div>
-
-    <!-- <div class="card">
-        <div class="name"></div>
-        <div class="cost"></div>
-        <div class=atk></div>
-        <div class=hp></div>
-        <div class=baseHP></div>
-        <div class=mechanics></div>
-        <div class=uid></div>
-        <div class=mech_icon></div>
-        <div class=explosion>-2</div>
-    </div> -->
 
     <div class=battlefield_container>
         <div class="battlefield_wrapper">

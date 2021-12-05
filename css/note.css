@@ -1,0 +1,127 @@
+.note {
+    width: 100%;
+    height: 100%;
+    /* background: red; */
+    z-index: 5888888;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.nav_note {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 10%;
+    width: 80%;
+}
+
+.nav_note > div {
+    height: 50%;
+    aspect-ratio: 1/1;
+    background: url(../img/arrow-down-sign-to-navigate.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.previous_note {
+    transform: rotate(90deg);
+}
+
+.next_note {
+    transform: rotate(-90deg);
+}
+.fermer_note {
+    padding-left: 1% !important;
+    padding-right: 1% !important;
+}
+
+.note_container {
+    width: 55%;
+    height: 70%;
+    margin: 0px auto;
+    /* background: green; */
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    border-left: var(--border-line) 1px solid;
+    border-right: var(--border-line) 1px solid;
+    padding: 2% 8%;
+
+    animation: transition_note 1s forwards;
+    transition: 0.5s;
+}
+
+.note_container > div {
+    width: 100%;
+}
+
+.note_header {
+    height: 10%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.note_body {
+    height: 75%;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.note_btn {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.note button {
+    text-align: center;
+    border-radius: 5% !important;
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 0px 2px white;
+    color: white;
+    padding: 0.5% 3%;
+}
+
+.add_note {
+    margin-left: auto;
+    margin-right: 5%;
+}
+
+.read_note,
+.create_note {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.create_note {
+    display: none;
+}
+
+.create_note > textarea {
+    background: transparent;
+    width: 100%;
+    color: white;
+    font-size: 1rem;
+}
+
+.no_width {
+    width: 0% !important;
+}
+
+@keyframes transition_note {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 60%;
+    }
+}

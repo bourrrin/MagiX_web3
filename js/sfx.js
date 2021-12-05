@@ -1,33 +1,59 @@
 class Sfx {
-    constructor() {
+    constructor(type = null) {
         document.querySelectorAll(".set_sfx").forEach((e) => {
             e.addEventListener("click", this.toggleSfxAjax);
         });
 
         this.container = document.querySelector("#audio_container");
-        this.volume;
+        this.isDisable;
+        this.volume = 0.1;
+        this.type = type;
         this.setDefaultValueAjax();
-        this.setVolume();
+        if (this.type != "login") this.setVolume();
+
         this.utils = new Utils();
         this.path = "sound/sfx/";
         this.extension_id = "_sfx_id";
+        this.createAllSfx();
+    }
+
+    createAllSfx() {
+        this.createAudioSfx("click");
+        this.createAudioSfx("transitionFlash");
+        this.createAudioSfx("loadingLobby");
+        this.createAudioSfx("mainContainerChange");
+        this.createAudioSfx("transitionTunnel");
+        this.createAudioSfx("victory");
+        this.createAudioSfx("defeat");
+        this.createAudioSfx("gameOverMenuOpen");
+        this.createAudioSfx("showSlide");
+        this.createAudioSfx("yourTurn");
+        this.createAudioSfx("heroPowerActivate");
+        this.createAudioSfx("lifeUnder10");
+        this.createAudioSfx("timerEnd");
+        this.createAudioSfx("cardClick");
+        this.createAudioSfx("cardDead");
+        this.createAudioSfx("cardTakeDamage");
+        this.createAudioSfx("mustAttackTaunt");
+        this.createAudioSfx("notEnoughEnergy");
     }
 
     clickSfx(list_elements) {
-        this.createAudioSfx("click", "click");
-
         list_elements.forEach((element) => {
             element.addEventListener("click", () => {
-                let audio = document.querySelector("#click" + this.extension_id);
-                console.log(audio);
-                if (this.setAttribute(audio)) audio.play();
+                this.playSfx("click");
             });
         });
     }
 
+    playSfx(elements) {
+        let audio = document.querySelector("#" + elements + this.extension_id);
+        if (this.setAttribute(audio)) audio.play();
+    }
+
     //#region CREATE AUDIO
 
-    createAudioSfx(src, name) {
+    createAudioSfx(name) {
         let node = this.utils.create_element_id("audio", name + this.extension_id);
         node.src = this.path + name + ".mp3";
         this.container.appendChild(node);
@@ -44,7 +70,6 @@ class Sfx {
     }
 
     saveAttribute(volume, isDisable) {
-        console.log(volume, isDisable);
         this.volume = volume;
         if (isDisable == "true") {
             this.isDisable = true;
@@ -114,8 +139,10 @@ class Sfx {
             .then((response) => response.json())
             .then((response) => {
                 sfx.saveAttribute(response["volume_sfx"], response["isDisable_sfx"]);
-                document.querySelector("#sfx_slider").value = response["volume_sfx"] * 100;
-                document.querySelector("#sfx_volume").innerHTML = response["volume_sfx"] * 100;
+                if (this.type != "login") {
+                    document.querySelector("#sfx_slider").value = response["volume_sfx"] * 100;
+                    document.querySelector("#sfx_volume").innerHTML = response["volume_sfx"] * 100;
+                }
             });
     }
 

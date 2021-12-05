@@ -1,4 +1,8 @@
 <?php
+    require_once("action/lobbyAction.php");
+    $action = new LobbyAction();
+    $data = $action->execute();
+
     require_once("partial/header.php");
     require_once("partial/lobby_intro.php");
     require_once("partial/lobby_transition_tunel.php");
@@ -7,7 +11,6 @@
         $_SESSION["anim_timing"] = "Normal";
     }
 
-    require_once("partial/music.php");
 ?>
     <div id="anim_timing" style="display: none;" value="<?=$_SESSION["anim_timing"]?>"><?=$_SESSION["anim_timing"]?></div>
 
@@ -57,7 +60,7 @@
                         </iframe>
                     </div>
                     <?php require_once("partial/settings.php");  ?>
-                    <div class="note">LOL</div>
+                    <?php require_once("partial/note.php");  ?>
                 </div>
             </div>
             <div class="cool"></div>

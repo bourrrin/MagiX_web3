@@ -1,8 +1,11 @@
 let utils = new Utils();
 let music;
+let sfx;
 
 window.addEventListener("load", () => {
-    // music = new Music(document.querySelector("#music"));
+    music = new Music(document.querySelector("#music"), "login");
+    sfx = new Sfx("login");
+    sfx.clickSfx(document.querySelectorAll(".sfx_btn"));
 
     document.querySelector("#button").addEventListener("click", login);
     load_ships();
@@ -25,6 +28,7 @@ function login() {
     })
         .then((response) => response.json())
         .then((response) => {
+            console.log(response);
             if (response == true) {
                 animation_login();
                 setTimeout(() => {
@@ -118,6 +122,7 @@ function flash_animation_login() {
 }
 
 function animation_login() {
+    sfx.playSfx("transitionFlash");
     flash_animation_login();
     setTimeout(flash_animation_login, 200);
 }
