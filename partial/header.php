@@ -11,5 +11,6 @@
     <link rel="stylesheet" href="css/lucAPI.css">
     <script src="js/utils.js"></script>
     <title>MagiX</title>
+    <link rel="icon" type="image/png" href="/img/deathrattle.png"/>
 </head>
 <body>

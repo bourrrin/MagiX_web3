@@ -140,6 +140,7 @@
 }
 
 .show_chat,
+.show_note,
 .show_settings {
     --width: 23vw;
     --height: calc(var(--ratio) * var(--width));

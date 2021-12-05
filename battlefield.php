@@ -55,6 +55,7 @@
             <div class="menu">
                 <div class="sfx_btn chat">CHAT</div>
                 <div class="sfx_btn settings_btn">SETTINGS</div>
+                <div class="sfx_btn note_btn_game">NOTES</div>
             </div>
         </div>
     </div>
@@ -65,6 +66,7 @@
     </div>
 
     <?php require_once("partial/settings.php");  ?>
+    <?php require_once("partial/note.php");  ?>
 
     <div class="show_card">
         <div class="name"></div>

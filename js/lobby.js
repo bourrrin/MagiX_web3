@@ -67,18 +67,6 @@ window.addEventListener("load", () => {
 
 //#region SETTINGS
 
-function displaySettings() {
-    clickedBtn(document.querySelector(".settings"));
-    let div = document.querySelector(".show_settings");
-    if (settingIsDisplayed) {
-        div.style.left = "100vw";
-        settingIsDisplayed = false;
-    } else {
-        div.style.left = "calc(98vw - var(--width))";
-        settingIsDisplayed = true;
-    }
-}
-
 function displaySettingControl() {
     setSettingStyle();
     document.querySelector("#control").style.display = "block";
@@ -209,7 +197,6 @@ function flash_animation_login() {
 
 function displayMainMenu(target) {
     let div = document.querySelector("." + target);
-    console.log(div);
     if (div.style.display == "none" || div.style.display == "") {
         document.querySelector(".center").childNodes.forEach((element) => {
             if (element instanceof HTMLDivElement) {

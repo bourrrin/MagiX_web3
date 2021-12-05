@@ -24,6 +24,7 @@ let o_hp = 0;
 let attaquant = null;
 let chatIsDisplayed = false;
 let settingIsDisplayed = false;
+let noteIsDisplayed = false;
 let lifeUnder10;
 let music;
 let sfx;
@@ -40,6 +41,8 @@ window.addEventListener("load", () => {
     });
 
     document.querySelector(".settings").classList.add("show_settings");
+    document.querySelector(".note").classList.add("show_note");
+
     document.querySelector(".quitter").addEventListener("click", quitter);
     document.querySelector(".show_card").addEventListener("click", hide_card);
     document.querySelector("#p_power").addEventListener("click", useHeroPower);
@@ -49,6 +52,7 @@ window.addEventListener("load", () => {
     document.querySelector(".o_hand").addEventListener("click", attackHero);
     document.querySelector(".chat").addEventListener("click", displayChat);
     document.querySelector(".settings_btn").addEventListener("click", displaySettings);
+    document.querySelector(".note_btn_game").addEventListener("click", displayNote);
     document.querySelector("#control_btn").addEventListener("click", displaySettingControl);
     document.querySelector("#sound_btn").addEventListener("click", displaySettingSound);
     document.querySelector("#animation_btn").addEventListener("click", displaySettingAnimation);
@@ -578,32 +582,7 @@ function displayExplosion(target, uid, damage) {
 
 //#endregion
 
-//#region UI
-
-function displayChat() {
-    clickedBtn(document.querySelector(".chat"));
-    let div = document.querySelector(".show_chat");
-    if (chatIsDisplayed) {
-        div.style.left = "100vw";
-        chatIsDisplayed = false;
-    } else {
-        div.style.left = "calc(97vw - var(--width))";
-        chatIsDisplayed = true;
-    }
-}
 //#region SETTINGS
-
-function displaySettings() {
-    clickedBtn(document.querySelector(".settings"));
-    let div = document.querySelector(".show_settings");
-    if (settingIsDisplayed) {
-        div.style.left = "100vw";
-        settingIsDisplayed = false;
-    } else {
-        div.style.left = "calc(98vw - var(--width))";
-        settingIsDisplayed = true;
-    }
-}
 
 function displaySettingControl() {
     setSettingStyle();
@@ -659,6 +638,39 @@ function setAnimationTiming() {
         });
 }
 //#endregion
+
+//#region SIDE MENU
+function displayChat() {
+    clickedBtn(document.querySelector(".chat"));
+    let div = document.querySelector(".show_chat");
+    chatIsDisplayed = showTransform(div, chatIsDisplayed);
+}
+
+function displayNote() {
+    clickedBtn(document.querySelector(".note_btn_game"));
+    let div = document.querySelector(".show_note");
+    settingIsDisplayed = showTransform(div, settingIsDisplayed);
+}
+
+function displaySettings() {
+    clickedBtn(document.querySelector(".settings"));
+    let div = document.querySelector(".show_settings");
+    settingIsDisplayed = showTransform(div, settingIsDisplayed);
+}
+
+function showTransform(div, condition) {
+    if (condition) {
+        div.style.left = "100vw";
+        return false;
+    } else {
+        div.style.left = "calc(98vw - var(--width))";
+        return true;
+    }
+}
+
+//#endregion
+
+//#region UI
 
 function displayTimer(data) {
     let timer = document.querySelector(".timer");

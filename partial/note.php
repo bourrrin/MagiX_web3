@@ -32,5 +32,7 @@
             </div>
         </div>
     </div>
-    <button class="add_note sfx_btn" >ADD</button>
+    <div class=add_note_container>
+        <button class="add_note sfx_btn" >ADD</button>
+    </div>
 </div>

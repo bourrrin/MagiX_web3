@@ -32,7 +32,6 @@ function changeNote(params) {
             index = 0;
         }
     }
-    console.log(index);
 
     setTimeout(() => {
         document.querySelector(".note_container").classList.remove("fermer_note");
@@ -53,7 +52,6 @@ function getNotes() {
     })
         .then((response) => response.json())
         .then((response) => {
-            console.log(response);
             notes = response;
             displayNotes(0);
         });
