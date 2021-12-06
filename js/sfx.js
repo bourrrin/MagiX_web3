@@ -38,6 +38,8 @@ class Sfx {
         this.createAudioSfx("cardInHand");
         this.createAudioSfx("mustAttackTaunt");
         this.createAudioSfx("notEnoughEnergy");
+        this.createAudioSfx("playerTakeDamage");
+        
     }
 
     clickSfx(list_elements) {

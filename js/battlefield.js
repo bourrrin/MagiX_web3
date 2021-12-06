@@ -28,6 +28,7 @@ let noteIsDisplayed = false;
 let lifeUnder10;
 let music;
 let sfx;
+let tour = 1;
 
 window.addEventListener("load", () => {
     music = new Music(document.querySelector("#music"), "game");
@@ -690,8 +691,8 @@ function displayTimer(data) {
     }
 }
 
-function displayMana(mp, target) {
-    document.querySelector("#" + target + "_mana").innerHTML = mp;
+function displayMana(mp, maxMP, target) {
+    document.querySelector("#" + target + "_mana").innerHTML = maxMP;
     let element = document.querySelector("#" + target + "_mana_bar").children;
     let tableChild = [];
     for (let i = 0; i < element.length; i++) {
@@ -754,14 +755,10 @@ function displayLifeLose(data, target) {
 
     if (last_hp != data["hp"]) {
         if (data["hp"] < last_hp) {
+            sfx.playSfx("playerTakeDamage");
             element.style.color = "red";
-            // background.style.boxShadow =
-            //     "0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 100px red, 0 0 400px red, 0 0 700px red,0 0 1000px red, 0 0 1300px red";
-
             setTimeout(() => {
                 element.style.color = "white";
-                // background.style.boxShadow =
-                //     "0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 100px var(--back-line-color), 0 0 400px var(--back-line-color), 0 0 700px var(--back-line-color),0 0 1000px var(--back-line-color), 0 0 1300px var(--back-line-color)";
             }, 400);
         }
 
@@ -797,6 +794,9 @@ function displayEndGame(win) {
 function displayTurnIndicator(data) {
     if (data["yourTurn"] != yourTurn && data["yourTurn"]) {
         sfx.playSfx("yourTurn");
+        tour++;
+        document.querySelector(".tour_indicator").innerHTML = "TOUR " + tour;
+
         document.querySelector(".turn_indicator").style.display = "flex";
         setTimeout(() => {
             document.querySelector(".turn_indicator").style.display = "none";
@@ -895,10 +895,11 @@ function gameHandler(data) {
     displayChangedCardAttribute("o");
     displayChangedCardAttribute("p");
 
-    displayMana(data["mp"], "p");
-    displayMana(data["opponent"]["mp"], "o");
+    displayMana(data["mp"], data["maxMp"], "p");
+    displayMana(data["opponent"]["mp"], data["opponent"]["mp"], "o");
     displayRemainingCardsCount(data["remainingCardsCount"], "p");
     displayRemainingCardsCount(data["opponent"]["remainingCardsCount"], "o");
+    updateCardsAttribute(data["hand"], "p_hand");
     updateCardsAttribute(data["board"], "p_board");
     updateCardsAttribute(data["opponent"]["board"], "o_board");
 

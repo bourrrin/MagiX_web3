@@ -81,7 +81,13 @@
 }
 
 /*  region USERS INTERFACE  */
-
+.tour_indicator {
+    width: 5vw;
+    aspect-ratio: 4/1;
+    position: absolute;
+    transform: translate(93vw, 1vh);
+    text-align: center;
+}
 .ui {
     --color: rgba(0, 183, 255, 0.5);
     padding: 1vw;

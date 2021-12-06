@@ -5,6 +5,7 @@
         $_SESSION["anim_timing"] = "Normal";
     }
 
+    // var_dump($_SESSION["player_data"]);
 ?>
     <div id="anim_timing" style="display: none;" value="<?=$_SESSION["anim_timing"]?>"><?=$_SESSION["anim_timing"]?></div>
 
@@ -17,6 +18,7 @@
         <div class="battlefield_background" id="battlefield_background_o"></div>
         <div class="battlefield_background" id="battlefield_background_p"></div>
     </div>
+    <div class="tour_indicator">TOUR 1</div>
 
     <div class=battlefield_container>
         <div class="battlefield_wrapper">
@@ -60,9 +62,9 @@
         </div>
     </div>
     <div class="show_chat">
-        <!-- <iframe
+        <iframe
             src="https://magix.apps-de-cours.com/server/#/chat/<?=  $_SESSION["player_data"]->key?>?v=1" onload="applyStyles(this)" >
-        </iframe> -->
+        </iframe>
     </div>
 
     <?php require_once("partial/settings.php");  ?>

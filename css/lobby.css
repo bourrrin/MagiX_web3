@@ -30,7 +30,7 @@ body {
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-columns: 5vw 73vw 18vw;
+    grid-template-columns: 4vw 70vw 23vw;
     grid-template-rows: 20vh 76vh;
     grid-template-areas:
         "load_bar titre quitter_btn"

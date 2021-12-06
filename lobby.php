@@ -11,6 +11,7 @@
         $_SESSION["anim_timing"] = "Normal";
     }
 
+    var_dump( $_SESSION["player_data"]);
 ?>
     <div id="anim_timing" style="display: none;" value="<?=$_SESSION["anim_timing"]?>"><?=$_SESSION["anim_timing"]?></div>
 
