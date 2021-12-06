@@ -5,7 +5,8 @@ body {
 
 :root {
     --border-line: #00cfcf;
-    --box-shadow: #010717;
+    --box-shadow:     top:0;
+;
     --root-glow: rgb(40, 0, 63);
     --delay-animation: 4s;
     font-family: "Courier New", Courier, monospace;
@@ -464,10 +465,89 @@ body {
 
 .deck,
 .note,
+.game,
 .settings {
     display: none;
 }
 
 .scene {
     display: flex;
+}
+
+.game {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: rgb(0, 0, 0, 0.4);
+    z-index: 9999999999999;
+
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+
+}
+
+.game > div {
+    width: 15%;
+    aspect-ratio: 1/2;
+    border-radius: 5%;
+    background:radial-gradient(#024577, #010717);;
+    box-shadow: 0px 0px 3px black, 0px 0px 5px white;
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+
+    padding: 2%;
+    animation: transition_play 0.5s forwards;
+    transition: 0.5s;
+    overflow:hidden ;
+
+}
+
+@keyframes transition_play {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 15%;
+    }
+}
+
+.game > div> img{
+    width: 1.5vw;
+    aspect-ratio: 1/1;
+    transform: rotate(90deg) translate(-30vh, 7vw);
+    position: absolute;
+
+}
+
+.game > div > div{
+    height: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.game button{
+    border-radius: 5% ;
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 0px 2px white;
+    color: white;
+    width: 7vw;
+    height: 3vh;
+    margin: 4% 0px;
+    padding: 2% 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game button:hover {
+    box-shadow: 0px 0px 2px white, 0px 0px 12px white;
 }

@@ -1,14 +1,11 @@
 <?php
+    require_once("action/battlefieldAction.php");
+    $action = new BattlefieldAction();
+    $data = $action->execute();
     require_once("partial/header.php");
-
- if(!isset($_SESSION["anim_timing"])){
-        $_SESSION["anim_timing"] = "Normal";
-    }
-
-    // var_dump($_SESSION["player_data"]);
 ?>
-    <div id="anim_timing" style="display: none;" value="<?=$_SESSION["anim_timing"]?>"><?=$_SESSION["anim_timing"]?></div>
-
+    <div id="user" style="display: none;"><?=$_SESSION["user"]?></div>
+    <div id="anim_timing" style="display: none;" ><?=$_SESSION["anim_timing"]?></div>
     <script src="js/Carte.js"></script>
     <script src="js/battlefield.js"></script>
     <link rel="stylesheet" href="css/battlefield.css">

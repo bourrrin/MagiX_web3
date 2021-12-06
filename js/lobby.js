@@ -24,6 +24,13 @@ let scroll = 0;
 let music;
 let sfx;
 
+function offset(el) {
+    var rect = el.getBoundingClientRect(),
+        scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+        scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
+}
+
 window.addEventListener("load", () => {
     window.addEventListener("contextmenu", (e) => e.preventDefault());
 
@@ -48,8 +55,6 @@ window.addEventListener("load", () => {
     document.querySelector("#settings").addEventListener("click", () => {
         displayMainMenu("settings");
     });
-    document.querySelector("#jouer").addEventListener("click", jouer);
-    document.querySelector("#pratique").addEventListener("click", pratique);
     document.querySelector("#deck").addEventListener("click", () => {
         displayMainMenu("deck");
     });
@@ -65,9 +70,37 @@ window.addEventListener("load", () => {
     document.querySelector("#sound_btn").addEventListener("click", displaySettingSound);
     document.querySelector("#animation_btn").addEventListener("click", displaySettingAnimation);
 
+    document.querySelector("#play").addEventListener("click", jouer);
+    document.querySelector("#pratique").addEventListener("click", pratique);
+    document.querySelector("#observe").addEventListener("click", observe);
+    document.querySelector("#pratique_coop").addEventListener("click", () => {
+        pratique("coop");
+    });
+    document.querySelector("#play_coop").addEventListener("click", () => {
+        jouer("coop");
+    });
+    document.querySelector("#jouer").addEventListener("click", () => {
+        displayJouer(true);
+    });
+    document.querySelector("#return_game").addEventListener("click", () => {
+        displayJouer(false);
+    });
+
     create_loadingBar_animation();
     animation_reduite();
 });
+
+function displayJouer(condition) {
+    if (condition) {
+        document.querySelector(".game").style.display = "flex";
+        document.querySelector("#game_container").style.opacity = 1;
+    } else {
+        document.querySelector("#game_container").style.opacity = 0;
+        setTimeout(() => {
+            document.querySelector(".game").style.display = "none";
+        }, 500);
+    }
+}
 
 //#region SETTINGS
 
@@ -287,40 +320,64 @@ function start_dead_pixel_animation(color) {
 //#region AJAX ACTION
 
 function quitter() {
-    APICall("action", "quitter");
-}
-
-function jouer() {
-    APICall("action", "jouer");
-}
-
-function pratique() {
-    APICall("action", "pratique");
-}
-
-function APICall(name, value) {
     let formData = new FormData();
-    formData.append(name, value);
+    formData.append("action", "quitter");
+    APICall(formData);
+}
 
+function jouer(mode = "STANDARD") {
+    let privateKey = document.querySelector("#game_key").value;
+    console.log(privateKey);
+    let formData = new FormData();
+    formData.append("action", "jouer");
+    formData.append("privateKey", privateKey);
+    formData.append("mode", mode);
+
+    APICall(formData);
+}
+
+function pratique(mode = "STANDARD") {
+    let formData = new FormData();
+    formData.append("action", "pratique");
+    formData.append("mode", mode);
+
+    APICall(formData);
+}
+
+function observe() {
+    let user = document.querySelector("#player_name").value;
+    let formData = new FormData();
+    formData.append("action", "observe");
+    formData.append("user", user);
+    APICall(formData);
+}
+
+function APICall(formdata) {
     fetch("lobbyAjax.php", {
         method: "POST",
         credentials: "include",
-        body: formData,
+        body: formdata,
     })
         .then((response) => response.json())
         .then((response) => {
             console.log(response);
-            if (response == "SIGNED_OUT" || response == "INVALID_KEY") {
-                successfullSignedOut();
-            } else if (response == "DECK_INCOMPLETE") {
-                alertMessage("DECK_INCOMPLETE");
-            } else if (response == "MAX_DEATH_THRESHOLD_REACHED") {
-                alertMessage("MAX_DEATH_THRESHOLD_REACHED");
-            } else if (
-                response == "JOINED_PVP" ||
-                response == "CREATED_PVP" ||
-                response == "JOINED_TRAINING"
-            ) {
+            if (typeof response !== "object") {
+                if (response == "SIGNED_OUT" || response == "INVALID_KEY") {
+                    successfullSignedOut();
+                } else if (response == "DECK_INCOMPLETE") {
+                    alert("DECK_INCOMPLETE");
+                } else if (response == "MAX_DEATH_THRESHOLD_REACHED") {
+                    alert("MAX_DEATH_THRESHOLD_REACHED");
+                } else if (response == "NOT_IN_GAME") {
+                    alert("NOT_IN_GAME");
+                } else if (
+                    response == "JOINED_PVP" ||
+                    response == "CREATED_PVP" ||
+                    response == "JOINED_TRAINING"
+                ) {
+                    startGame();
+                }
+            } else {
                 startGame();
             }
         });

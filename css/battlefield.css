@@ -330,19 +330,20 @@
     box-shadow: 0 0 5px rgb(129, 129, 129), 0 0 10px rgb(95, 95, 95);
 }
 .btn_ui::after {
-    content: "♥";
+    content: "hp";
+    font-size: 1rem;
+
     position: absolute;
-    transform: translate(calc(var(--UI-btn-width) * -0.6), calc(var(--UI-btn-width) * 0.6));
+    transform: translate(calc(var(--UI-btn-width) * -0.6), calc(var(--UI-btn-width) * 0.5));
 }
 
 #p_mana::after,
 #o_mana::after {
-    content: "o";
+    content: "mp";
 }
 #o_deck::after,
 #p_deck::after {
-    font-size: 1.3rem;
-    content: "▯";
+    content: "c";
 }
 
 .btn_ui::before {
@@ -361,60 +362,11 @@
     box-shadow: 0 0 5px rgb(129, 129, 129), 0 0 10px rgb(95, 95, 95);
 }
 
-/* #p_hero,
-#o_hero {
-    height: 30%;
-    width: 80%;
-    border-radius: 20% 5%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    box-shadow: 0 0 5px rgb(0, 0, 0), 0 0 10px rgb(255, 255, 255);
-}
-
-#p_power,
-#o_power,
-#o_deck,
-#p_deck,
-#p_hp,
-#o_hp {
-    height: 10%;
-    width: 60%;
-    background: rgba(151, 151, 151, 0.3);
-    border-radius: 20%;
-    color: black;
-    text-align: center;
-    font-size: 2rem;
-    font-weight: bolder;
-    text-shadow: -1px -1px 0 rgb(255, 255, 255), 1px -1px 0 rgb(255, 255, 255),
-        -1px 1px 0 rgb(255, 255, 255), 1px 1px 0 rgb(255, 255, 255);
-    transition: 0.25s;
-}
-
-#p_power:hover,
-#o_power:hover {
-    background: rgba(255, 255, 255, 0.226);
-    box-shadow: 0 0 5px #fff, 0 0 10px #fff;
-}
-*/
-
 .mana-off {
     background: rgba(128, 128, 128, 0);
 }
 .mana-on {
     background: rgb(250, 252, 251);
-}
-
-#p_hp,
-#o_hp {
-    /* color: black;
-    font-weight: bolder;
-    text-align:center ;
-    font-size: 2rem;
-    text-shadow:
-    -1px -1px 0 rgb(255, 255, 255),
-    1px -1px 0 rgb(255, 255, 255),
-    -1px 1px 0 rgb(255, 255, 255),
-    1px 1px 0 rgb(255, 255, 255); */
 }
 
 .menu_btn {
@@ -484,7 +436,6 @@
 }
 
 .timer {
-    /* grid-area: timer; */
     height: 25%;
     font-size: 2rem;
     transition: 0.5s, 2s transform;
@@ -513,7 +464,6 @@
 }
 
 :root {
-    /* ratio front-image: 11/7 */
     --ratio: calc(11 / 7);
     --card-width: 10vw;
     --card-height: calc(var(--card-width) * var(--ratio));
@@ -607,7 +557,6 @@
 }
 
 .o_card_in_hand {
-    /* background-image: url(../img/cards/1.jpg); */
     background-size: contain;
     background-repeat: no-repeat;
     width: 12vw;
@@ -688,7 +637,6 @@
 
     position: absolute;
     top: 50vh;
-    /* left: 55vw; */
     left: -20vw;
     transform: translate(-50%, -50%);
 

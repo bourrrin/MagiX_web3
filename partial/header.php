@@ -1,5 +1,8 @@
 <?php
     require_once("partial/music.php");
+     if(!isset($_SESSION["anim_timing"])){
+        $_SESSION["anim_timing"] = "Normal";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

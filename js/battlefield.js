@@ -29,6 +29,7 @@ let lifeUnder10;
 let music;
 let sfx;
 let tour = 1;
+let user;
 
 window.addEventListener("load", () => {
     music = new Music(document.querySelector("#music"), "game");
@@ -36,46 +37,52 @@ window.addEventListener("load", () => {
     sfx.clickSfx(document.querySelectorAll(".sfx_btn"));
 
     window.addEventListener("contextmenu", (e) => e.preventDefault());
-
-    document.querySelectorAll(".set_animation").forEach((e) => {
-        e.addEventListener("click", setAnimationTiming);
-    });
-
-    document.querySelector(".settings").classList.add("show_settings");
-    document.querySelector(".note").classList.add("show_note");
-
     document.querySelector(".quitter").addEventListener("click", quitter);
-    document.querySelector(".show_card").addEventListener("click", hide_card);
-    document.querySelector("#p_power").addEventListener("click", useHeroPower);
-    document.querySelector(".turn").addEventListener("click", turn);
-    document.querySelector(".surrender").addEventListener("click", surrender);
-    document.querySelector(".o_interface").addEventListener("click", attackHero);
-    document.querySelector(".o_hand").addEventListener("click", attackHero);
-    document.querySelector(".chat").addEventListener("click", displayChat);
-    document.querySelector(".settings_btn").addEventListener("click", displaySettings);
-    document.querySelector(".note_btn_game").addEventListener("click", displayNote);
-    document.querySelector("#control_btn").addEventListener("click", displaySettingControl);
-    document.querySelector("#sound_btn").addEventListener("click", displaySettingSound);
-    document.querySelector("#animation_btn").addEventListener("click", displaySettingAnimation);
-    document.querySelector("#p_sub_menu_btn").addEventListener("click", () => {
-        showSubMenu("p");
-    });
-    document.querySelector(".p_sub_menu").addEventListener("click", () => {
-        hideSubMenu("p");
-    });
-    document.querySelector(".o_sub_menu").addEventListener("click", () => {
-        hideSubMenu("o");
-    });
-    document.querySelector("#o_sub_menu_btn").addEventListener("click", () => {
-        showSubMenu("o");
-    });
 
-    document.querySelector(".quitter").addEventListener("click", () => {
-        window.location.replace("lobby.php");
-    });
+    user = document.querySelector("#user").innerHTML;
 
+    if (user == "null") {
+        document.querySelectorAll(".set_animation").forEach((e) => {
+            e.addEventListener("click", setAnimationTiming);
+        });
+
+        document.querySelector(".settings").classList.add("show_settings");
+        document.querySelector(".note").classList.add("show_note");
+
+        document.querySelector(".show_card").addEventListener("click", hide_card);
+        document.querySelector("#p_power").addEventListener("click", useHeroPower);
+        document.querySelector(".turn").addEventListener("click", turn);
+        document.querySelector(".surrender").addEventListener("click", surrender);
+        document.querySelector(".o_interface").addEventListener("click", attackHero);
+        document.querySelector(".o_hand").addEventListener("click", attackHero);
+        document.querySelector(".chat").addEventListener("click", displayChat);
+        document.querySelector(".settings_btn").addEventListener("click", displaySettings);
+        document.querySelector(".note_btn_game").addEventListener("click", displayNote);
+        document.querySelector("#control_btn").addEventListener("click", displaySettingControl);
+        document.querySelector("#sound_btn").addEventListener("click", displaySettingSound);
+        document.querySelector("#animation_btn").addEventListener("click", displaySettingAnimation);
+        document.querySelector("#p_sub_menu_btn").addEventListener("click", () => {
+            showSubMenu("p");
+        });
+        document.querySelector(".p_sub_menu").addEventListener("click", () => {
+            hideSubMenu("p");
+        });
+        document.querySelector(".o_sub_menu").addEventListener("click", () => {
+            hideSubMenu("o");
+        });
+        document.querySelector("#o_sub_menu_btn").addEventListener("click", () => {
+            showSubMenu("o");
+        });
+
+        document.querySelector(".quitter").addEventListener("click", () => {
+            window.location.replace("lobby.php");
+        });
+
+        CheckGameState();
+    } else {
+        ObserveGameState();
+    }
     start_animation_ouverture();
-    CheckGameState();
 });
 
 //#region ANIMATIONS
@@ -582,6 +589,29 @@ function displayExplosion(target, uid, damage) {
     });
 }
 
+function displayCardThatAttacked(target, uid) {
+    let element = document.querySelector("." + target + "_board");
+
+    // GET CARTES AFFICHER ET CARTES REELEMENT POSSEDER
+    element.childNodes.forEach((e) => {
+        if (e.querySelector(".uid").innerHTML == uid) {
+            console.log(e);
+            if (target == "p") e.style.transform = "translateY(3vh)";
+            else e.style.transform = "translateY(-2.5vh)";
+        }
+    });
+}
+
+function displayCardAtOriginalPosition(target) {
+    let element = document.querySelector("." + target + "_board");
+
+    // GET CARTES AFFICHER ET CARTES REELEMENT POSSEDER
+    element.childNodes.forEach((e) => {
+        if (target == "p") e.style.transform = "translateY(0%)";
+        else e.style.transform = "translateY(0%)";
+    });
+}
+
 //#endregion
 
 //#region SETTINGS
@@ -842,6 +872,40 @@ function CheckGameState() {
         });
 }
 
+function ObserveGameState() {
+    let formData = new FormData();
+    formData.append("action", "observe");
+    formData.append("user", user);
+
+    fetch("battlefieldAjax.php", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+    })
+        .then((response) => response.json())
+        .then((response) => {
+            console.log(response);
+            if (typeof response !== "object") {
+                if (response == "NOT_IN_GAME") {
+                    document.querySelector("#p_hp").innerHTML = 0;
+                    document.querySelector(":root").style.setProperty("--back-line-color", "black");
+                    displayEndGame(false);
+                } else if (response == "TOO_MANY_CALL_BAN" || response == "INVALID_KEY") {
+                    window.location.replace("index.php");
+                } else {
+                    setTimeout(() => {
+                        ObserveGameState();
+                    }, 1000);
+                }
+            } else {
+                gameHandler(response);
+                setTimeout(() => {
+                    ObserveGameState();
+                }, 1000);
+            }
+        });
+}
+
 function APICall(name, type, uid = null, targetuid = null) {
     let formData = new FormData();
     formData.append(name, type);
@@ -910,4 +974,24 @@ function gameHandler(data) {
     displaySelectedCard();
     updateMechIcon(data["board"], "p");
     updateMechIcon(data["opponent"]["board"], "o");
+    latestActionHandler(data["latestActions"]);
 }
+
+function latestActionHandler(data) {
+    let latestAction;
+    if (data.length > 0) {
+        latestAction = data[data.length - 1];
+
+        let action = latestAction["action"];
+        console.log(latestAction);
+
+        if (action["type"] == "ATTACK") {
+            displayCardThatAttacked("p", action["uid"]);
+            displayCardThatAttacked("o", action["uid"]);
+        } else if (action["type"] == "END_TURN") {
+            displayCardAtOriginalPosition("p");
+            displayCardAtOriginalPosition("o");
+        }
+    }
+}
+// action: {type: 'ATTACK', uid: 2, targetuid: 62}

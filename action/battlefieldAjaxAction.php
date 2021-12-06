@@ -13,7 +13,11 @@
             $data["key"] = $_SESSION["player_data"]->key;
 
             if(isset($_POST["action"])){
-                if($_POST["action"] == "END_TURN"){
+                if($_POST["action"] == "observe"){
+                    $data["username"] = $_POST["user"];
+                    $result = parent::callAPI("games/observe",$data);
+                }
+                else if($_POST["action"] == "END_TURN"){
                     $data["type"] = "END_TURN";
                     $result = parent::callAPI("games/action",$data);
 

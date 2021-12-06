@@ -46,11 +46,6 @@ audio {
 }
 
 @media only screen and (orientation: portrait) {
-    html,
-    body {
-        height: 100vw !important;
-        width: 100vh !important;
-    }
 
     html {
         transform: rotate(90deg);
