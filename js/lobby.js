@@ -15,33 +15,29 @@ const applyStyles = (iframe) => {
 
 //#endregion
 
-let dead_pixel_array = [];
 let utils = new Utils();
-let h = window.innerHeight;
-let anima_timing = "Normal";
-let value = 0;
 let scroll = 0;
+let anima_timing;
 let music;
 let sfx;
 
-function offset(el) {
-    var rect = el.getBoundingClientRect(),
-        scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
-        scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    return { top: rect.top + scrollTop, left: rect.left + scrollLeft };
-}
-
 window.addEventListener("load", () => {
-    window.addEventListener("contextmenu", (e) => e.preventDefault());
-
     tippy("#scroll_deck", {
         content: "use mouse wheel",
     });
 
     anima_timing = document.querySelector("#anim_timing").innerHTML;
-
     music = new Music(document.querySelector("#music"));
     sfx = new Sfx();
+
+    initEventListener();
+    initDisplay();
+});
+
+//#region .INIT
+
+function initEventListener() {
+    window.addEventListener("contextmenu", (e) => e.preventDefault());
     sfx.clickSfx(document.querySelectorAll(".sfx_btn"));
 
     document.querySelector("#scroll_deck").addEventListener("wheel", scrollDeck);
@@ -66,10 +62,6 @@ window.addEventListener("load", () => {
         e.addEventListener("click", setAnimationTiming);
     });
 
-    document.querySelector("#control_btn").addEventListener("click", displaySettingControl);
-    document.querySelector("#sound_btn").addEventListener("click", displaySettingSound);
-    document.querySelector("#animation_btn").addEventListener("click", displaySettingAnimation);
-
     document.querySelector("#play").addEventListener("click", jouer);
     document.querySelector("#pratique").addEventListener("click", pratique);
     document.querySelector("#observe").addEventListener("click", observe);
@@ -85,61 +77,18 @@ window.addEventListener("load", () => {
     document.querySelector("#return_game").addEventListener("click", () => {
         displayJouer(false);
     });
+}
 
+function initDisplay() {
     create_loadingBar_animation();
     setTimeout(() => {
-        animation_reduite();
+        displayLoadingScreen();
     }, 100);
-});
-
-function displayJouer(condition) {
-    if (condition) {
-        sfx.playSfx("openPlayMenu");
-        document.querySelector(".game").style.display = "flex";
-        document.querySelector("#game_container").style.opacity = 1;
-    } else {
-        sfx.playSfx("openPlayMenu");
-        document.querySelector("#game_container").style.opacity = 0;
-        setTimeout(() => {
-            document.querySelector(".game").style.display = "none";
-        }, 500);
-    }
 }
 
-//#region SETTINGS
+//#endregion
 
-function displaySettingControl() {
-    setSettingStyle();
-    document.querySelector("#control").style.display = "block";
-    document.querySelector("#control_btn").classList.add("btn_selected");
-}
-
-function displaySettingAnimation() {
-    setSettingStyle();
-    document.querySelector("#animation").style.display = "flex";
-    document.querySelector("#animation_btn").classList.add("btn_selected");
-}
-
-function displaySettingSound() {
-    setSettingStyle();
-    document.querySelector("#sound").style.display = "flex";
-    document.querySelector("#sound_btn").classList.add("btn_selected");
-}
-
-function setSettingStyle() {
-    document.querySelector("#settings_btn").childNodes.forEach((btn) => {
-        if (btn instanceof HTMLDivElement) {
-            if (btn.classList.contains("btn_selected")) {
-                btn.classList.remove("btn_selected");
-            }
-        }
-    });
-    document.querySelector(".settings_txt").childNodes.forEach((txt) => {
-        if (txt instanceof HTMLDivElement) {
-            txt.style.display = "none";
-        }
-    });
-}
+//#region ANIMATION HANDLERS
 
 function setAnimationTiming() {
     let timing = event.currentTarget.innerHTML;
@@ -161,10 +110,6 @@ function setAnimationTiming() {
             document.querySelector("#" + response).style.color = "black";
         });
 }
-
-//#endregion
-
-//#region ANIMATION HANDLERS
 
 function scrollDeck(event) {
     let el = document.querySelector(".deck_iframe");
@@ -200,7 +145,7 @@ function scrollDeckClick(direction) {
     el.style.transform = "translateY(" + scroll + "vh)";
 }
 
-function animation_reduite() {
+function displayLoadingScreen() {
     if (anima_timing == "Disable") {
         document.querySelector(".lobby-container").style.display = "block";
         document.querySelector("#quitter").style.animationDelay = "0s";
@@ -222,20 +167,18 @@ function animation_reduite() {
     }
 }
 
-function successfullSignedOut() {
-    sfx.playSfx("transitionFlash");
-    document.querySelector("body").style.opacity = 0;
-    flash_animation_login();
-    setTimeout(() => {
-        flash_animation_login();
+function displayJouer(condition) {
+    if (condition) {
+        sfx.playSfx("openPlayMenu");
+        document.querySelector(".game").style.display = "flex";
+        document.querySelector("#game_container").style.opacity = 1;
+    } else {
+        sfx.playSfx("openPlayMenu");
+        document.querySelector("#game_container").style.opacity = 0;
         setTimeout(() => {
-            window.location.replace("index.php");
-        }, 2000);
-    }, 100);
-}
-
-function flash_animation_login() {
-    document.querySelector("body").appendChild(utils.create_element_id("div", "animation_fin"));
+            document.querySelector(".game").style.display = "none";
+        }, 500);
+    }
 }
 
 function displayMainMenu(target) {
@@ -258,6 +201,22 @@ function displayMainMenu(target) {
             sfx.playSfx("mainContainerChange");
         }, 550);
     }
+}
+
+function creatFlashElement() {
+    document.querySelector("body").appendChild(utils.create_element_id("div", "animation_fin"));
+}
+
+function successfullSignedOut() {
+    sfx.playSfx("transitionFlash");
+    document.querySelector("body").style.opacity = 0;
+    creatFlashElement();
+    setTimeout(() => {
+        creatFlashElement();
+        setTimeout(() => {
+            window.location.replace("index.php");
+        }, 2000);
+    }, 100);
 }
 
 function create_loadingBar_animation() {
@@ -293,33 +252,6 @@ function startGame() {
             }, time * 3000);
         }, time * 3000);
     }, time * 2000);
-}
-
-function create_dead_pixel_animation() {
-    for (let i = 0; i < h / 5; i++) {
-        dead_pixel_array.push("dead_pixel" + i);
-        node = utils.create_element_id_class(
-            "div",
-            dead_pixel_array[dead_pixel_array.length - 1],
-            "dead_pixel"
-        );
-        document.querySelector("#lobby_dead_pixel_effect").appendChild(node);
-    }
-}
-
-function start_dead_pixel_animation(color) {
-    let i = 0;
-    dead_pixel_array = utils.shuffle(dead_pixel_array);
-    document.querySelector("#lobby_dead_pixel_effect").style.display = "block";
-
-    let interval = setInterval(() => {
-        if (i >= h / 5) {
-            clearInterval;
-        } else {
-            document.querySelector("#" + dead_pixel_array[i]).style.background = color;
-            i++;
-        }
-    }, 10);
 }
 
 //#endregion

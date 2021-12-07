@@ -14,7 +14,6 @@
     <script src="js/lobby.js"></script>
 
     <div class="lobby_back_effect"></div>
-    <div id="lobby_dead_pixel_effect"></div>
 
     <div class="lobby-container">
         <div class=lobby-wrapper>
@@ -24,31 +23,12 @@
             </div>
             <div class="main_display">
                 <div>
-                    <div class="lobby-btn sfx_btn" id="jouer">Play</div>
                     <!-- <div class="lobby-btn sfx_btn" id="historie">Historic</div> -->
+                    <div class="lobby-btn sfx_btn" id="jouer">Play</div>
                     <div class="lobby-btn sfx_btn" id="deck">Deck</div>
                     <div class="lobby-btn sfx_btn" id="note">Note</div>
                 </div>
                 <div class="center">
-                    <div class="scene">
-                        <div class="wrapper">
-                            <div class="globe">
-                            <span class="ring"></span>
-                            <span class="ring"></span>
-                            <span class="ring"></span>
-                            <span class="ring"></span>
-                            <span class="ring"></span>
-                            <span class="ring"></span>
-                            <span class="ring"></span>
-                            <span class="ring"></span>
-                            <span class="ring"></span>
-                            <span class="ring"></span>
-                            <span class="ring"></span>
-                            <span class="ring"></span>
-                            <span class="ring"></span>
-                            </div>
-                        </div>
-                    </div>
                     <div class="deck">
                         <div id="scroll_deck"><img id="scroll_deck_click" src="img/arrow-down-sign-to-navigate.png" alt=""></div>
                         <iframe class="deck_iframe"
@@ -73,6 +53,7 @@
                             </div>
                         </div>
                     </div>
+                    <?php require_once("partial/scene.php");?>
                     <?php require_once("partial/settings.php");?>
                     <?php require_once("partial/note.php");?>
                 </div>

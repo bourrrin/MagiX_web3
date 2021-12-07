@@ -1,0 +1,65 @@
+@keyframes glow {
+    100% {
+        text-shadow: 0 0 7px var(--root-glow), 0 0 10px var(--root-glow), 0 0 21px var(--root-glow),
+            0 0 52px var(--container-color), 0 0 92px var(--container-color),
+            0 0 102px var(--container-color), 0 0 112px var(--container-color),
+            0 0 161px var(--container-color);
+    }
+}
+
+@keyframes rotation {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes left_side_bar_anim {
+    0% {
+        width: 0%;
+    }
+    30% {
+        width: 100%;
+    }
+    50% {
+        width: 30%;
+    }
+    80% {
+        width: 80%;
+    }
+    100% {
+        width: 0%;
+    }
+}
+
+@keyframes flicker-on-2 {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    15% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    55% {
+        opacity: 1;
+    }
+    57% {
+        opacity: 0;
+    }
+    75% {
+        opacity: 0;
+    }
+    76% {
+        opacity: 1;
+    }
+    99% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

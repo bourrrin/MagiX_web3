@@ -1,5 +1,7 @@
 
 <link rel="stylesheet" href="css/settings.css">
+<script src="js/setting.js"></script>
+
 
  <div class=settings>
     <div id="settings_btn">

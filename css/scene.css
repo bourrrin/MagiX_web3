@@ -1,0 +1,98 @@
+.scene {
+    width: 40%;
+    aspect-ratio: 1/1;
+    perspective: 100rem;
+
+    animation: flicker-on-2 2s linear 1.2s both;
+    transition: opacity 1s;
+}
+
+.wrapper {
+    width: 100%;
+    aspect-ratio: 1/1;
+
+    transform: rotateX(-8deg) rotateY(0deg);
+    transform-style: preserve-3d;
+}
+
+.globe {
+    width: 70%;
+    aspect-ratio: 1/1;
+    position: relative;
+
+    transform-style: preserve-3d;
+    animation: spinY 25s 0ms linear infinite;
+}
+
+.ring {
+    width: 100%;
+    aspect-ratio: 1/1;
+    position: absolute;
+
+    border: 0.3rem dotted;
+    border-radius: 50%;
+
+    color: var(--border-line);
+    opacity: 0;
+
+    animation: show 0.75s forwards ease-in-out;
+}
+
+.ring:nth-child(1) {
+    transform: rotateY(4deg);
+}
+.ring:nth-child(2) {
+    transform: rotateY(30deg);
+}
+.ring:nth-child(3) {
+    transform: rotateY(56deg);
+}
+.ring:nth-child(4) {
+    transform: rotateY(82deg);
+}
+.ring:nth-child(5) {
+    transform: rotateY(108deg);
+}
+.ring:nth-child(6) {
+    transform: rotateY(134deg);
+}
+.ring:nth-child(7) {
+    transform: rotateY(160deg);
+}
+.ring:nth-child(8) {
+    transform: rotateY(4deg) rotateX(75deg) scale(2);
+    border-style: dashed;
+}
+.ring:nth-child(9) {
+    transform: rotateY(4deg) rotateX(75deg) scale(1.75);
+    border-style: solid;
+}
+.ring:nth-child(10) {
+    transform: rotateY(4deg) rotateX(75deg) scale(1.5);
+    border-style: dashed;
+}
+.ring:nth-child(11) {
+    transform: rotateY(4deg) rotateX(-75deg) scale(2);
+    border-style: dashed;
+}
+.ring:nth-child(12) {
+    transform: rotateY(4deg) rotateX(-75deg) scale(1.75);
+    border-style: solid;
+    animation: spinY 25s 0ms linear infinite;
+}
+.ring:nth-child(13) {
+    transform: rotateY(4deg) rotateX(-75deg) scale(1.5);
+    border-style: dashed;
+}
+
+@keyframes spinY {
+    100% {
+        transform: rotateY(-360deg);
+    }
+}
+
+@keyframes show {
+    100% {
+        opacity: 1;
+    }
+}
