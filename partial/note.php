@@ -17,7 +17,7 @@
             <div class="numerotation"></div>
         </div>
         <div class="read_note">
-            <div class="note_body"></div>
+            <div id="note_content" class="note_body"></div>
             <div class="note_btn">
                 <button class="supprimer_note sfx_btn">DELETE</button>
                 <button class="modify_note sfx_btn">MODIFY</button>

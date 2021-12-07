@@ -48,6 +48,7 @@ body {
 .login::before {
     position: absolute;
     width: calc(28 * var(--unit-w));
+    /* height: calc(25 * var(--unit-h)); */
     aspect-ratio: 2/1;
 }
 

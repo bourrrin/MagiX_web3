@@ -11,9 +11,12 @@ body {
     background-color: black;
 }
 
+.card_enter_board{
+    animation: onBoard 1s both;
+}
+
 .card {
     margin: 0px 0.5%;
-    animation: onBoard 1s both;
     transition: 0.5s;
 
     width: var(--card-width);

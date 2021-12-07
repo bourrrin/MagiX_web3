@@ -9,6 +9,7 @@
 
         protected function executeAction() {
             $user =$_SESSION["user"];
-            return compact("user");
+            $username =$_SESSION["username"];
+            return compact("user","username");
         }
     }

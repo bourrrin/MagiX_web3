@@ -91,7 +91,7 @@
 
     <div class="p_sub_menu">
         <div>
-            <div id="p_username"></div>
+            <div id="p_username">voiciUnPseudoVraimentLong</div>
             <div id="p_welcome_txt"></div>
         </div>
         <div>

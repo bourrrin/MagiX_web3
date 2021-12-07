@@ -41,7 +41,7 @@
                             <button class="sfx_btn" id="pratique">TRAINING</button>
                             <div>
                                 <button class="sfx_btn" id="play">PLAY</button>
-                                <input type="text" id="game_key" placeholder="PRIVATE KEY">
+                                <input type="text" id="game_key" placeholder="PRIVATE KEY...">
                             </div>
                             <div>
                                 <button class="sfx_btn" id="pratique_coop">TRAINING (COOP)</button>
@@ -49,7 +49,7 @@
                             </div>
                             <div>
                                 <button class="sfx_btn" id="observe">OBSERVE</button>
-                                <input type="text" id="player_name" placeholder="PLAYER NAME">
+                                <input type="text" id="player_name" placeholder="PLAYER NAME...">
                             </div>
                         </div>
                     </div>

@@ -335,9 +335,9 @@ body {
 .game > div > img {
     width: 1.5vw;
     aspect-ratio: 1/1;
-    position: absolute;
-
-    transform: rotate(90deg) translate(-30vh, 7vw);
+    transform: rotate(90deg);
+    margin-top: -4vw;
+    margin-left: -15vw;
 }
 
 .game > div > div {
@@ -350,7 +350,7 @@ body {
 }
 
 .game button {
-    width: 7vw;
+    min-width: 7vw;
     height: 3vh;
     margin: 4% 0px;
     padding: 2% 0px;
@@ -371,12 +371,12 @@ body {
 }
 
 .deck,
+.scene,
 .note,
-.game,
 .settings {
     display: none;
 }
 
-.scene {
+.game {
     display: flex;
 }

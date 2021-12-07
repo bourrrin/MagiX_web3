@@ -22,6 +22,7 @@
                 else {
                     // $key = $result->key;
                     $_SESSION["player_data"] = $result;
+                    $_SESSION["username"] = $data["username"];
                     file_put_contents("data/username.txt",";".$data["username"],FILE_APPEND);
 
                     $result = true;

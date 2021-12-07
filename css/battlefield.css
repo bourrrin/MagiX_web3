@@ -224,7 +224,10 @@
 
 #p_username,
 #o_username {
+    width: 10vw;
+    height: auto;
     font-size: 1.5rem;
+    word-wrap: break-word;
 }
 
 #p_welcome_txt,
@@ -280,8 +283,8 @@
 
 .mana-on,
 .mana-off {
-    height: 35px;
-    width: 35px;
+    height: 2vw;
+    aspect-ratio: 1/1;
     margin: 3%;
     border-radius: 50%;
     border: rgb(61, 0, 131) solid 2px;
@@ -701,42 +704,6 @@
     font-size: 1.2rem;
 }
 
-@keyframes shake {
-    0% {
-        transform: translate(-50.5%, -50.8%);
-    }
-    10% {
-        transform: translate(-50.4%, -50.1%);
-    }
-    20% {
-        transform: translate(-50.3%, -50.5%);
-    }
-    30% {
-        transform: translate(-50.8%, -50.1%);
-    }
-    40% {
-        transform: translate(-50.2%, -50.8%);
-    }
-    50% {
-        transform: translate(-50.6%, -50.1%);
-    }
-    60% {
-        transform: translate(-50.1%, -50.7%);
-    }
-    70% {
-        transform: translate(-50.6%, -50.3%);
-    }
-    80% {
-        transform: translate(-50%, -50.4%);
-    }
-    90% {
-        transform: translate(-50.9%, -50.2%);
-    }
-    100% {
-        transform: translate(-50.2%, -50.1%);
-    }
-}
-
 .waiting_screen {
     display: flex;
     width: 80%;
@@ -799,4 +766,8 @@
     50% {
         transform: translate(0vw, -1vw);
     }
+}
+
+.is_attacked {
+    animation: shake_0 1s infinite alternate !important;
 }

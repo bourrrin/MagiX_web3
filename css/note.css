@@ -21,12 +21,17 @@
 }
 
 .nav_note > div {
-    height: 50%;
+    width: 2vw;
     aspect-ratio: 1/1;
     background: url(../img/arrow-down-sign-to-navigate.png);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    transition: 0.2s;
+}
+.nav_note > div:hover {
+    filter: brightness(5);
+    width: 2.3vw;
 }
 
 .previous_note {

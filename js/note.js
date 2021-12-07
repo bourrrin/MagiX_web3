@@ -159,6 +159,8 @@ function displayModifyNote() {
     document.querySelector(".create_note").style.display = "flex";
     document.querySelector(".enter_note").style.display = "none";
     document.querySelector(".enter_modify_note").style.display = "flex";
+    document.querySelector(".enter_modify_note").style.display = "flex";
+    document.querySelector("#new_note").value = document.querySelector("#note_content").innerHTML;
 
     setTimeout(() => {
         document.querySelector(".note_container").classList.remove("fermer_note");

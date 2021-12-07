@@ -22,7 +22,7 @@ let mp = 0;
 let hp = 30;
 let o_hp = 0;
 let attaquant = null;
-let chatIsDisplayed = true;
+let chatIsDisplayed = false;
 let settingIsDisplayed = false;
 let noteIsDisplayed = false;
 let tour = 1;
@@ -42,10 +42,10 @@ window.addEventListener("load", () => {
     });
 
     if (user == "null") {
-        initEventListener(false);
+        initEventListener(true);
         CheckGameState();
     } else {
-        initEventListener(true);
+        initEventListener(false);
         ObserveGameState();
     }
 
@@ -295,6 +295,13 @@ function setAnimationTiming() {
 
 //#region CARD RELATED
 
+function displayCardUnderAttack(condition) {
+    if (attaquant != null) {
+        if (condition) event.currentTarget.classList.add("is_attacked");
+        else event.currentTarget.classList.remove("is_attacked");
+    }
+}
+
 function displayTauntMinion() {
     let element = document.querySelector(".o_board");
     sfx.playSfx("mustAttackTaunt");
@@ -405,6 +412,12 @@ function displayCardsOnBoard(board, target) {
             });
         });
     }
+
+    setTimeout(() => {
+        element.childNodes.forEach((card) => {
+            card.classList.remove("card_enter_board");
+        });
+    }, 500);
 }
 
 function displayPlayerHand(data) {
@@ -578,6 +591,13 @@ function createCardOnBoard(card_data, target) {
     if (target == "o") {
         node.addEventListener("click", (event) => {
             setDefender();
+            displayCardUnderAttack(false);
+        });
+        node.addEventListener("mouseover", (event) => {
+            displayCardUnderAttack(true);
+        });
+        node.addEventListener("mouseout", (event) => {
+            displayCardUnderAttack(false);
         });
     } else {
         node.addEventListener("click", (event) => {
@@ -616,6 +636,8 @@ function setCardAttribute(card_data, node) {
     node.appendChild(utils.create_element_class("div", "state", card_data["state"]));
     node.appendChild(utils.create_element_class("div", "explosion"));
     node.appendChild(utils.create_element_class("div", "name", carte.getNomCarte(card_data["id"])));
+
+    node.classList.add("card_enter_board");
 
     node.appendChild(
         setCardMechIcon(card_data["mechanics"], utils.create_element_class("div", "mech_icon"))
@@ -677,8 +699,6 @@ function showTransform(div, condition) {
 function displayPlayerInfo(data, target) {
     if (target == "o") {
         document.querySelector("#" + target + "_username").innerHTML = data["username"];
-    } else {
-        document.querySelector("#" + target + "_username").innerHTML = "";
     }
     document.querySelector("#" + target + "_welcome_txt").innerHTML =
         '"' + data["welcomeText"] + '"';
