@@ -25,10 +25,10 @@ let attaquant = null;
 let chatIsDisplayed = true;
 let settingIsDisplayed = false;
 let noteIsDisplayed = false;
+let tour = 1;
 let lifeUnder10;
 let music;
 let sfx;
-let tour = 1;
 let user;
 
 window.addEventListener("load", () => {
@@ -36,54 +36,55 @@ window.addEventListener("load", () => {
     sfx = new Sfx();
     sfx.clickSfx(document.querySelectorAll(".sfx_btn"));
 
-    window.addEventListener("contextmenu", (e) => e.preventDefault());
-    document.querySelector(".quitter").addEventListener("click", quitter);
-
     user = document.querySelector("#user").innerHTML;
+    document.querySelectorAll(".set_animation").forEach((e) => {
+        e.addEventListener("click", setAnimationTiming);
+    });
 
     if (user == "null") {
-        document.querySelectorAll(".set_animation").forEach((e) => {
-            e.addEventListener("click", setAnimationTiming);
-        });
+        initEventListener(false);
+        CheckGameState();
+    } else {
+        initEventListener(true);
+        ObserveGameState();
+    }
 
-        document.querySelector(".settings").classList.add("show_settings");
-        document.querySelector(".note").classList.add("show_note");
+    document.querySelector(".settings").classList.add("show_settings");
+    document.querySelector(".note").classList.add("show_note");
+    start_animation_ouverture();
+});
 
-        document.querySelector(".show_card").addEventListener("click", hide_card);
+function initEventListener(condition) {
+    if (condition) {
         document.querySelector("#p_power").addEventListener("click", useHeroPower);
         document.querySelector(".turn").addEventListener("click", turn);
         document.querySelector(".surrender").addEventListener("click", surrender);
         document.querySelector(".o_interface").addEventListener("click", attackHero);
         document.querySelector(".o_hand").addEventListener("click", attackHero);
-        document.querySelector(".chat").addEventListener("click", displayChat);
-        document.querySelector(".settings_btn").addEventListener("click", displaySettings);
-        document.querySelector(".note_btn_game").addEventListener("click", displayNote);
-        document.querySelector("#control_btn").addEventListener("click", displaySettingControl);
-        document.querySelector("#sound_btn").addEventListener("click", displaySettingSound);
-        document.querySelector("#animation_btn").addEventListener("click", displaySettingAnimation);
-        document.querySelector("#p_sub_menu_btn").addEventListener("click", () => {
-            showSubMenu("p");
-        });
-        document.querySelector(".p_sub_menu").addEventListener("click", () => {
-            hideSubMenu("p");
-        });
-        document.querySelector(".o_sub_menu").addEventListener("click", () => {
-            hideSubMenu("o");
-        });
-        document.querySelector("#o_sub_menu_btn").addEventListener("click", () => {
-            showSubMenu("o");
-        });
-
-        document.querySelector(".quitter").addEventListener("click", () => {
-            window.location.replace("lobby.php");
-        });
-
-        CheckGameState();
-    } else {
-        ObserveGameState();
     }
-    start_animation_ouverture();
-});
+
+    document.querySelector(".show_card").addEventListener("click", hide_card);
+    document.querySelector(".chat").addEventListener("click", displayChat);
+    document.querySelector(".settings_btn").addEventListener("click", displaySettings);
+    document.querySelector(".note_btn_game").addEventListener("click", displayNote);
+
+    document.querySelector("#p_sub_menu_btn").addEventListener("click", () => {
+        showSubMenu("p");
+    });
+    document.querySelector(".p_sub_menu").addEventListener("click", () => {
+        hideSubMenu("p");
+    });
+
+    document.querySelector(".o_sub_menu").addEventListener("click", () => {
+        hideSubMenu("o");
+    });
+    document.querySelector("#o_sub_menu_btn").addEventListener("click", () => {
+        showSubMenu("o");
+    });
+
+    window.addEventListener("contextmenu", (e) => e.preventDefault());
+    document.querySelector(".quitter").addEventListener("click", quitter);
+}
 
 //#region ANIMATIONS
 function start_animation_ouverture() {
@@ -264,7 +265,6 @@ function clickedBtn(element) {
 }
 
 function quitter() {
-    console.log("click");
     window.location.replace("lobby.php");
 }
 
@@ -272,7 +272,29 @@ function quitter() {
 
 //#region DISPLAY FUNCTION
 
+function setAnimationTiming() {
+    let timing = event.currentTarget.innerHTML;
+
+    let formData = new FormData();
+    formData.append("anim_timing", timing);
+
+    fetch("settingsAjax.php", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+    })
+        .then((response) => response.json())
+        .then((response) => {
+            anima_timing = response;
+            document.querySelectorAll(".set_animation").forEach((e) => {
+                e.style.color = "white";
+            });
+            document.querySelector("#" + response).style.color = "black";
+        });
+}
+
 //#region CARD RELATED
+
 function displayTauntMinion() {
     let element = document.querySelector(".o_board");
     sfx.playSfx("mustAttackTaunt");
@@ -288,27 +310,6 @@ function displayTauntMinion() {
     });
 }
 
-function displayCardThatCanAtk(data, target) {
-    let element = document.querySelector("." + target + "_board");
-    let board = data;
-    element.childNodes.forEach((card) => {
-        board.forEach((card_Data) => {
-            let state = card_Data["state"];
-            let uid = card_Data["uid"];
-            let card_uid = card.querySelector(".uid").innerHTML;
-            if (state == "IDLE" && uid == card_uid) {
-                card.style.filter = "brightness(1)";
-            } else if (state == "SLEEP" && uid == card_uid) {
-                card.style.filter = "brightness(0.5)";
-                card.style.boxShadow = "0 0 4px rgb(0, 0, 0), 0 0 10px rgb(255, 0, 212)";
-                if (attaquant == uid) {
-                    attaquant = null;
-                }
-            }
-        });
-    });
-}
-
 function displaySelectedCard() {
     let element = document.querySelector(".p_board");
 
@@ -320,17 +321,20 @@ function displaySelectedCard() {
 }
 
 function updateCardsAttribute(data, target) {
-    document.querySelector("." + target).childNodes.forEach((child) => {
+    let element = document.querySelector("." + target).childNodes;
+
+    element.forEach((child) => {
         data.forEach((d) => {
             if (d["uid"] == child.querySelector(".uid").innerHTML) {
                 let current_hp = child.querySelector(".hp").innerHTML;
+
                 if (current_hp - d["hp"] > 0)
                     displayExplosion(target, d["uid"], current_hp - d["hp"]);
                 child.querySelector(".hp").innerHTML = d["hp"];
                 child.querySelector(".atk").innerHTML = d["atk"];
                 child.querySelector(".mechanics").innerHTML = d["mechanics"];
                 child.querySelector(".state").innerHTML = d["state"];
-                child.querySelector(".state").innerHTML = d["state"];
+                child.querySelector(".cost").innerHTML = d["cost"];
                 child.style.backgroundImage = "url(img/cards/" + d["id"] + ".jpg)";
             }
         });
@@ -453,11 +457,116 @@ function displayOpponentHand(data) {
             createCardsInHand(data[i], "o");
         }
     } else if (hand < element.childElementCount) {
-        console.log("play");
         element.removeChild(element.lastChild);
     }
 }
 
+function updateMechIcon(board, target) {
+    if (board.length > 0) {
+        let element = document.querySelector("." + target + "_board");
+
+        element.childNodes.forEach((e) => {
+            let uid = +e.querySelector(".uid").innerHTML;
+            let displayedIcons = [];
+            let possessedIcons = [];
+            let mech_icon = e.querySelector(".mech_icon");
+
+            // IDENTIFIE LES ICONS AFFICHER
+            if (mech_icon.childElementCount > 0) {
+                mech_icon.childNodes.forEach((icons) => {
+                    let temp = icons.classList;
+                    displayedIcons.push(temp[0]);
+                });
+            }
+
+            board.forEach((possessedCard) => {
+                if (possessedCard["uid"] == uid) {
+                    if (possessedCard["mechanics"].includes("Taunt")) possessedIcons.push("taunt");
+                    if (possessedCard["mechanics"].includes("Stealth"))
+                        possessedIcons.push("stealth");
+                    if (possessedCard["mechanics"].includes("Charge"))
+                        possessedIcons.push("charge");
+                    possessedCard;
+                }
+            });
+
+            if (!utils.isArrayEqual(displayedIcons, possessedIcons)) {
+                for (let i = 0; i < mech_icon.childElementCount; i++) {
+                    mech_icon.removeChild(mech_icon.lastChild);
+                }
+                // e.querySelector(".mech_icon").childNodes.forEach((icons) => {
+                //     mech_icon.removeChild(icons);
+                // });
+
+                if (possessedIcons.includes("taunt"))
+                    mech_icon.appendChild(utils.create_img("img/taunt.png", "taunt"));
+                if (possessedIcons.includes("stealth"))
+                    mech_icon.appendChild(utils.create_img("img/deathrattle.png", "stealth"));
+                if (possessedIcons.includes("charge"))
+                    mech_icon.appendChild(utils.create_img("img/charge.png", "charge"));
+            }
+        });
+    }
+}
+
+function displayExplosion(target, uid, damage) {
+    let board = document.querySelector("." + target);
+    sfx.playSfx("cardTakeDamage");
+    board.childNodes.forEach((card) => {
+        if (card.querySelector(".uid").innerHTML == uid) {
+            card.querySelector(".explosion").style.display = "flex";
+            card.querySelector(".explosion").innerHTML = "-" + damage;
+            setTimeout(() => {
+                card.querySelector(".explosion").style.display = "none";
+            }, 3000);
+        }
+    });
+}
+
+function displayCardThatCanAtk(data, target) {
+    let element = document.querySelector("." + target + "_board");
+    let board = data;
+    element.childNodes.forEach((card) => {
+        board.forEach((card_Data) => {
+            let state = card_Data["state"];
+            let uid = card_Data["uid"];
+            let card_uid = card.querySelector(".uid").innerHTML;
+            if (state == "IDLE" && uid == card_uid) {
+                card.style.filter = "brightness(1)";
+            } else if (state == "SLEEP" && uid == card_uid) {
+                card.style.filter = "brightness(0.5)";
+                card.style.boxShadow = "0 0 4px rgb(0, 0, 0), 0 0 10px rgb(255, 0, 212)";
+                if (attaquant == uid) {
+                    attaquant = null;
+                }
+            }
+        });
+    });
+}
+
+function displayCardThatAttacked(target, uid) {
+    let element = document.querySelector("." + target + "_board");
+
+    // GET CARTES AFFICHER ET CARTES REELEMENT POSSEDER
+    element.childNodes.forEach((e) => {
+        if (e.querySelector(".uid").innerHTML == uid) {
+            if (target == "p") e.style.transform = "translateY(3vh)";
+            else e.style.transform = "translateY(-2.5vh)";
+        }
+    });
+}
+
+function displayCardAtOriginalPosition(target) {
+    let element = document.querySelector("." + target + "_board");
+
+    // GET CARTES AFFICHER ET CARTES REELEMENT POSSEDER
+    element.childNodes.forEach((e) => {
+        if (target == "p") e.style.transform = "translateY(0%)";
+        else e.style.transform = "translateY(0%)";
+    });
+}
+
+//#region CREATE CARD
 function createCardOnBoard(card_data, target) {
     let node = utils.create_element_class("div", "card");
     setCardAttribute(card_data, node);
@@ -528,148 +637,8 @@ function setCardMechIcon(mech, node) {
     return node;
 }
 
-function updateMechIcon(board, target) {
-    if (board.length > 0) {
-        let element = document.querySelector("." + target + "_board");
-
-        element.childNodes.forEach((e) => {
-            let uid = +e.querySelector(".uid").innerHTML;
-            let displayedIcons = [];
-            let possessedIcons = [];
-            let mech_icon = e.querySelector(".mech_icon");
-
-            // IDENTIFIE LES ICONS AFFICHER
-            if (mech_icon.childElementCount > 0) {
-                mech_icon.childNodes.forEach((icons) => {
-                    let temp = icons.classList;
-                    displayedIcons.push(temp[0]);
-                });
-            }
-
-            board.forEach((possessedCard) => {
-                if (possessedCard["uid"] == uid) {
-                    if (possessedCard["mechanics"].includes("Taunt")) possessedIcons.push("taunt");
-                    if (possessedCard["mechanics"].includes("Stealth"))
-                        possessedIcons.push("stealth");
-                    if (possessedCard["mechanics"].includes("Charge"))
-                        possessedIcons.push("charge");
-                    possessedCard;
-                }
-            });
-
-            if (!utils.isArrayEqual(displayedIcons, possessedIcons)) {
-                for (let i = 0; i < mech_icon.childElementCount; i++) {
-                    mech_icon.removeChild(mech_icon.lastChild);
-                }
-                // e.querySelector(".mech_icon").childNodes.forEach((icons) => {
-                //     mech_icon.removeChild(icons);
-                // });
-
-                if (possessedIcons.includes("taunt"))
-                    mech_icon.appendChild(utils.create_img("img/taunt.png", "taunt"));
-                if (possessedIcons.includes("stealth"))
-                    mech_icon.appendChild(utils.create_img("img/deathrattle.png", "stealth"));
-                if (possessedIcons.includes("charge"))
-                    mech_icon.appendChild(utils.create_img("img/charge.png", "charge"));
-            }
-        });
-    }
-}
-
-function displayExplosion(target, uid, damage) {
-    let board = document.querySelector("." + target);
-    sfx.playSfx("cardTakeDamage");
-    board.childNodes.forEach((card) => {
-        if (card.querySelector(".uid").innerHTML == uid) {
-            card.querySelector(".explosion").style.display = "flex";
-            card.querySelector(".explosion").innerHTML = "-" + damage;
-            setTimeout(() => {
-                card.querySelector(".explosion").style.display = "none";
-            }, 3000);
-        }
-    });
-}
-
-function displayCardThatAttacked(target, uid) {
-    let element = document.querySelector("." + target + "_board");
-
-    // GET CARTES AFFICHER ET CARTES REELEMENT POSSEDER
-    element.childNodes.forEach((e) => {
-        if (e.querySelector(".uid").innerHTML == uid) {
-            console.log(e);
-            if (target == "p") e.style.transform = "translateY(3vh)";
-            else e.style.transform = "translateY(-2.5vh)";
-        }
-    });
-}
-
-function displayCardAtOriginalPosition(target) {
-    let element = document.querySelector("." + target + "_board");
-
-    // GET CARTES AFFICHER ET CARTES REELEMENT POSSEDER
-    element.childNodes.forEach((e) => {
-        if (target == "p") e.style.transform = "translateY(0%)";
-        else e.style.transform = "translateY(0%)";
-    });
-}
-
 //#endregion
 
-//#region SETTINGS
-
-function displaySettingControl() {
-    setSettingStyle();
-    document.querySelector("#control").style.display = "block";
-    document.querySelector("#control_btn").classList.add("btn_selected");
-}
-
-function displaySettingAnimation() {
-    setSettingStyle();
-    document.querySelector("#animation").style.display = "flex";
-    document.querySelector("#animation_btn").classList.add("btn_selected");
-}
-
-function displaySettingSound() {
-    setSettingStyle();
-    document.querySelector("#sound").style.display = "flex";
-    document.querySelector("#sound_btn").classList.add("btn_selected");
-}
-
-function setSettingStyle() {
-    document.querySelector("#settings_btn").childNodes.forEach((btn) => {
-        if (btn instanceof HTMLDivElement) {
-            if (btn.classList.contains("btn_selected")) {
-                btn.classList.remove("btn_selected");
-            }
-        }
-    });
-    document.querySelector(".settings_txt").childNodes.forEach((txt) => {
-        if (txt instanceof HTMLDivElement) {
-            txt.style.display = "none";
-        }
-    });
-}
-
-function setAnimationTiming() {
-    let timing = event.currentTarget.innerHTML;
-
-    let formData = new FormData();
-    formData.append("anim_timing", timing);
-
-    fetch("settingsAjax.php", {
-        method: "POST",
-        credentials: "include",
-        body: formData,
-    })
-        .then((response) => response.json())
-        .then((response) => {
-            anima_timing = response;
-            document.querySelectorAll(".set_animation").forEach((e) => {
-                e.style.color = "white";
-            });
-            document.querySelector("#" + response).style.color = "black";
-        });
-}
 //#endregion
 
 //#region SIDE MENU
@@ -704,6 +673,18 @@ function showTransform(div, condition) {
 //#endregion
 
 //#region UI
+
+function displayPlayerInfo(data, target) {
+    if (target == "o") {
+        document.querySelector("#" + target + "_username").innerHTML = data["username"];
+    } else {
+        document.querySelector("#" + target + "_username").innerHTML = "";
+    }
+    document.querySelector("#" + target + "_welcome_txt").innerHTML =
+        '"' + data["welcomeText"] + '"';
+    document.querySelector("#" + target + "_hero_class").innerHTML = data["heroClass"];
+    document.querySelector("#" + target + "_talent").innerHTML = data["talent"];
+}
 
 function displayTimer(data) {
     let timer = document.querySelector(".timer");
@@ -740,18 +721,6 @@ function displayMana(mp, maxMP, target) {
     });
 }
 
-function displayPlayerInfo(data, target) {
-    if (target == "o") {
-        document.querySelector("#" + target + "_username").innerHTML = data["username"];
-    } else {
-        document.querySelector("#" + target + "_username").innerHTML = "";
-    }
-    document.querySelector("#" + target + "_welcome_txt").innerHTML =
-        '"' + data["welcomeText"] + '"';
-    document.querySelector("#" + target + "_hero_class").innerHTML = data["heroClass"];
-    document.querySelector("#" + target + "_talent").innerHTML = data["talent"];
-}
-
 function displayRemainingCardsCount(data, target) {
     document.querySelector("#" + target + "_deck").innerHTML = data;
 }
@@ -773,9 +742,9 @@ function displayHeroPower(data) {
 }
 
 function displayLifeLose(data, target) {
-    let last_hp;
     let element = document.querySelector("#" + target + "_hp");
-    let background = document.querySelector("#battlefield_background_" + target);
+    let last_hp;
+
     if (target == "o") {
         last_hp = o_hp;
         o_hp = data["hp"];
@@ -802,6 +771,8 @@ function displayLifeLose(data, target) {
             lifeUnder10 = false;
         }
     }
+
+    element.innerHTML = data["hp"];
 }
 
 function displayEndGame(win) {
@@ -944,58 +915,73 @@ function gameHandler(data) {
     } else {
         displayTurnIndicator(data);
     }
+
+    //#region set global variable
+
     yourTurn = data["yourTurn"];
     heroPowerAlreadyUsed = data["heroPowerAlreadyUsed"];
     mp = data["mp"];
 
+    //#endregion
+
+    //#region impact of previous action
+
     displayLifeLose(data["opponent"], "o");
     displayLifeLose(data, "p");
-
-    document.querySelector("#p_hp").innerHTML = data["hp"];
-    document.querySelector("#o_hp").innerHTML = data["opponent"]["hp"];
-
-    displayTimer(data);
-    displayEndTurn();
-    displayHeroPower(data);
-    displayCardThatCanAtk(data["board"], "p");
-    displayCardThatCanAtk(data["opponent"]["board"], "o");
     displayChangedCardAttribute("o");
     displayChangedCardAttribute("p");
+    updateMechIcon(data["board"], "p");
+    updateMechIcon(data["opponent"]["board"], "o");
 
+    //#endregion
+
+    //#region ui
+
+    displayTimer(data);
+    displayHeroPower(data);
+    displayEndTurn();
     displayMana(data["mp"], data["maxMp"], "p");
     displayMana(data["opponent"]["mp"], data["opponent"]["mp"], "o");
     displayRemainingCardsCount(data["remainingCardsCount"], "p");
     displayRemainingCardsCount(data["opponent"]["remainingCardsCount"], "o");
+    displayCardThatCanAtk(data["board"], "p");
+    displayCardThatCanAtk(data["opponent"]["board"], "o");
 
-    updateCardsAttribute(data["hand"], "p_hand");
-    updateCardsAttribute(data["board"], "p_board");
-    updateCardsAttribute(data["opponent"]["board"], "o_board");
+    //#endregion
+
+    //#region display cards
 
     displayPlayerHand(data);
     displayOpponentHand(data);
     displayCardsOnBoard(data["board"], "p");
     displayCardsOnBoard(data["opponent"]["board"], "o");
-    updateMechIcon(data["board"], "p");
-    updateMechIcon(data["opponent"]["board"], "o");
-    
+
+    //#endregion
+
+    //#region update cards on change
+
+    updateCardsAttribute(data["hand"], "p_hand");
+    updateCardsAttribute(data["board"], "p_board");
+    updateCardsAttribute(data["opponent"]["board"], "o_board");
     displaySelectedCard();
+
+    //#endregion
 }
 
 function latestActionHandler(data) {
-    let latestAction;
     if (data.length > 0) {
-        latestAction = data[data.length - 1];
+        data.forEach((latestAction) => {
+            let action = latestAction["action"];
 
-        let action = latestAction["action"];
-        console.log(latestAction);
-
-        if (action["type"] == "ATTACK") {
-            displayCardThatAttacked("p", action["uid"]);
-            displayCardThatAttacked("o", action["uid"]);
-        } else if (action["type"] == "END_TURN") {
-            displayCardAtOriginalPosition("p");
-            displayCardAtOriginalPosition("o");
-        }
+            if (action["type"] == "ATTACK") {
+                displayCardThatAttacked("p", action["uid"]);
+                displayCardThatAttacked("o", action["uid"]);
+            } else if (action["type"] == "END_TURN") {
+                displayCardAtOriginalPosition("p");
+                displayCardAtOriginalPosition("o");
+            }
+        });
     }
 }
-// action: {type: 'ATTACK', uid: 2, targetuid: 62}
+
+//Ce commentaire n'existe que pour dire que j'ai eu 1k ligne dans mon game.js avant leger nettoyage :)

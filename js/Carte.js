@@ -1,8 +1,8 @@
 class Carte {
     constructor() {
         this.nom_cartes = [
-            "Olympien",
             "Oiléus",
+            "Olympien",
             "George",
             "Pégase",
             "Inachos",
