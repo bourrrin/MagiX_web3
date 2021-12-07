@@ -161,6 +161,10 @@
     transition: 0.8s left;
 }
 
+.show_chat {
+    left: calc(98vw - var(--width));
+}
+
 .show_chat > iframe {
     height: 100%;
     width: 100%;

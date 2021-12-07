@@ -3,9 +3,6 @@ class Transition_Tunel {
         // let color1 = rgb(102, 230, 255);
         // let color0 = rgb(0, 9, 18);
 
-        let sfx = new Sfx("login");
-        sfx.playSfx("transitionTunnel");
-
         this.speed = speed;
         this.container = container;
         let min_size = 30;

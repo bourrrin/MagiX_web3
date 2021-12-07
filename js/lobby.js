@@ -87,14 +87,18 @@ window.addEventListener("load", () => {
     });
 
     create_loadingBar_animation();
-    animation_reduite();
+    setTimeout(() => {
+        animation_reduite();
+    }, 100);
 });
 
 function displayJouer(condition) {
     if (condition) {
+        sfx.playSfx("openPlayMenu");
         document.querySelector(".game").style.display = "flex";
         document.querySelector("#game_container").style.opacity = 1;
     } else {
+        sfx.playSfx("openPlayMenu");
         document.querySelector("#game_container").style.opacity = 0;
         setTimeout(() => {
             document.querySelector(".game").style.display = "none";
@@ -207,12 +211,14 @@ function animation_reduite() {
             document.querySelector(".lobby-container"),
             1.2
         );
+        sfx.playSfx("loadingLobby");
     } else if (anima_timing == "Faster") {
         intro = new LoadingScreen(
             document.querySelector(".container"),
             document.querySelector(".lobby-container"),
             0.5
         );
+        sfx.playSfx("loadingLobby");
     }
 }
 
@@ -278,6 +284,7 @@ function startGame() {
     setTimeout(() => {
         container = document.querySelector(".container_transition_tunel");
         transition = new Transition_Tunel(container, time * 30);
+        sfx.playSfx("transitionTunnel");
         setTimeout(() => {
             transition.end_transition(document.querySelector(".container_transition_tunel"));
             document.querySelector("body").style.background = "radial-gradient(#010219,#01134c)";

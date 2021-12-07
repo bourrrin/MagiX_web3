@@ -22,7 +22,7 @@ let mp = 0;
 let hp = 30;
 let o_hp = 0;
 let attaquant = null;
-let chatIsDisplayed = false;
+let chatIsDisplayed = true;
 let settingIsDisplayed = false;
 let noteIsDisplayed = false;
 let lifeUnder10;
@@ -97,6 +97,7 @@ function display_UI() {
     document.querySelector(".timer").style.transform = "translateX(0)";
     document.querySelector(".surrender").style.transform = "translateX(0)";
     document.querySelector(".quitter").style.display = "none";
+    document.querySelector(".show_chat").style.left = "105vw";
 
     document.querySelector(".ui").style.width = "100%";
     document.querySelector(".ui").childNodes.forEach((e) => {
@@ -692,7 +693,7 @@ function displaySettings() {
 
 function showTransform(div, condition) {
     if (condition) {
-        div.style.left = "100vw";
+        div.style.left = "105vw";
         return false;
     } else {
         div.style.left = "calc(98vw - var(--width))";
@@ -934,6 +935,7 @@ function APICall(name, type, uid = null, targetuid = null) {
 //#endregion
 
 function gameHandler(data) {
+    latestActionHandler(data["latestActions"]);
     if (yourTurn == null) {
         display_UI();
         displayPlayerInfo(data["opponent"], "o");
@@ -974,7 +976,6 @@ function gameHandler(data) {
     displaySelectedCard();
     updateMechIcon(data["board"], "p");
     updateMechIcon(data["opponent"]["board"], "o");
-    latestActionHandler(data["latestActions"]);
 }
 
 function latestActionHandler(data) {
