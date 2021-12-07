@@ -945,14 +945,15 @@ function gameHandler(data) {
         displayTurnIndicator(data);
     }
     yourTurn = data["yourTurn"];
-
     heroPowerAlreadyUsed = data["heroPowerAlreadyUsed"];
     mp = data["mp"];
+
     displayLifeLose(data["opponent"], "o");
     displayLifeLose(data, "p");
 
     document.querySelector("#p_hp").innerHTML = data["hp"];
     document.querySelector("#o_hp").innerHTML = data["opponent"]["hp"];
+
     displayTimer(data);
     displayEndTurn();
     displayHeroPower(data);
@@ -965,6 +966,7 @@ function gameHandler(data) {
     displayMana(data["opponent"]["mp"], data["opponent"]["mp"], "o");
     displayRemainingCardsCount(data["remainingCardsCount"], "p");
     displayRemainingCardsCount(data["opponent"]["remainingCardsCount"], "o");
+
     updateCardsAttribute(data["hand"], "p_hand");
     updateCardsAttribute(data["board"], "p_board");
     updateCardsAttribute(data["opponent"]["board"], "o_board");
@@ -973,9 +975,10 @@ function gameHandler(data) {
     displayOpponentHand(data);
     displayCardsOnBoard(data["board"], "p");
     displayCardsOnBoard(data["opponent"]["board"], "o");
-    displaySelectedCard();
     updateMechIcon(data["board"], "p");
     updateMechIcon(data["opponent"]["board"], "o");
+    
+    displaySelectedCard();
 }
 
 function latestActionHandler(data) {

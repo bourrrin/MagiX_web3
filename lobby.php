@@ -25,7 +25,7 @@
             <div class="main_display">
                 <div>
                     <div class="lobby-btn sfx_btn" id="jouer">Play</div>
-                    <div class="lobby-btn sfx_btn" id="historie">Historic</div>
+                    <!-- <div class="lobby-btn sfx_btn" id="historie">Historic</div> -->
                     <div class="lobby-btn sfx_btn" id="deck">Deck</div>
                     <div class="lobby-btn sfx_btn" id="note">Note</div>
                 </div>
@@ -73,8 +73,8 @@
                             </div>
                         </div>
                     </div>
-                    <?php require_once("partial/settings.php");  ?>
-                    <?php require_once("partial/note.php");  ?>
+                    <?php require_once("partial/settings.php");?>
+                    <?php require_once("partial/note.php");?>
                 </div>
             </div>
             <div class="cool"></div>

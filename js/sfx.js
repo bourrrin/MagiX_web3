@@ -51,7 +51,6 @@ class Sfx {
     }
 
     playSfx(elements) {
-        console.log(this.isDisable);
         let audio = document.querySelector("#" + elements + this.extension_id);
         if (this.setAttribute(audio)) audio.play();
     }
@@ -143,7 +142,7 @@ class Sfx {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 sfx.saveAttribute(response["volume_sfx"], response["isDisable_sfx"]);
                 if (this.type != "login") {
                     document.querySelector("#sfx_slider").value = response["volume_sfx"] * 100;

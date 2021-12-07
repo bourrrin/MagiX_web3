@@ -5,17 +5,20 @@
 }
 
 :root {
-    --open-animation-duration: 8s;
-    --blur-animation-duration: 5s;
-    --container-color: rgb(34, 73, 110);
-    --cliclable-color: rgb(110, 34, 93);
-    --width: 70vw;
-    --neon-color: #0fa;
-    color: rgb(106, 193, 233);
-    font-size: 20px;
-    font-family: font;
     --unit-w: 1vw;
     --unit-h: 1vh;
+    --width: 70vw;
+
+    --open-animation-duration: 8s;
+    --blur-animation-duration: 5s;
+
+    --container-color: rgb(34, 73, 110);
+    --cliclable-color: rgb(110, 34, 93);
+    --neon-color: #0fa;
+
+    font-size: 20px;
+    font-family: font;
+    color: rgb(106, 193, 233);
 }
 
 @font-face {
@@ -28,25 +31,18 @@
     src: url(../font/big_noodle_titling_oblique.ttf);
 }
 
-body {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-}
-
-html {
-    overflow: hidden;
-}
 html,
 body {
-    position: relative;
+    overflow: hidden;
+    width: calc(var(--unit-w) * 100);
+    height: calc(var(--unit-h) * 100);
 }
+
 audio {
     display: none;
 }
 
 @media only screen and (orientation: portrait) {
-
     html {
         transform: rotate(90deg);
     }
@@ -60,6 +56,10 @@ audio {
 @media only screen and (orientation: landscape) {
     html {
         transform: rotate(0deg);
+    }
+    :root {
+        --unit-w: 1vw;
+        --unit-h: 1vh;
     }
 }
 
