@@ -7,6 +7,7 @@ const applyStyles = (iframe) => {
         height: "100%",
         fontSize: "20px",
         inputBackgroundColor: "rgb(177, 177, 177,0.2)",
+        memberListBackgroundColor: "rgb(0,0,0, 0.5)",
     };
     setTimeout(() => {
         iframe.contentWindow.postMessage(JSON.stringify(styles), "*");

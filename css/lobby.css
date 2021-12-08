@@ -371,12 +371,12 @@ body {
 }
 
 .deck,
-.scene,
+.game,
 .note,
 .settings {
     display: none;
 }
 
-.game {
+.scene {
     display: flex;
 }

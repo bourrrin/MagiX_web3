@@ -42,7 +42,7 @@ audio {
     display: none;
 }
 
-@media only screen and (orientation: portrait) {
+/* @media only screen and (orientation: portrait) {
     html {
         transform: rotate(90deg);
     }
@@ -61,10 +61,4 @@ audio {
         --unit-w: 1vw;
         --unit-h: 1vh;
     }
-}
-
-@media only screen and (max-width: 576px) {
-    :root {
-        font-size: 0.5rem;
-    }
-}
+} */
